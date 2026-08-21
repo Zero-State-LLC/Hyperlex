@@ -93,7 +93,7 @@ Golden receipts, archive snapshots, featured example.
 | **Brier** | **`null`** (correct — not settled) |
 
 [Human summary + JSON →](start/see-it-work.md#featured-brainrot-aura) ·
-[Open map on this family →](map/index.md?family=brainrot-aura) ·
+[Open map on this family →](map/index.md) ·
 [Archive catalog →](archive/index.md)
 
 ## Explore the rest

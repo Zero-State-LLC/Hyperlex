@@ -17,7 +17,7 @@ for the docs site / git history — not a replacement for the operator ledger.
 
 | Family | Count | Map |
 |--------|------:|-----|
-| `betting-sharp` | 5 | [map](../../../map/index.md?family=betting-sharp) |
+| `betting-sharp` | 5 | [map](../../../map/index.md) |
 
 Open the [slang lineage map](../../../map/index.md) for the full constellation.
 

@@ -14,7 +14,7 @@ Expect `ok: true`, a receipt path, lineage for known slang (e.g. `rizz` → `bra
 
 Docs: [docs/start/quickstart.md](docs/start/quickstart.md) · [See it work](docs/start/see-it-work.md) · [Glossary](docs/start/glossary.md)
 
-Committed sample: [examples/quickstart/](examples/quickstart/)
+Committed sample: [examples/quickstart/](examples/quickstart/README.md)
 
 ## Install (Hermes skill)
 

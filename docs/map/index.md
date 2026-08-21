@@ -60,10 +60,10 @@ Mutation operators, family write-ups, Mermaid sources.
 
 | URL | Opens |
 |-----|--------|
-| [`?term=rizz`](?term=rizz) | Family + selected term + neighbor arcs |
-| [`?family=brainrot-aura`](?family=brainrot-aura) | Family expanded |
-| [`?family=ai-native`](?family=ai-native) | AI-native hub |
-| [`?q=steam`](?q=steam) | Search filter |
+| [`?term=rizz`](index.md) | Family + selected term + neighbor arcs |
+| [`?family=brainrot-aura`](index.md) | Family expanded |
+| [`?family=ai-native`](index.md) | AI-native hub |
+| [`?q=steam`](index.md) | Search filter |
 
 Use **Copy link** on the map toolbar after selecting a term.  
 From a pipeline receipt with lineage, open:

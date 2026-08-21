@@ -29,7 +29,7 @@ from the open receipt alone.
 
 ### Lineage on the map
 
-[Open constellation · family brainrot-aura →](../map/index.md?family=brainrot-aura)
+[Open constellation · family brainrot-aura →](../map/index.md)
 
 ### JSON (collapsible)
 

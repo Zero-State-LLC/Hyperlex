@@ -15,6 +15,7 @@ license: MIT
 platforms: [linux, macos]
 dependencies: []
 metadata:
+  author: "Daniel Meyer (@scrimshawlife-ctrl) / Zero State LLC <scrimshawlife@gmail.com>"
   hermes:
     tags:
       - Memetics

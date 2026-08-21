@@ -17,15 +17,15 @@ for the docs site / git history — not a replacement for the operator ledger.
 
 | Family | Count | Map |
 |--------|------:|-----|
-| `ai-native` | 1 | [map](../../../map/index.md?family=ai-native) |
-| `betting-sharp` | 1 | [map](../../../map/index.md?family=betting-sharp) |
-| `brainrot-aura` | 1 | [map](../../../map/index.md?family=brainrot-aura) |
-| `crypto-degen` | 1 | [map](../../../map/index.md?family=crypto-degen) |
-| `gaming-meta` | 1 | [map](../../../map/index.md?family=gaming-meta) |
-| `kinship-address` | 1 | [map](../../../map/index.md?family=kinship-address) |
+| `ai-native` | 1 | [map](../../../map/index.md) |
+| `betting-sharp` | 1 | [map](../../../map/index.md) |
+| `brainrot-aura` | 1 | [map](../../../map/index.md) |
+| `crypto-degen` | 1 | [map](../../../map/index.md) |
+| `gaming-meta` | 1 | [map](../../../map/index.md) |
+| `kinship-address` | 1 | [map](../../../map/index.md) |
 | `(none)` | 1 | — |
-| `political-status` | 1 | [map](../../../map/index.md?family=political-status) |
-| `workplace-corp` | 1 | [map](../../../map/index.md?family=workplace-corp) |
+| `political-status` | 1 | [map](../../../map/index.md) |
+| `workplace-corp` | 1 | [map](../../../map/index.md) |
 
 Open the [slang lineage map](../../../map/index.md) for the full constellation.
 
