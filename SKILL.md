@@ -1,19 +1,10 @@
 ---
 name: hyperlex
-description: >
-  Use when the user wants memetic emergence analysis, slang detection,
-  hyperstition / virality scoring, slang lineage matching, forecast extraction,
-  operator settlement, or Brier calibration on cultural signals. Triggers
-  include slang, memetics, hyperstition, virality, lineage, Brier, settle
-  forecasts, score-series, betting slang, crypto-degen slang, ai-native slang,
-  brainrot, and receipt-backed cultural signal scans. Not for general web
-  research (use agent-reach), product audits (neon-genie), or cinematic work
-  (kubrick).
-version: 0.4.0
-author: Applied Alchemy Labs / Hermes
+description: Catch slang while it is still becoming culture.
+version: 0.4.1
+author: Daniel Meyer (scrimshawlife-ctrl), Hermes Agent
 license: MIT
 platforms: [linux, macos]
-dependencies: []
 metadata:
   hermes:
     tags:
@@ -26,158 +17,96 @@ metadata:
       - Brier
       - Receipts
       - Forecasting
-    category: analysis
     related_skills: []
+    category: analysis
   openclaw:
     requires:
       bins: [python3]
     os: [darwin, linux]
     emoji: "🌀"
-triggers:
-  - hyperlex
-  - memetic
-  - memetics
-  - slang
-  - slang lineage
-  - hyperstition
-  - virality
-  - neologism
-  - betting slang
-  - sharp money
-  - brainrot
-  - brier
-  - settle forecast
-  - score series
-  - cultural signal
-  - memetic receipt
-  - hyperlex wizard
-  - get started with hyperlex
-  - hyperlex onboarding
 ---
 
 # Hyperlex
 
-Standalone **Hermes skill** for memetic emergence analysis.
+Hyperlex is a Hermes skill for memetic emergence analysis: slang detection, lineage matching, virality and hyperstition scoring, integrity-hashed receipts, and Brier calibration after operator settlement. It does not invent numeric Brier on open analysis. Applied Alchemy Labs built the Python package under `src/hyperlex/`; the CLI is `scripts/hyperlex.py`. Baseline `mock` mode needs no network and no Abraxas import.
 
-Hermes loads this directory and uses `SKILL.md` as the behavior contract.
-The runtime is the bundled Python package under `src/hyperlex/` plus the CLI
-at `scripts/hyperlex.py`. No Abraxas import, no required network for baseline
-(`mock`) mode.
-
-Resolve paths from the installed skill root. Set:
-
-```bash
-export HERMES_SKILL_DIR="${HERMES_SKILL_DIR:-$HOME/.hermes/skills/hyperlex}"
-```
+Hermes substitutes `${HERMES_SKILL_DIR}` with the installed skill directory. Call the bundled CLI through the Hermes `terminal` tool, not as a bare shell aside.
 
 ## When to Use
 
-- Detect slang / neologisms and score virality, memetics, hyperstition
-- Match slang into historical **lineage families** with transparent confidence
-- **Backfill** YTD slang packs and **backpropagate** lineage onto historical receipts (non-mutating)
-- **Phase 5 simulate** cultural transmission, multi-agent memetics, hyperstition risk, phylogeny scaffold
-- **Risk-schedule** advisory LIVE_EMERGENCE_SCAN cadence from risk tiers (never auto-registers cron)
-- Emit integrity-hashed **receipts** for auditable runs
-- Extract **forecasts** from analysis (probabilities only — no fake Brier)
-- **Settle** forecasts as an operator and recompute Brier series from the score log
-- Scan betting-sharp, crypto-degen, ai-native, brainrot, kinship, political-status families
+- Detect slang or neologisms and score virality, memetics, or hyperstition
+- Match slang into historical lineage families with a transparent confidence breakdown
+- Backfill YTD slang packs and backpropagate lineage onto historical receipts (report only; non-mutating)
+- Run Phase 5 cultural-transmission simulation (always SPECULATIVE; `brier: null`)
+- Propose advisory `LIVE_EMERGENCE_SCAN` cadence with `risk-schedule` (never auto-register Hermes cron)
+- Emit integrity-hashed receipts and extract forecast probabilities
+- Settle forecasts as an operator and recompute Brier series from the score log
+- Scan betting-sharp, crypto-degen, ai-native, brainrot, kinship, or political-status families
 
-## When Not to Use
-
-- General multi-platform web research → agent-reach
-- Product / opportunity intelligence → neon-genie
-- Cinematic continuity / storyboards → kubrick
-- Symbolic code architecture mapping → orchestra
+Don't use for general web research, product audits, cinematic continuity, or symbolic architecture mapping.
 
 ## Prerequisites
 
-- Python 3.10+
-- `python3` on PATH
-- Optional: `requests`, `jsonschema`, `crawl4ai` for richer ingest / validation
+- Python 3.10+ with `python3` on PATH
+- Optional: `requests`, `jsonschema`, `crawl4ai` for richer ingest and validation
 - Optional: network for non-`mock` sources
+- Offline force: `HYPERLEX_OFFLINE=1`
 
-## Install
+## How to Run
 
-```bash
-bash install.sh --dry-run
-bash install.sh
-# installs to ~/.hermes/skills/hyperlex by default
-python3 "$HOME/.hermes/skills/hyperlex/scripts/hyperlex.py" check
-python3 "$HOME/.hermes/skills/hyperlex/scripts/hyperlex.py" smoke
+After `skill_view` loads this skill, `${HERMES_SKILL_DIR}` is already substituted. Call `terminal`:
+
+```
+terminal(command="bash install.sh --dry-run", timeout=60)
+terminal(command="bash install.sh", timeout=120)
 ```
 
-## Commands (prefer simplified path)
+Default install path: `~/.hermes/skills/hyperlex`. Then prove the install:
 
-```bash
-HLX="python3 $HERMES_SKILL_DIR/scripts/hyperlex.py"
-
-$HLX wizard --auto                 # week-one guided path (offline)
-$HLX wizard                        # interactive (TTY)
-$HLX commands                          # full simplified map (JSON)
-$HLX sources                           # sources + routes
-# AUTO backend — ingest → full results (receipt, forecasts, phase5 risk)
-$HLX pipeline "rizz" --route offline
-$HLX ingest "locked in"                # same as pipeline (use --raw-only for signal only)
-$HLX pipeline "sigma rizz locked in"   # expands to atoms automatically
-$HLX pending                           # open forecasts
-$HLX settle --forecast-id <id> --decision TRUE
-$HLX score-series --mean-shift --verify-chain
-$HLX scan --route offline --receipt --forecasts --append-log
-$HLX risk-schedule --tier MODERATE --schedule-out /tmp/hlx-cron
-$HLX doctor && $HLX smoke
+```
+terminal(command="python3 ${HERMES_SKILL_DIR}/scripts/hyperlex.py check", timeout=60)
+terminal(command="python3 ${HERMES_SKILL_DIR}/scripts/hyperlex.py smoke", timeout=120)
 ```
 
-**Ingest routing:** prefer `--route offline|live|glossary|social` over raw `--source`.
-Aliases: `real`→glossary, `x`→x_search, `firecrawl`→crawl4ai. Offline env: `HYPERLEX_OFFLINE=1`.
+Reuse `HLX="python3 ${HERMES_SKILL_DIR}/scripts/hyperlex.py"` in later `terminal` commands.
 
-Research / advanced (still available): `simulate`, `vector-*`, `archive-export`,
-`lineage-backfill`, `lineage-backprop`, `relay`, `signal`, `diagram`, `ledger-*`.
+## Quick Reference
 
-Docs: `docs/operator-loop.md`, `docs/commands.md`.
+| Action | `terminal` command |
+|--------|-------------------|
+| Guided week-one path | `terminal(command="python3 ${HERMES_SKILL_DIR}/scripts/hyperlex.py wizard --auto", timeout=180)` |
+| Interactive wizard | `terminal(command="python3 ${HERMES_SKILL_DIR}/scripts/hyperlex.py wizard", timeout=300)` |
+| Command map (JSON) | `terminal(command="python3 ${HERMES_SKILL_DIR}/scripts/hyperlex.py commands", timeout=30)` |
+| Source and route catalog | `terminal(command="python3 ${HERMES_SKILL_DIR}/scripts/hyperlex.py sources", timeout=30)` |
+| Offline pipeline (receipt + forecasts) | `terminal(command="python3 ${HERMES_SKILL_DIR}/scripts/hyperlex.py pipeline \"rizz\" --route offline", timeout=120)` |
+| Signal only | `terminal(command="python3 ${HERMES_SKILL_DIR}/scripts/hyperlex.py ingest \"locked in\" --raw-only", timeout=120)` |
+| Multi-term atoms | `terminal(command="python3 ${HERMES_SKILL_DIR}/scripts/hyperlex.py pipeline \"sigma rizz locked in\" --route offline", timeout=180)` |
+| Open forecasts | `terminal(command="python3 ${HERMES_SKILL_DIR}/scripts/hyperlex.py pending", timeout=30)` |
+| Operator settle | `terminal(command="python3 ${HERMES_SKILL_DIR}/scripts/hyperlex.py settle --forecast-id <id> --decision TRUE", timeout=60)` |
+| Brier series | `terminal(command="python3 ${HERMES_SKILL_DIR}/scripts/hyperlex.py score-series --mean-shift --verify-chain", timeout=60)` |
+| Multi-query scan | `terminal(command="python3 ${HERMES_SKILL_DIR}/scripts/hyperlex.py scan --route offline --receipt --forecasts --append-log", timeout=300)` |
+| Advisory schedule only | `terminal(command="python3 ${HERMES_SKILL_DIR}/scripts/hyperlex.py risk-schedule --tier MODERATE --schedule-out /tmp/hlx-cron", timeout=60)` |
+| Health | `terminal(command="python3 ${HERMES_SKILL_DIR}/scripts/hyperlex.py doctor", timeout=120)` |
 
-## Guided wizard
+Ingest routing: prefer `--route offline|live|glossary|social` over raw `--source`. Aliases: `real`→glossary, `x`→x_search, `firecrawl`→crawl4ai.
 
-When the user is new to Hyperlex, asks to get started, or wants a guided
-operator path:
+Research commands (still available): `simulate`, `vector-*`, `archive-export`, `lineage-backfill`, `lineage-backprop`, `relay`, `signal`, `diagram`, `ledger-*`. Docs: `docs/operator-loop.md`, `docs/commands.md`.
 
-1. Ensure skill install (`bash install.sh` if missing).
-2. Run `$HLX wizard --auto` (or `$HLX wizard --auto --query "<term>"`).
-3. Summarize steps: env → doctor → demo → first pipeline → calibration coach.
-4. **Never invent Brier.** Open analysis keeps `brier: null`.
-5. Show open forecasts from the wizard output / `$HLX pending`.
-6. **Settlement requires operator authority** — ask for TRUE|FALSE|VOID, then:
-   `$HLX settle --forecast-id <id> --decision …`
-7. `$HLX score-series --mean-shift --verify-chain`
-8. Optional advisory only: `$HLX risk-schedule --tier MODERATE --schedule-out /tmp/hlx-cron`
-   (never auto-register Hermes cron).
+## Procedure
 
-Step IDs (stable): `env_intro`, `doctor`, `demo`, `first_pipeline`,
-`calibration_coach`, `score_series_hint`, `handoff`.
+1. **Onboard.** If the user is new to Hyperlex, call `terminal` with `wizard --auto` (or `wizard --auto --query "<term>"`). Done when the JSON lists step IDs `env_intro`, `doctor`, `demo`, `first_pipeline`, `calibration_coach`, `score_series_hint`, and `handoff`.
+2. **Analyze.** Call `terminal` with `pipeline "<query>" --route offline` (or `run` / `ingest`; use `--raw-only` for signal only). Multi-term bags expand to lexicon atoms automatically. Done when a receipt exists and `provenance.brier` is `null`.
+3. **Calibrate.** Call `pending`, ask the operator for `TRUE|FALSE|VOID`, then `settle --forecast-id <id> --decision …`, then `score-series --mean-shift --verify-chain`. Never invent Brier. Done when the series status is `SCORED` or `NOT_COMPUTABLE`.
+4. **Scan (optional).** Call `scan --route offline --receipt --forecasts --append-log`. For cadence, call `risk-schedule` and write the advisory job under `--schedule-out`. Done when receipts land and no Hermes cron job was registered.
+5. **Live ingest.** Use `--route live` (or glossary/social) only when the user allows network. Done when ingest metadata records the intended source and any offline fallback.
+6. **Label claims.** Mark findings `OBSERVED`, `INFERRED`, or `SPECULATIVE`. Fail closed on missing outcomes. Done when every numeric score has a matching authority class.
+7. **Research.** `simulate`, archive, and vector commands stay optional and SPECULATIVE. Phase 5 packets keep `brier: null`.
 
-### Operator calibration path
+Score log default: `~/.hyperlex/score_log.jsonl`. Override with `HYPERLEX_SCORE_LOG`, `--log`, or `--repo-log` → `out/calibration/score_log.jsonl`.
 
-```text
-run "<query>" --route offline
-  → pending
-  → settle --forecast-id … --decision TRUE|FALSE
-  → score-series [--mean-shift] [--verify-chain]
-```
+**Authority.** Hyperlex may ingest, match lineage, write receipts and score-log events, compute Brier only from settled pairs, and export Abraxas-compatible ledger shapes (no Abraxas import). Hyperlex may not invent numeric Brier on open analysis, auto-settle without an authority marker, promote speculative hyperstition stages as hard truth, rewrite historical receipt integrity during lineage backprop, invent Brier from Phase 5, or mutate other systems.
 
-- Score log default: `~/.hyperlex/score_log.jsonl`
-- Override: `HYPERLEX_SCORE_LOG`, `--log`, or `--repo-log` → `out/calibration/score_log.jsonl`
-- **Never** emit numeric Brier without settlement. Empty series → `NOT_COMPUTABLE`.
-
-## Preferred sequence
-
-1. **`wizard --auto`** then `commands` / `run` — week-one guided path, then map or one-shot.
-2. **`run --route offline`** — one-shot analyze + receipt + forecasts + score log.
-3. **`pending` → `settle` → `score-series`** — Brier only after operator settlement.
-4. **Cron** — `risk-schedule` (advisory) + `scan --route offline` for multi-query.
-5. **Live ingest** — only when network allowed: `--route live` (or glossary/social).
-6. **Label claims** — `OBSERVED` / `INFERRED` / `SPECULATIVE`; fail closed on missing outcomes.
-7. **Research** — `simulate` / archive / vector are optional and SPECULATIVE.
-
-## Public API (package)
+**Library path** (when `src/` is on `PYTHONPATH`; the CLI inserts `src/` automatically):
 
 ```python
 from hyperlex import (
@@ -189,72 +118,40 @@ from hyperlex import (
 
 result = detect_memetic_patterns(query="rizz", ingest_source="mock")
 forecasts = extract_forecasts(result)
-# later, after operator review:
 # settle_and_log(forecast, outcome_value=1.0, settlement_decision="TRUE")
 # recompute_series()
 ```
 
-Ensure `src/` is on `PYTHONPATH` when importing outside the CLI
-(CLI inserts `src/` automatically).
-
-## Authority boundaries
-
-Hyperlex **may**:
-
-- ingest and analyze signals
-- match lineages with transparent score breakdowns
-- extract forecasts and write receipts / score-log events
-- compute Brier only from settled pairs
-- export Abraxas-compatible ledger shapes (no Abraxas import)
-
-Hyperlex **may not**:
-
-- invent numeric Brier on open analysis (`provenance.brier` stays `null`)
-- auto-settle without authority marker
-- promote speculative hyperstition stages as hard truth
-- rewrite historical receipt integrity during lineage backprop (report only)
-- invent Brier from Phase 5 simulation (always `brier: null`, SPECULATIVE)
-- mutate Abraxas or other systems (export is optional and offline)
-
 ## Pitfalls
 
-- `scripts/hyperlex.py` must not shadow the package: always run via the skill path so `src/` is first on `sys.path`.
-- Non-`mock` sources need network and may degrade gracefully — check ingest metadata.
-- Lineage confidence is **INFERRED**; do not treat it as observed ground truth.
-- Mean-shift from `score-series --mean-shift` is **advisory** for future forecasts only.
-- Score log is append-only; series is recomputed from the log, not stored as sole truth.
+- Always invoke `scripts/hyperlex.py` through `${HERMES_SKILL_DIR}` so `src/` is first on `sys.path` and the script cannot shadow the package.
+- `platforms` is `[linux, macos]`. `install.sh` is bash; Windows is not proven.
+- Non-`mock` sources need network and may degrade to mock. Read ingest metadata before treating the source as live.
+- Lineage confidence is INFERRED. Do not treat it as observed ground truth.
+- `score-series --mean-shift` is advisory for future forecasts only.
+- The score log is append-only. Recompute the series from the log; do not treat a stored series as sole truth.
+- `risk-schedule` is advisory. Do not add a `metadata.hermes.blueprint` block and do not auto-register cron.
 
 ## Verification
 
-```bash
-python3 "$HERMES_SKILL_DIR/scripts/hyperlex.py" check
-python3 "$HERMES_SKILL_DIR/scripts/hyperlex.py" doctor
-python3 "$HERMES_SKILL_DIR/scripts/hyperlex.py" ledger-stats
-python3 "$HERMES_SKILL_DIR/scripts/hyperlex.py" signal --input <result.json>
-python3 "$HERMES_SKILL_DIR/scripts/hyperlex.py" feedback --signal-key hyperstition.stage
-python3 "$HERMES_SKILL_DIR/scripts/hyperlex.py" diagram --from-golden --out-dir out/diagrams
-python3 "$HERMES_SKILL_DIR/scripts/hyperlex.py" scan --config "$HERMES_SKILL_DIR/examples/cron/scan-queries.json" --source mock --receipt --forecasts
-python3 "$HERMES_SKILL_DIR/scripts/hyperlex.py" smoke
+Call `terminal`:
+
 ```
+terminal(command="python3 ${HERMES_SKILL_DIR}/scripts/hyperlex.py check", timeout=60)
+terminal(command="python3 ${HERMES_SKILL_DIR}/scripts/hyperlex.py doctor", timeout=120)
+terminal(command="python3 ${HERMES_SKILL_DIR}/scripts/hyperlex.py smoke", timeout=120)
+```
+
+Optional deeper proof: `ledger-stats`, `signal --input <result.json>`, `feedback --signal-key hyperstition.stage`, `diagram --from-golden --out-dir out/diagrams`, and `scan --config ${HERMES_SKILL_DIR}/examples/cron/scan-queries.json --source mock --receipt --forecasts`.
 
 Successful packaging:
 
 - `~/.hermes/skills/hyperlex/SKILL.md` exists
 - `check` returns `"ok": true`
+- Frontmatter `description` is ≤60 characters and ends with `.`
 - `smoke` writes a receipt under `out/smoke/`
 - Open analysis has `"brier": null`
 
-## Design references
-
-- `DESIGN.md` — principles (incl. 11 lineage, 12 Brier requires settlement)
-- `docs/brier-calibration.md` — forecast → settlement → score
-- `docs/slang-lineages.md` — family methodology
-- `docs/phase5.md` / `docs/modules/simulation.md` — Phase 5 research simulation
-- `schemas/` — ingest, result, receipt, forecast, settlement, brier_series, lineage
-- `examples/slang-families/` — Mermaid + HTML family diagrams
-- `data/backfill/2026/` — YTD slang packs
-- `references/hermes-runtime-contract.md` — path / authority policy
-
-## Security
+Design references: `DESIGN.md`, `docs/brier-calibration.md`, `docs/slang-lineages.md`, `docs/phase5.md`, `docs/modules/simulation.md`, `schemas/`, `examples/slang-families/`, `data/backfill/2026/`, `references/hermes-runtime-contract.md`.
 
 Local stdlib-first CLI. Baseline (`mock`) needs no network. Real ingest may call public web APIs. Score log and receipts are local files under `~/.hyperlex/` or skill `out/`.

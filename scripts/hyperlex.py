@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import sys
 import traceback
 from dataclasses import dataclass
@@ -148,10 +149,202 @@ def _load_manifest() -> Tuple[Dict[str, Any], bool, str]:
         return {}, False, f"manifest parse failed: {exc}"
 
 
+_SKILL_DESC_LIMIT = 60
+_SKILL_REQUIRED_KEYS = ("name", "description", "version", "author", "license", "platforms")
+
+
+def _coerce_yaml_scalar(raw: str) -> Any:
+    text = raw.strip()
+    if text in ("[]",):
+        return []
+    if text.startswith("[") and text.endswith("]"):
+        inner = text[1:-1].strip()
+        if not inner:
+            return []
+        return [_coerce_yaml_scalar(part) for part in inner.split(",")]
+    if (text.startswith('"') and text.endswith('"')) or (text.startswith("'") and text.endswith("'")):
+        return text[1:-1]
+    return text
+
+
+def _parse_frontmatter_stdlib(block: str) -> Dict[str, Any]:
+    """Parse the SKILL.md frontmatter subset without PyYAML."""
+    data: Dict[str, Any] = {}
+    hermes: Dict[str, Any] = {}
+    in_hermes = False
+    in_tags = False
+    tags: List[str] = []
+    for raw_line in block.splitlines():
+        if not raw_line.strip() or raw_line.strip().startswith("#"):
+            continue
+        stripped = raw_line.strip()
+        indent = len(raw_line) - len(raw_line.lstrip(" "))
+        if indent == 0:
+            in_hermes = False
+            in_tags = False
+            if stripped.startswith("metadata:"):
+                data.setdefault("metadata", {})
+                continue
+            if ":" in stripped:
+                key, _, val = stripped.partition(":")
+                data[key.strip()] = _coerce_yaml_scalar(val)
+            continue
+        if stripped == "hermes:":
+            in_hermes = True
+            in_tags = False
+            data.setdefault("metadata", {})
+            data["metadata"]["hermes"] = hermes
+            continue
+        if in_hermes and stripped == "tags:":
+            in_tags = True
+            hermes["tags"] = tags
+            continue
+        if in_hermes and in_tags and stripped.startswith("- "):
+            tags.append(stripped[2:].strip().strip('"').strip("'"))
+            continue
+        if in_hermes and stripped.startswith("related_skills:"):
+            in_tags = False
+            hermes["related_skills"] = _coerce_yaml_scalar(stripped.split(":", 1)[1])
+            continue
+        if in_hermes and ":" in stripped and not stripped.startswith("- "):
+            in_tags = False
+            key, _, val = stripped.partition(":")
+            if val.strip():
+                hermes[key.strip()] = _coerce_yaml_scalar(val)
+    if tags and "tags" not in hermes:
+        hermes["tags"] = tags
+    if hermes:
+        data.setdefault("metadata", {})
+        data["metadata"]["hermes"] = hermes
+    return data
+
+
+def _load_skill_frontmatter() -> Tuple[Dict[str, Any], str]:
+    path = ROOT / "SKILL.md"
+    if not path.exists():
+        return {}, "SKILL.md missing"
+    raw = path.read_bytes()
+    if not raw.startswith(b"---"):
+        return {}, "SKILL.md must start at byte 0 with ---"
+    text = raw.decode("utf-8")
+    match = re.search(r"\n---\n", text[3:])
+    if match is None:
+        return {}, "SKILL.md frontmatter must close with \\n---\\n"
+    block = text[3 : 3 + match.start()]
+    try:
+        import yaml  # type: ignore
+
+        data = yaml.safe_load(block)
+        if not isinstance(data, dict):
+            return {}, "SKILL.md frontmatter is not a mapping"
+        return data, "ok"
+    except Exception:
+        data = _parse_frontmatter_stdlib(block)
+        if not data.get("name"):
+            return {}, "SKILL.md frontmatter parse failed"
+        return data, "ok (stdlib yaml fallback)"
+
+
+def _hermes_meta(frontmatter: Dict[str, Any]) -> Dict[str, Any]:
+    metadata = frontmatter.get("metadata")
+    if not isinstance(metadata, dict):
+        return {}
+    hermes = metadata.get("hermes")
+    return hermes if isinstance(hermes, dict) else {}
+
+
+def _skill_frontmatter_checks(frontmatter: Dict[str, Any], parse_msg: str) -> List[_Check]:
+    checks: List[_Check] = []
+    parsed = bool(frontmatter)
+    checks.append(_check(parsed, "skill_frontmatter", parse_msg, parse_msg))
+    if not parsed:
+        return checks
+    for key in _SKILL_REQUIRED_KEYS:
+        present = key in frontmatter and frontmatter.get(key) not in (None, "")
+        checks.append(
+            _check(
+                present,
+                f"skill_frontmatter.{key}",
+                f"frontmatter includes {key}",
+                f"frontmatter missing {key}",
+            )
+        )
+    description = frontmatter.get("description")
+    desc = description.strip() if isinstance(description, str) else ""
+    if desc in (">", "|"):
+        checks.append(
+            _check(
+                False,
+                "skill_description_len",
+                "",
+                "description is a folded YAML block; Hermes indexes ≤60 chars",
+            )
+        )
+        checks.append(_check(False, "skill_description_period", "", "folded description has no period"))
+    else:
+        checks.append(
+            _check(
+                0 < len(desc) <= _SKILL_DESC_LIMIT,
+                "skill_description_len",
+                f"description {len(desc)} chars (≤{_SKILL_DESC_LIMIT})",
+                f"description {len(desc)} chars exceeds {_SKILL_DESC_LIMIT}",
+            )
+        )
+        checks.append(
+            _check(
+                desc.endswith("."),
+                "skill_description_period",
+                "description ends with a period",
+                "description must end with a period",
+            )
+        )
+    author = frontmatter.get("author")
+    author_text = author.strip() if isinstance(author, str) else ""
+    checks.append(
+        _check(
+            bool(author_text) and author_text != "Hermes Agent",
+            "skill_author_human",
+            "author credits the human first",
+            "author must credit the human first, then Hermes Agent",
+        )
+    )
+    hermes = _hermes_meta(frontmatter)
+    tags = hermes.get("tags")
+    checks.append(
+        _check(
+            isinstance(tags, list) and all(isinstance(t, str) and t.strip() for t in tags),
+            "skill_frontmatter.tags",
+            "metadata.hermes.tags present",
+            "metadata.hermes.tags missing",
+        )
+    )
+    checks.append(
+        _check(
+            "related_skills" in hermes and isinstance(hermes.get("related_skills"), list),
+            "skill_frontmatter.related_skills",
+            "metadata.hermes.related_skills present",
+            "metadata.hermes.related_skills missing",
+        )
+    )
+    expected = _read_version()
+    version = str(frontmatter.get("version") or "").strip()
+    checks.append(
+        _check(
+            version == expected,
+            "skill_frontmatter.version_match",
+            f"SKILL.md version {version} matches VERSION",
+            f"SKILL.md version {version!r} != VERSION {expected!r}",
+        )
+    )
+    return checks
+
+
 def cmd_check(_args: argparse.Namespace) -> int:
     checks: List[_Check] = []
     checks.append(_check((ROOT / "VERSION").exists(), "version_file", "VERSION exists", "VERSION missing"))
     checks.append(_check((ROOT / "SKILL.md").exists(), "skill_contract", "SKILL.md exists", "SKILL.md missing"))
+    frontmatter, fm_msg = _load_skill_frontmatter()
+    checks.extend(_skill_frontmatter_checks(frontmatter, fm_msg))
     checks.append(_check((ROOT / "schemas/ingest.v1.schema.json").exists(), "schema_ingest", "ingest schema present", "ingest schema missing"))
     checks.append(_check((ROOT / "schemas/result.v1.schema.json").exists(), "schema_result", "result schema present", "result schema missing"))
     checks.append(_check((ROOT / "schemas/receipt.v1.schema.json").exists(), "schema_receipt", "receipt schema present", "receipt schema missing"))

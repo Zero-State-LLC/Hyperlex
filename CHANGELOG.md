@@ -15,6 +15,13 @@
 - CLI auto-loads `~/.hermes/.env` (and `~/.hyperlex/.env`); accepts official `CHROMA_API_KEY` / `CHROMA_TENANT` / `CHROMA_DATABASE` aliases
 - Cloud client only requires API key; tenant/database optional when Chroma can infer them
 
+## 0.4.1 — Hermes Agent v0.21 skill index (2026-09-01)
+
+- `SKILL.md` matches the Hermes v0.21 (tag v2026.8.31) hardline: one-sentence
+  description ≤60 characters, human-first author, required frontmatter keys,
+  modern section order, CLI framed through the Hermes `terminal` tool
+- CLI `check` asserts the skill-index description budget and required keys
+
 ## 0.4.0 — Automatic backend pipeline (2026-08-05)
 
 - `run_pipeline` / CLI `pipeline`: ingest → analyze → receipt → forecasts → score log → Phase 5 risk
