@@ -347,6 +347,8 @@ from hyperlex.compat.abraxas import to_brier_ledger_entry, list_hlx_runes
 | [docs/phase5.md](./docs/phase5.md) | Research simulation |
 | [docs/slang-lineages.md](./docs/slang-lineages.md) | Lineage methodology |
 | [docs/hermes-skill.md](./docs/hermes-skill.md) | Skill model |
+| [AGENTS.md](./AGENTS.md) | Multi-agent SDLC contract (`CLAUDE.md` is a thin pointer here) |
+| [intent/](./intent/README.md) | Intent template for non-trivial work; then spec.md / plan |
 
 Examples: `examples/cron/` · `examples/receipts/golden/` · `examples/calibration/` · `examples/slang-families/` · `examples/case-studies/`
 
@@ -354,7 +356,7 @@ Examples: `examples/cron/` · `examples/receipts/golden/` · `examples/calibrati
 
 ## Contributing
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md). Keep the settlement rule and offline-first defaults intact. Prefer small, test-backed PRs.
+See [CONTRIBUTING.md](./CONTRIBUTING.md). Agent contract: [`AGENTS.md`](AGENTS.md) (`CLAUDE.md` is a thin pointer there). Non-trivial work starts with [`intent/`](intent/README.md). Keep the settlement rule and offline-first defaults intact. Prefer small, test-backed PRs.
 
 ```bash
 PYTHONPATH=src pytest -q

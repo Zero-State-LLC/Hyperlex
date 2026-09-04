@@ -5,6 +5,9 @@ This repo is the single source of truth for **design and specification**.
 
 Implementation details belong in the engine package. Changes here should drive implementation.
 
+Coding agents follow [`AGENTS.md`](AGENTS.md) (`CLAUDE.md` is a thin pointer
+there). Non-trivial work starts with [`intent/`](intent/README.md).
+
 ## How to Contribute
 1. Open an issue or discussion first for significant changes.
 2. Update relevant spec/roadmap file.
