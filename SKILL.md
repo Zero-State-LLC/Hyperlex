@@ -3,7 +3,7 @@ name: hyperlex
 description: Catch slang while it is still becoming culture.
 version: 0.4.1
 author: Daniel Meyer (scrimshawlife-ctrl), Hermes Agent
-license: MIT
+license: LicenseRef-Zero-State-Proprietary-1.0
 platforms: [linux, macos]
 metadata:
   hermes:
@@ -155,3 +155,5 @@ Successful packaging:
 Design references: `DESIGN.md`, `docs/brier-calibration.md`, `docs/slang-lineages.md`, `docs/phase5.md`, `docs/modules/simulation.md`, `schemas/`, `examples/slang-families/`, `data/backfill/2026/`, `references/hermes-runtime-contract.md`.
 
 Local stdlib-first CLI. Baseline (`mock`) needs no network. Real ingest may call public web APIs. Score log and receipts are local files under `~/.hyperlex/` or skill `out/`.
+
+Source, profile, and migration rules: `references/source-and-upgrades.md`.

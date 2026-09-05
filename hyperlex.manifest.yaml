@@ -5,7 +5,7 @@ kind: hermes-openclaw-skill
 description: >
   Standalone memetic emergence engine for slang detection, hyperstition
   tracking, virality analysis, lineage matching, and settled Brier calibration.
-license: MIT
+license: LicenseRef-Zero-State-Proprietary-1.0
 homepage: https://github.com/scrimshawlife-ctrl/Hyperlex
 repository: https://github.com/scrimshawlife-ctrl/Hyperlex
 

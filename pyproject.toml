@@ -10,13 +10,13 @@ authors = [
     {name = "Applied Alchemy Labs", email = "scrimshawlife@gmail.com"}
 ]
 readme = "README.md"
-license = {text = "MIT"}
+license = {file = "LICENSE"}
 requires-python = ">=3.10"
 keywords = ["memetics", "slang", "hyperstition", "virality", "brier", "hermes", "forecasting"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
+    "License :: Other/Proprietary License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",

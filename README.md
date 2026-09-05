@@ -13,7 +13,7 @@
   <a href="https://github.com/scrimshawlife-ctrl/Hyperlex/actions/workflows/hermes-evals.yml"><img src="https://img.shields.io/github/actions/workflow/status/scrimshawlife-ctrl/Hyperlex/hermes-evals.yml?branch=main&label=skill%20ci&logo=github" alt="Skill CI"></a>
   <a href="https://github.com/scrimshawlife-ctrl/Hyperlex/actions/workflows/docs.yml"><img src="https://img.shields.io/github/actions/workflow/status/scrimshawlife-ctrl/Hyperlex/docs.yml?branch=main&label=docs&logo=github" alt="Docs CI"></a>
   <a href="https://scrimshawlife-ctrl.github.io/Hyperlex/"><img src="https://img.shields.io/badge/docs-GitHub%20Pages-0d9488?logo=markdown" alt="Docs"></a>
-  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-LicenseRef-Zero-State-Proprietary-1.0-blue.svg" alt="License: LicenseRef-Zero-State-Proprietary-1.0"></a>
   <a href="./VERSION"><img src="https://img.shields.io/badge/version-0.4.1-informational" alt="Version 0.4.1"></a>
   <img src="https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-3776AB?logo=python&logoColor=white" alt="Python">
   <img src="https://img.shields.io/badge/hermes-skill-7c3aed" alt="Hermes skill">
@@ -121,7 +121,7 @@ Phases **0–4** are production skill surface. **5.0–5.3** adds research simul
 | | |
 |--|--|
 | **Version** | **0.4.1** |
-| **Posture** | Hermes skill · Python package (≥3.10) · MIT |
+| **Posture** | Hermes skill · Python package (≥3.10) · LicenseRef-Zero-State-Proprietary-1.0 |
 | **Primary store** | `~/.hyperlex/` |
 | **Public PyPI** | Not planned |
 | **Abraxas** | Wire shapes only — Hyperlex never imports Abraxas |
@@ -367,7 +367,7 @@ bash install.sh --dry-run
 
 ## License
 
-MIT — [LICENSE](./LICENSE).
+LicenseRef-Zero-State-Proprietary-1.0 — [LICENSE](./LICENSE).
 
 Built for operators who want memetic signal **with a receipt trail**, not a mood board.
 
@@ -377,3 +377,5 @@ Built for operators who want memetic signal **with a receipt trail**, not a mood
 Copyright © 2026 Zero State LLC. All Rights Reserved. Licensed under the Zero State Proprietary License v1.0. See [`LICENSE`](LICENSE).
 
 Third-party components remain subject to their respective licenses.
+
+Source, profile, and migration rules: `references/source-and-upgrades.md`.
