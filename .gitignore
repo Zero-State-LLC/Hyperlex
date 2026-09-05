@@ -38,6 +38,7 @@ build/
 !docs/command-router.v1.json
 !data/backfill/**/*.json
 !data/phylogeny/**/*.json
+!.claude-plugin/plugin.json
 
 # Temp / build output
 tmp/

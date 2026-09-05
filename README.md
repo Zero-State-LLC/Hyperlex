@@ -264,6 +264,21 @@ Deep dive: [docs/operator-loop.md](./docs/operator-loop.md) · [docs/commands.md
 
 ---
 
+
+## Claude Code (additive host)
+
+Hermes remains the primary skill host. Claude Code is optional:
+
+```bash
+bash install.sh --claude
+export HYPERLEX_SKILL_DIR="${HOME}/.claude/skills/hyperlex"
+export HLX="python3 $HYPERLEX_SKILL_DIR/scripts/hyperlex.py"
+$HLX doctor   # CLAUDE_OK / CLAUDE_MISSING (missing does not fail)
+```
+
+See [`docs/claude-skill.md`](docs/claude-skill.md) and [`docs/claude-runtime-contract.md`](docs/claude-runtime-contract.md).
+
+
 ## CLI surface
 
 **Prefer**
