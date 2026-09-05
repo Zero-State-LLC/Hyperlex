@@ -417,6 +417,26 @@ def test_doctor_emits_claude_sot_cleared() -> None:
     assert sot["message"].startswith("CLAUDE_SOT_CLEARED=")
 
 
+def test_claude_sot_missing_pin_object_is_uncleared(tmp_path: Path) -> None:
+    """Shallow / unrelated clones cannot prove descent without a live fetch."""
+    import shutil
+
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    pin_src = ROOT / "references" / "claude-sot-cleared.json"
+    dest_dir = repo / "references"
+    dest_dir.mkdir()
+    shutil.copy(pin_src, dest_dir / "claude-sot-cleared.json")
+    subprocess.run(["git", "init"], cwd=repo, check=True, capture_output=True)
+    subprocess.run(["git", "config", "user.email", "p1@test"], cwd=repo, check=True)
+    subprocess.run(["git", "config", "user.name", "p1"], cwd=repo, check=True)
+    subprocess.run(["git", "add", "references/claude-sot-cleared.json"], cwd=repo, check=True)
+    subprocess.run(["git", "commit", "-m", "pin only"], cwd=repo, check=True, capture_output=True)
+    cleared, reason = resolve_claude_sot_cleared(repo)
+    assert cleared is False
+    assert "not in local git objects" in reason
+
+
 def test_doctor_fails_when_claimed_and_uncleared(tmp_path: Path) -> None:
     home = tmp_path / "home"
     skill = home / ".claude" / "skills" / "hyperlex"

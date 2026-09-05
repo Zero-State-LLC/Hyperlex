@@ -92,7 +92,8 @@ def resolve_claude_sot_cleared(root: Path) -> Tuple[bool, str]:
     head = _normalize_sha(_git_text(Path(root), "rev-parse", "HEAD"))
     if head and _sha_match(head, pinned):
         return True, f"local HEAD matches pinned {pinned[:12]}"
-    if pinned and _git_ok(Path(root), "merge-base", "--is-ancestor", pinned, "HEAD"):
+    pin_present = _git_ok(Path(root), "cat-file", "-e", f"{pinned}^{{commit}}")
+    if pin_present and _git_ok(Path(root), "merge-base", "--is-ancestor", pinned, "HEAD"):
         return True, f"local HEAD descends from pinned {pinned[:12]}"
 
     installed = _normalize_sha(_install_source_commit(root))
@@ -101,6 +102,13 @@ def resolve_claude_sot_cleared(root: Path) -> Tuple[bool, str]:
 
     if pin.get("cleared") is True and pinned and not head and not installed:
         return True, f"pin cleared=true sha={pinned[:12]} (no local git)"
+    if head and not pin_present:
+        shallow = _git_text(Path(root), "rev-parse", "--is-shallow-repository")
+        extra = "; shallow clone" if shallow == "true" else ""
+        return False, (
+            f"pin commit {pinned[:12]} not in local git objects{extra}; "
+            f"cannot prove descent (no live GitHub fetch)"
+        )
     return False, f"local provenance does not match pinned {pinned[:12]}"
 
 

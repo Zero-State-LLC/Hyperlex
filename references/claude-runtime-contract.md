@@ -73,7 +73,8 @@ Operator data is unchanged (outside the skill tree):
 5. `doctor` reports `CLAUDE_OK` or `CLAUDE_MISSING`. Missing does not fail Hermes.
    `CLAUDE_SOT_CLEARED=true|false` comes from the local pin
    `references/claude-sot-cleared.json` plus git/install provenance (not a
-   live GitHub fetch). Claimed Claude packaging + uncleared fails doctor.
+   live GitHub fetch). A shallow clone that lacks the pin commit stays
+   uncleared. Claimed Claude packaging + uncleared fails doctor.
 
 ## Authority
 
