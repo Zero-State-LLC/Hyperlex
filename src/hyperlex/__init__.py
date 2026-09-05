@@ -14,10 +14,9 @@ from pathlib import Path
 
 
 def _read_version() -> str:
-    candidate = Path(__file__).resolve().parents[2] / "VERSION"
-    if candidate.exists():
-        return candidate.read_text(encoding="utf-8").strip() or "0.1.0"
-    return "0.1.0"
+    from ._version import read_version
+
+    return read_version()
 
 
 PKG_VERSION = _read_version()
@@ -38,6 +37,7 @@ from .analysis import (
     predict_mutations,
 )
 from .analysis.backfill import apply_backfill, inventory_backfill, list_backfill_packs
+from .mutation import parse_mutation_trace
 from .analysis.backprop import backpropagate_lineage
 from .analysis.terms import split_seed_terms, collect_lexicon, per_term_lineage
 from .pipeline import run_pipeline, run_one
@@ -155,6 +155,7 @@ API_EXTENDED = (
     "write_diagram_bundle",
     "predict_virality",
     "predict_mutations",
+    "parse_mutation_trace",
     "export_analysis_archive",
     "export_run_history",
     "rebuild_archive_catalog",
@@ -209,6 +210,7 @@ __all__ = [
     "compute_virality_score",
     "predict_virality",
     "predict_mutations",
+    "parse_mutation_trace",
     "simulate_hyperstition_loop",
     "detect_neologisms",
     "trace_semantic_variation",

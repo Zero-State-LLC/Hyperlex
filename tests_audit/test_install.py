@@ -1,4 +1,5 @@
 import os
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -20,8 +21,6 @@ class InstallAudit(unittest.TestCase):
             (dest / "out/wizard-sessions").mkdir(parents=True)
             sentinel = dest / "out/wizard-sessions/keep.json"
             sentinel.write_text("previous session")
-            import shutil
-
             source = Path(tmp) / "source"
             shutil.copytree(
                 ROOT,
@@ -30,14 +29,9 @@ class InstallAudit(unittest.TestCase):
                     ".git", "skills", "out", "__pycache__", ".venv"
                 ),
             )
-            script = {
-                "neon-genie": "validate_hermes_skill.py",
-                "sigil-forge": "sigil_forge.py",
-                "hyperlex": "hyperlex.py",
-            }[SKILL]
-            (source / "scripts" / script).write_text("import sys\nsys.exit(42)\n")
+            (source / "scripts/hyperlex.py").write_text("import sys\nsys.exit(42)\n")
             env = dict(os.environ, HOME=str(home), HERMES_HOME=str(profile))
-            r = subprocess.run(
+            result = subprocess.run(
                 check=False,
                 args=["bash", str(source / "install.sh")],
                 cwd=tmp,
@@ -45,7 +39,7 @@ class InstallAudit(unittest.TestCase):
                 capture_output=True,
                 text=True,
             )
-            self.assertNotEqual(r.returncode, 0, r.stdout + r.stderr)
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertEqual((dest / "SKILL.md").read_text(), "previous package")
             self.assertEqual(sentinel.read_text(), "previous session")
             self.assertFalse((home / ".hermes").exists())
@@ -59,7 +53,7 @@ class InstallAudit(unittest.TestCase):
             foreign.mkdir(parents=True)
             (profile / "skills").symlink_to(foreign, target_is_directory=True)
             env = dict(os.environ, HOME=str(home), HERMES_HOME=str(profile))
-            r = subprocess.run(
+            result = subprocess.run(
                 ["bash", str(ROOT / "install.sh")],
                 cwd=tmp,
                 env=env,
@@ -67,7 +61,7 @@ class InstallAudit(unittest.TestCase):
                 text=True,
                 check=False,
             )
-            self.assertNotEqual(r.returncode, 0, r.stdout + r.stderr)
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertEqual(list(foreign.iterdir()), [])
             self.assertTrue((profile / "skills").is_symlink())
 

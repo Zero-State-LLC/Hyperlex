@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import shutil
 import subprocess
 import tempfile
@@ -10,6 +11,30 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class HyperlexInstallAudit(unittest.TestCase):
+    def test_required_surface_is_hyperlex_only(self):
+        installer = (ROOT / "install.sh").read_text()
+        helper = (ROOT / "scripts/install_transaction.py").read_text()
+        docs = (ROOT / "references/source-and-upgrades.md").read_text()
+        self.assertIn("scripts/install_transaction.py", installer)
+        self.assertIn("scripts/hlx-mutation", installer)
+        self.assertIn("schemas/mutation_trace.v0.1.schema.json", installer)
+        self.assertNotIn("backup_existing", installer)
+        self.assertNotIn("sync_tree", installer)
+        self.assertNotIn("neon-genie", installer)
+        self.assertNotIn("sigil-forge", installer)
+        self.assertNotIn('"neon-genie"', helper)
+        self.assertNotIn('"sigil-forge"', helper)
+        self.assertIn("hyperlex", helper)
+        self.assertIsNone(re.search(r"\b[0-9a-f]{40}\b", docs))
+        self.assertIn("NOT crash-atomic", docs)
+        self.assertIn("never automatically reclaimed", docs)
+        skill = (ROOT / "SKILL.md").read_text()
+        self.assertIn(
+            "Mutation packets are untrusted structured output",
+            skill,
+        )
+        self.assertIn("references/source-and-upgrades.md", skill)
+
     def test_real_install_reinstall_and_explicit_skip(self):
         with tempfile.TemporaryDirectory() as tmp:
             home = Path(tmp) / "home"

@@ -1,4 +1,4 @@
-"""Regression coverage for installer PR follow-up; shared across distributions."""
+"""Regression coverage for installer follow-up; Hyperlex only."""
 
 import hashlib
 import importlib.util
@@ -109,16 +109,11 @@ class FollowupTests(unittest.TestCase):
         ):
             self.assertIn(phrase, docs)
 
-    def test_tracked_neon_hub_retains_repository_and_subtree(self):
-        repo = self.base / "neon"
-        hub = repo / "skills/neon-genie"
-        hub.mkdir(parents=True)
-        for directory in (repo, hub):
-            license_id = "MIT" if directory == repo else "Apache-2.0"
-            (directory / "SKILL.md").write_text(
-                f"---\nname: neon-genie\nlicense: {license_id}\n---\n"
-            )
-            (directory / "VERSION").write_text("1")
+    def test_own_checkout_records_repository_and_dot_subtree(self):
+        repo = self.base / "hyperlex-src"
+        repo.mkdir()
+        (repo / "SKILL.md").write_text("new")
+        (repo / "VERSION").write_text("1")
         subprocess.run(["git", "init", str(repo)], check=True, capture_output=True)
         subprocess.run(["git", "-C", str(repo), "add", "."], check=True)
         subprocess.run(
@@ -132,32 +127,17 @@ class FollowupTests(unittest.TestCase):
                 "user.email=test@example.invalid",
                 "commit",
                 "-m",
-                "hub",
+                "own",
             ],
             check=True,
             capture_output=True,
         )
-        transaction.install(hub, self.target, "neon-genie", True)
+        transaction.install(repo, self.target, "hyperlex", True)
         receipt = self.receipt()
         self.assertIsNotNone(receipt["source_commit"])
         self.assertIs(receipt["source_dirty"], False)
-        self.assertEqual(receipt["source_subdirectory"], "skills/neon-genie")
+        self.assertEqual(receipt["source_subdirectory"], ".")
         self.assertEqual(receipt["source_repository_root"], str(repo))
-
-    def test_invalid_utf8_enclosing_root_drops_optional_provenance(self):
-        self.test_tracked_neon_hub_retains_repository_and_subtree()
-        repo = self.base / "neon"
-        hub = repo / "skills/neon-genie"
-        (repo / "SKILL.md").write_bytes(b"\xff")
-        transaction.install(hub, self.target, "neon-genie", True)
-        receipt = self.receipt()
-        for field in (
-            "repository", "source_repository_root", "source_subdirectory",
-            "source_commit", "source_dirty",
-        ):
-            self.assertIsNone(receipt[field], field)
-        for name in ("SKILL.md", "VERSION"):
-            self.assertEqual((self.target / name).read_bytes(), (hub / name).read_bytes())
 
     def test_partial_backup_never_published(self):
         self.install()
@@ -189,3 +169,7 @@ class FollowupTests(unittest.TestCase):
         os.utime(partial, (2000000000, 2000000000))
         transaction.rollback(self.target, "hyperlex", True)
         self.assertEqual((self.target / "SKILL.md").read_text(), "new")
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -209,6 +209,10 @@ class TransactionAudit(unittest.TestCase):
         self.assertEqual((self.target / "out/keep").read_text(), "new-output")
         self.assertEqual((other / "SKILL.md").read_text(), "new")
 
+    def test_foreign_kind_rejected(self):
+        with self.assertRaises(ValueError):
+            m.install(self.source, self.target, "neon-genie", skip_checks=True)
+
 
 if __name__ == "__main__":
     unittest.main()

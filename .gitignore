@@ -35,6 +35,7 @@ build/
 !docs/archive/**/*.jsonl
 !docs/demos/samples/**/*.json
 !docs/map/**/*.json
+!docs/command-router.v1.json
 !data/backfill/**/*.json
 !data/phylogeny/**/*.json
 
