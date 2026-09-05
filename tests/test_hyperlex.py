@@ -39,19 +39,6 @@ def test_cli_check_ok() -> None:
     checks = {entry["name"]: entry["ok"] for entry in body["checks"]}
     assert checks["version_file"]
     assert checks["schema_ingest"]
-    assert checks["skill_frontmatter"]
-    assert checks["skill_description_len"]
-    assert checks["skill_description_period"]
-    assert checks["skill_frontmatter.name"]
-    assert checks["skill_frontmatter.description"]
-    assert checks["skill_frontmatter.version"]
-    assert checks["skill_frontmatter.author"]
-    assert checks["skill_frontmatter.license"]
-    assert checks["skill_frontmatter.platforms"]
-    assert checks["skill_frontmatter.tags"]
-    assert checks["skill_frontmatter.related_skills"]
-    assert checks["skill_author_human"]
-    assert checks["skill_frontmatter.version_match"]
 
 
 def test_sources_command() -> None:

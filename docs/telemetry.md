@@ -4,7 +4,7 @@ Operator desk on Pages — **publish-safe**, not a live dashboard.
 Real state lives in `~/.hyperlex/` (receipts, score log, vector DB).
 
 <div class="hlx-status" markdown>
-<span><span class="hlx-dot"></span><strong>v0.4.1</strong></span>
+<span><span class="hlx-dot"></span><strong>v0.4.0</strong></span>
 <span>Hermes skill · auto pipeline</span>
 <span>Atomic multi-term · settled Brier only</span>
 <span>Pages = static history</span>

@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hyperlex"
-version = "0.4.1"
-description = "Standalone memetic emergence engine for slang detection, hyperstition, virality, lineage, and settled Brier calibration."
+dynamic = ["version"]
+description = "Standalone memetic emergence engine for slang detection, hyperstition, virality, lineage, settled Brier calibration, and slang mutation-operator detection."
 authors = [
     {name = "Applied Alchemy Labs", email = "scrimshawlife@gmail.com"}
 ]
@@ -47,16 +47,24 @@ schema = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/scrimshawlife-ctrl/Hyperlex"
-Repository = "https://github.com/scrimshawlife-ctrl/Hyperlex"
-Documentation = "https://github.com/scrimshawlife-ctrl/Hyperlex#readme"
-Issues = "https://github.com/scrimshawlife-ctrl/Hyperlex/issues"
+Homepage = "https://github.com/Zero-State-LLC/Hyperlex"
+Repository = "https://github.com/Zero-State-LLC/Hyperlex"
+Documentation = "https://github.com/Zero-State-LLC/Hyperlex#readme"
+Issues = "https://github.com/Zero-State-LLC/Hyperlex/issues"
 
 [project.scripts]
-hyperlex = "hyperlex.cli:main"
+hyperlex = "hyperlex.entrypoint:main"
+hlx = "hyperlex.entrypoint:main"
+
+[tool.setuptools.dynamic]
+version = {file = "VERSION"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.setuptools.package-data]
-hyperlex = ["schemas/*.json", "schemas/**/*.json"]
+hyperlex = [
+    "schemas/*.json",
+    "data/*.json",
+    "data/*.md",
+]

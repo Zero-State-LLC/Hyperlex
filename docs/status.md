@@ -1,6 +1,6 @@
 # Hyperlex Skill Status
 
-**Version:** 0.4.1  
+**Version:** 0.4.0  
 **Posture:** Hermes skill (Python package repo)  
 **Install:** `bash install.sh` → `~/.hermes/skills/hyperlex`  
 **Track:** Phases 0–4 complete · Phase 5.0–5.3 · Pages static run history · Hallmark desk UI
@@ -70,6 +70,7 @@ pipeline "rizz" | ingest "rizz" | run "rizz"   # AUTO full results
 ~/.hyperlex/receipts/
 ~/.hyperlex/receipt_ledger.jsonl
 ~/.hyperlex/score_log.jsonl
+~/.hyperlex/mutation_watch.jsonl   # mutation grammar instrumentation (not Brier)
 ~/.hyperlex/cache/
 ~/.hyperlex/vector.db            # local SQLite vector store (default)
 ~/.hyperlex/chroma/              # local Chroma persist (opt-in)

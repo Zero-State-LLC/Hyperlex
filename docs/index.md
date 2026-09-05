@@ -6,7 +6,7 @@ hide:
 # Hyperlex
 
 <div class="hlx-status" markdown>
-<span><span class="hlx-dot"></span><strong>v0.4.1</strong></span>
+<span><span class="hlx-dot"></span><strong>v0.4.0</strong></span>
 <span>Hermes skill · Python package</span>
 <span>Settled Brier only</span>
 <span>Local-first · offline mock ready</span>
@@ -126,5 +126,5 @@ Full glossary: [start/glossary.md](start/glossary.md)
 <p class="hlx-splash-brand-foot">READ DEEPER. THINK WIDER.</p>
 
 <p class="hlx-posture">
-v0.4.1 · Hermes skill · settled Brier only · offline mock default for first success
+v0.4.0 · Hermes skill · settled Brier only · offline mock default for first success
 </p>

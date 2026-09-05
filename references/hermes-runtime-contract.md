@@ -13,10 +13,6 @@
 Hermes discovers skills by scanning `$HERMES_HOME/skills/**/SKILL.md`.
 This skill is a **directory skill** (not a single markdown file).
 
-Hermes Agent v0.21 indexes `description` in the system prompt at 57 characters
-plus `...`. Keep the field to one sentence of ≤60 characters that ends with a
-period. Use `${HERMES_SKILL_DIR}` in command examples; Hermes substitutes it.
-
 ## Paths
 
 ```text

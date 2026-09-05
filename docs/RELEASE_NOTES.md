@@ -1,9 +1,5 @@
 # Release notes
 
-## 0.4.1
-- Hermes Agent v0.21 SKILL.md contract: ≤60-character description, required frontmatter, `terminal` framing.
-- CLI `check` asserts the skill-index description budget.
-
 ## 0.4.0
 - Automatic backend pipeline: `pipeline` / `run` / `ingest` → full results packet.
 - Ingest defaults to full results (`--raw-only` for signal-only).

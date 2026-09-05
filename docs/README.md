@@ -25,8 +25,6 @@ Hyperlex is a **Hermes skill** (Python package repo). Relevant Abraxas wire shap
 - [ARCHITECTURE.md](architecture.md)
 - [DESIGN.md](design.md)
 - [SPEC.md](spec.md)
-- [AGENTS.md](../AGENTS.md) — multi-agent SDLC contract (`CLAUDE.md` is a thin pointer there)
-- [intent/](../intent/README.md) — intent template for non-trivial work; then spec.md / plan
 
 ## Examples
 - `examples/slang-families/` — Mermaid family trees

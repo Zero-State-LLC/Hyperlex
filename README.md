@@ -14,7 +14,7 @@
   <a href="https://github.com/scrimshawlife-ctrl/Hyperlex/actions/workflows/docs.yml"><img src="https://img.shields.io/github/actions/workflow/status/scrimshawlife-ctrl/Hyperlex/docs.yml?branch=main&label=docs&logo=github" alt="Docs CI"></a>
   <a href="https://scrimshawlife-ctrl.github.io/Hyperlex/"><img src="https://img.shields.io/badge/docs-GitHub%20Pages-0d9488?logo=markdown" alt="Docs"></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-LicenseRef-Zero-State-Proprietary-1.0-blue.svg" alt="License: LicenseRef-Zero-State-Proprietary-1.0"></a>
-  <a href="./VERSION"><img src="https://img.shields.io/badge/version-0.4.1-informational" alt="Version 0.4.1"></a>
+  <a href="./VERSION"><img src="https://img.shields.io/badge/version-0.4.0-informational" alt="Version 0.4.0"></a>
   <img src="https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-3776AB?logo=python&logoColor=white" alt="Python">
   <img src="https://img.shields.io/badge/hermes-skill-7c3aed" alt="Hermes skill">
   <img src="https://img.shields.io/badge/offline--first-mock%20route-22c55e" alt="Offline-first">
@@ -120,7 +120,7 @@ Phases **0–4** are production skill surface. **5.0–5.3** adds research simul
 
 | | |
 |--|--|
-| **Version** | **0.4.1** |
+| **Version** | **0.4.0** |
 | **Posture** | Hermes skill · Python package (≥3.10) · LicenseRef-Zero-State-Proprietary-1.0 |
 | **Primary store** | `~/.hyperlex/` |
 | **Public PyPI** | Not planned |
@@ -347,8 +347,6 @@ from hyperlex.compat.abraxas import to_brier_ledger_entry, list_hlx_runes
 | [docs/phase5.md](./docs/phase5.md) | Research simulation |
 | [docs/slang-lineages.md](./docs/slang-lineages.md) | Lineage methodology |
 | [docs/hermes-skill.md](./docs/hermes-skill.md) | Skill model |
-| [AGENTS.md](./AGENTS.md) | Multi-agent SDLC contract (`CLAUDE.md` is a thin pointer here) |
-| [intent/](./intent/README.md) | Intent template for non-trivial work; then spec.md / plan |
 
 Examples: `examples/cron/` · `examples/receipts/golden/` · `examples/calibration/` · `examples/slang-families/` · `examples/case-studies/`
 
@@ -356,7 +354,7 @@ Examples: `examples/cron/` · `examples/receipts/golden/` · `examples/calibrati
 
 ## Contributing
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md). Agent contract: [`AGENTS.md`](AGENTS.md) (`CLAUDE.md` is a thin pointer there). Non-trivial work starts with [`intent/`](intent/README.md). Keep the settlement rule and offline-first defaults intact. Prefer small, test-backed PRs.
+See [CONTRIBUTING.md](./CONTRIBUTING.md). Keep the settlement rule and offline-first defaults intact. Prefer small, test-backed PRs.
 
 ```bash
 PYTHONPATH=src pytest -q
@@ -370,12 +368,3 @@ bash install.sh --dry-run
 LicenseRef-Zero-State-Proprietary-1.0 — [LICENSE](./LICENSE).
 
 Built for operators who want memetic signal **with a receipt trail**, not a mood board.
-
-
-## License
-
-Copyright © 2026 Zero State LLC. All Rights Reserved. Licensed under the Zero State Proprietary License v1.0. See [`LICENSE`](LICENSE).
-
-Third-party components remain subject to their respective licenses.
-
-Source, profile, and migration rules: `references/source-and-upgrades.md`.

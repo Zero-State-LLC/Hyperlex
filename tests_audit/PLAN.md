@@ -1,4 +1,9 @@
-# Audit remediation
+# Hyperlex installer audit (SHADOW)
 
-User explicitly authorized C1–C6 and relevant A1/A4 fixes, local commits only.
-Plan: reproduce each defect before its fix; stage installs and validate before activation; preserve legacy output; isolate new state; repair session recipe and repository-only CI validation; align only current organizational license metadata; preserve personal variants and advisory boundaries; run sandbox regressions and existing offline checks; parent independently reviews before remote action.
+Re-implemented from closed PR #5 onto current `main`. Hyperlex-only: no
+neon-genie or sigil-forge CHECKS. Stage-validate before activation, preserve
+legacy `out`, target-keyed backups, operator-owned locks. Two-rename activation
+is not crash-atomic. Locks are never automatically reclaimed.
+
+Source identity is `VERSION` plus `git rev-parse HEAD`. Mutation packets stay
+advisory (`brier: null`, `forecast_eligible: false`).
