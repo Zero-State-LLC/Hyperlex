@@ -183,7 +183,7 @@ $HLX pipeline "rizz" --route offline
 $HLX ingest "locked in"                # same as pipeline (use --raw-only for signal only)
 $HLX pipeline "sigma rizz locked in"   # expands to atoms automatically
 $HLX pending                           # open forecasts
-$HLX settle --forecast-id <id> --decision TRUE
+$HLX settle --forecast-id <id> --decision TRUE --authority-ref <ref> --settle-token "$HYPERLEX_SETTLE_TOKEN"
 $HLX score-series --mean-shift --verify-chain
 $HLX scan --route offline --receipt --forecasts --append-log
 $HLX risk-schedule --tier MODERATE --schedule-out /tmp/hlx-cron
