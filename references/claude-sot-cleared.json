@@ -1,0 +1,6 @@
+{
+  "schema": "hyperlex.claude_sot_cleared.v1",
+  "cleared": false,
+  "cleared_sha": "feba4b515cf7856dd0cb85cdc24291caf1330e1b",
+  "note": "Org SoT tip that mirrored Claude helpers (#10). Doctor sets CLAUDE_SOT_CLEARED=true only when local git HEAD or .install-provenance.json source_commit matches or descends from this SHA. Live GitHub fetch is not used. Public trees that lag this SHA stay uncleared."
+}
