@@ -28,9 +28,11 @@ jobs:
       url: https://noema.guru
     steps:
       - name: Refuse missing production-deploy acknowledgement
+        env:
+          ACKNOWLEDGE: ${{ inputs.acknowledge }}
         run: |
           set -euo pipefail
-          if [ "${{ inputs.acknowledge }}" != "I_ACKNOWLEDGE_PRODUCTION_DEPLOY_AND_PIN" ]; then
+          if [ "$ACKNOWLEDGE" != "I_ACKNOWLEDGE_PRODUCTION_DEPLOY_AND_PIN" ]; then
             echo "::error::Set acknowledge=I_ACKNOWLEDGE_PRODUCTION_DEPLOY_AND_PIN. Merging this workflow does not deploy."
             exit 1
           fi
