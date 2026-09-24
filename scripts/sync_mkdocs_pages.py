@@ -8,6 +8,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 
+# Root-only paths that MkDocs cannot resolve under docs/ → org blob URLs.
+_ORG = "https://github.com/Zero-State-LLC/Hyperlex/blob/main"
+
 # (file under docs/, list of (old, new) replacements)
 FIXES = {
     "design-orchestra.md": [
@@ -15,11 +18,12 @@ FIXES = {
         ("](../SPEC.md)", "](spec.md)"),
         ("](../ARCHITECTURE.md)", "](architecture.md)"),
     ],
-
     "architecture.md": [
         ("](./SPEC.md)", "](spec.md)"),
         ("](./docs/api-v1.md)", "](api-v1.md)"),
         ("](./docs/hermes-skill.md)", "](hermes-skill.md)"),
+        ("](./docs/shadow-hyperlexical.md)", "](shadow-hyperlexical.md)"),
+        ("](./STATUS.md)", "](status.md)"),
         ("](./ARCHITECTURE.md)", "](architecture.md)"),
         ("](./DESIGN.md)", "](design.md)"),
     ],
@@ -31,11 +35,15 @@ FIXES = {
         ("](docs/hermes-skill.md)", "](hermes-skill.md)"),
         ("](./docs/hermes-skill.md)", "](hermes-skill.md)"),
         ("](docs/standalone-app.md)", "](hermes-skill.md)"),
+        ("](docs/design.md)", "](design.md)"),
     ],
     "spec.md": [
         ("](docs/api-v1.md)", "](api-v1.md)"),
         ("](./docs/api-v1.md)", "](api-v1.md)"),
         ("](docs/brier-calibration.md)", "](brier-calibration.md)"),
+        ("](docs/commands.md)", "](commands.md)"),
+        ("](docs/shadow-hyperlexical.md)", "](shadow-hyperlexical.md)"),
+        ("](STATUS.md)", "](status.md)"),
     ],
     # STATUS.md is mirrored as docs/status.md; root paths need MkDocs-relative rewrite
     "status.md": [
@@ -57,7 +65,24 @@ FIXES = {
         ("](docs/", "]("),
     ],
     "ROADMAP.md": [
-        ("](../ROADMAP.md)", "](https://github.com/scrimshawlife-ctrl/Hyperlex-Hermes-Specs/blob/main/ROADMAP.md)"),
+        ("](SPEC.md)", "](spec.md)"),
+        ("](DESIGN.md)", "](design.md)"),
+        ("](STATUS.md)", "](status.md)"),
+    ],
+    "contributing.md": [
+        ("](STATUS.md)", "](status.md)"),
+        ("](ROADMAP.md)", "](ROADMAP.md)"),
+        ("](ARCHITECTURE.md)", "](architecture.md)"),
+        ("](DESIGN.md)", "](design.md)"),
+        ("](SPEC.md)", "](spec.md)"),
+        ("](AGENTS.md)", f"]({_ORG}/AGENTS.md)"),
+        ("](intent/README.md)", f"]({_ORG}/intent/README.md)"),
+        ("](LICENSE_POLICY.md)", f"]({_ORG}/LICENSE_POLICY.md)"),
+        ("](LICENSE)", f"]({_ORG}/LICENSE)"),
+        (
+            "](.github/workflows/hermes-evals.yml)",
+            f"]({_ORG}/.github/workflows/hermes-evals.yml)",
+        ),
     ],
     "README.md": [
         ("](../ROADMAP.md)", "](ROADMAP.md)"),
