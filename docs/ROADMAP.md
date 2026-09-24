@@ -1,9 +1,11 @@
 # Hyperlex Roadmap
 
 ## Vision
-Hyperlex is a **Hermes skill** backed by this Python package repo. Relevant Abraxas wire capabilities ship as Hyperlex modules (`hyperlex.compat.abraxas`); hosts import *from* Hyperlex.
+Hyperlex **ships today as a Hermes skill** (this Python package). Relevant Abraxas wire capabilities live under `hyperlex.compat.abraxas`; hosts import *from* Hyperlex.
 
-Hyperlex evolves into the canonical engine for detecting, scoring, and acting on emerging memetic signals in real time — grounded in real data, arXiv research, and strict provenance.
+The same project is on a **model path** (Spec 007): T0 encoder baseline, then T1 after eval gate E2. T1 is the first artifact that may be called Hyperlexical. Trained E2 can PASS on Spark without flipping `name_gate` — Danny yes is still required. No Hub card until then.
+
+The skill remains the operator surface while the encoder stays SHADOW.
 
 ## Phases
 
@@ -57,10 +59,6 @@ Hyperlex evolves into the canonical engine for detecting, scoring, and acting on
 - [x] **5.0** Docs: `docs/phase5.md`, `docs/modules/simulation.md`
 - [x] **5.0** Local SQLite vector DB (`hyperlex.vectordb`, `vector-seed` / `vector-search`)
 - [x] **5.0** Analyze attaches `vector_neighbors` when DB present; receipts auto-index (fail-open)
-- [x] **5.x** Chroma local + Cloud backend; `vector-export` / `import` / `sync` promote path
-- [x] **5.x** Fail-open vector auto-index on ingest/pipeline/receipt (local sqlite/chroma)
-- [ ] **5.x+** Optional post-ingest Cloud promote (`HYPERLEX_VECTOR_PROMOTE`) — off by default
-
 - [x] **5.1** Domain-specific phylogeny packs (`data/phylogeny/`: finance, ai-native, political, regional)
 - [x] **5.1** Transmission parameter calibration against settled series (still no invented Brier)
 - [x] **5.1** Vector hybrid re-rank for lineage matcher (`match_lineage` + local vector DB)
@@ -69,7 +67,25 @@ Hyperlex evolves into the canonical engine for detecting, scoring, and acting on
 - [x] **5.3** Risk tiers → scan schedules / operator alerts (advisory Hermes cron envelopes)
 - [x] **5.3** Operator loop docs + simplified ingest routes / command map (`run`, `commands`, `pending`)
 - [x] **5.3** Atomic multi-term seeds (`split_seed_terms`, Phase 5 multi-term, Pages demos)
+- [x] **5.x** Chroma local + Cloud backend; `vector-export` / `import` / `sync` promote path
+- [x] **5.x** Fail-open vector auto-index on ingest/pipeline/receipt (local sqlite/chroma)
+- [ ] **5.x+** Optional post-ingest Cloud promote (`HYPERLEX_VECTOR_PROMOTE`) — off by default
 - [ ] **5.3** ANN backend option if corpus grows past linear scan (**deferred** until corpus pain)
+
+### Spec 007 — Hyperlexical encoder (SHADOW · 2026-09-10)
+- [x] Specify C1–C52 + A5 milestones / engineering (#33)
+- [x] U1 stub infer + packet walls
+- [x] U2 civilian harvest exporter
+- [x] U3 eval harness vs Spec 004
+- [x] Keepable layout + span aligner + HF skeleton
+- [x] Live-split coerce to lexical train/val/test (#38)
+- [x] 8-family leaf unlock; classify volume ready (harvest receipt 2026-09-10)
+- [x] Spark bring-up runbooks on main (#28)
+- [x] Trained trunk-forward E2 PASS on Spark (BEST=`seed-morph65`; stub still expected FAIL; seed smoke ≠ T1)
+- [ ] Hub upload (operator — not started)
+- [ ] T13 promote into `src/hyperlex/`
+
+`name_gate` stays **false** until Danny yes (E2 PASS alone does not flip). Classify volume ≠ a Hyperlexical name. No ninth family.
 
 ## Milestones
 - v0.2.x: Phases 0–4 complete (Hermes skill production track)
@@ -81,14 +97,19 @@ Hyperlex evolves into the canonical engine for detecting, scoring, and acting on
 - **v0.4.0: automatic backend pipeline (ingest → results)** (current)
 - v0.3.x: Phylogeny libraries + vector hybrid lineage + research export polish
 - v1.0: Stable skill contract + long-horizon archive + optional research contribs
+- 007: `hyperlex-structure-149m` name only after E2
 
-See SPEC.md and DESIGN.md for detailed requirements per phase.
+See [SPEC.md](SPEC.md) and [DESIGN.md](DESIGN.md) for the historical spine. Current operator snapshot: [STATUS.md](STATUS.md).
 
-## Recent (2026-08-05)
-- v0.2.12: YTD backfill + lineage backprop
-- v0.3.0: Phase 5.0 simulation stack (transmission, agents, risk, phylogeny)
-- v0.3.3: Local SQLite vector DB; seed from registry/backfill/receipts
-- v0.3.5: Hybrid lineage re-rank + domain phylogeny packs
-- v0.3.7: Risk-tier → scan/cron schedule (advisory; post-scan advisory on scan)
-- v0.3.8: Operator loop docs; `--route` ingest; `run` / `commands` / `pending`
+## Recent
+- 2026-09-24: Hygiene — `pyproject.toml` aligned to `VERSION` 0.4.0; ROADMAP E2 line matches trained PASS; name_gate / named-phrases plan drafted. `#100` + `#99` on main. soft_ceiling ARMED; morph65 held.
+- 2026-09-10 PT evening: Spec 007 SoT 4333 / `--include-live` classify 2437; Danny ~2500 bar met; `name_gate` false. Hermes 913 / gap-to-2500 superseded. Spark bring-up (#28), A5 milestones (#33), lexical-split coerce (#38), 8-family unlock (#37). (E2 was Spark-blocked at that snapshot; trained E2 later PASS on morph65.)
+- 2026-09-09: Spec 007 SHADOW encoder harness on main (not a Hub card)
+- v0.4.0: automatic backend pipeline (ingest → results)
 - v0.3.9: Atomic multi-term seeds; Pages demos; scan packs atomic
+- v0.3.8: Operator loop docs; `--route` ingest; `run` / `commands` / `pending`
+- v0.3.7: Risk-tier → scan/cron schedule (advisory; post-scan advisory on scan)
+- v0.3.5: Hybrid lineage re-rank + domain phylogeny packs
+- v0.3.3: Local SQLite vector DB; seed from registry/backfill/receipts
+- v0.3.0: Phase 5.0 simulation stack (transmission, agents, risk, phylogeny)
+- v0.2.12: YTD backfill + lineage backprop
