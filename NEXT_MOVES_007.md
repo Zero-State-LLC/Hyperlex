@@ -1,29 +1,22 @@
-# Spec 007 — next: soft_ceiling armed · #101 on main
+# Spec 007 — next: morph78 is BEST and named Hyperlexical
 
-`name_gate=false`. BEST=**morph65** (held). Upsample freeze = **11+**. Do not run SECOND_SLOT=4.
+`name_gate` **true** for `seed-morph78` (Danny `flip name_gate`, 2026-09-24, amendment A6). BEST=**morph78**. Upsample freeze = **11+**. Do not run SECOND_SLOT=4.
 
 ## Done
 
-- soft_ceiling **ARMED** · morph78/reprobe empty gold · `authorize val-settle` → **CANCELLED_EMPTY_GOLD**.
-- **#100** + **#99** + **#101** on main (hygiene, name-gate plan, **ne0l0gist** naming lock, trends pins restored).
-- **#95** rebased onto main tip; stays draft / UNQUALIFIED.
+- morph78 named phrases settled · force/hard **236/277** · soft_ceiling train complete.
+- **PROMOTE_BEST** (ceiling_escape): broad **0.9883** > PRIOR morph65 **0.8867** n=256 + E2 PASS.
+- Danny **`flip name_gate`** → `seed-morph78` may be called **Hyperlexical** (receipt `specs/007-hyperlexical-model/receipts/20260924-name-gate-yes-morph78.md`).
 
-## Gate (armed)
+## Gate
 
-**soft_ceiling_tiebreak:** force-fair <1.0 → classic; =1.0 → broad OBSERVED > PRIOR live + E2.
+soft_ceiling **spent** for this climb (morph78 now PRIOR/BEST). Further climbs need a new authorize/acquire card.
 
-## PR triage
+## Next (each a separate operator sentence)
 
-| PR | State | Action |
-|----|-------|--------|
-| **#101** hygiene + naming | **merged** | on main |
-| **#95** HYPERLEX-Q1 | draft | Stay draft; UNQUALIFIED |
-| **#100** / **#99** | merged | done |
-
-## Next
-
-1. Await authorize with **named phrases** on a live empty card, or a new `force_expand_safe` acquire. Do **not** re-settle morph77’s four.
-2. Optional org mirror `push-org` only with explicit authorize (personal main now has naming lock).
-3. Do not re-burn empty settles. Do not flip `name_gate`.
+1. Card rename: `hyperlex-encoder-*` identifiers → Hyperlexical / `hyperlex-structure-149m` (C31) and packet/schema `name_gate` field.
+2. Hub upload — still not authorized.
+3. Optional T13 (promote `scripts/shadow/hyperlexical/` into `src/hyperlex/`).
+4. HOLD morph78; no new climb without a new card.
 
 Qwen stays stopped unless re-enabled.

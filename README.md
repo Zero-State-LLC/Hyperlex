@@ -153,7 +153,7 @@ Repo **Hyperlex** is the transitional monorepo shell. Do not use bare public **H
 | **ne0l0gist** | Slang ingest tool (zeros spelling) — operator-named 2026-09-24 |
 | **Hyperlex** (repo) | Transitional monorepo shell / paths / env |
 
-`name_gate` stays **false**. Org mirror is not train SoT (`docs/remotes.md`).
+`name_gate` is **true** for pin `seed-morph78` (Danny `flip name_gate`, 2026-09-24, amendment A6) — that pin may be called **Hyperlexical**. Card/package IDs stay `hyperlex-encoder-*`; Hub and T13 not authorized. Org mirror is not train SoT (`docs/remotes.md`).
 
 ## Install
 
