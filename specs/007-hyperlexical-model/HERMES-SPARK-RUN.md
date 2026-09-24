@@ -1,1 +1,1 @@
-$CURSOR_MCP_ARGS_FILE:/tmp/HERMES_PF_INVOKE.json
+@file:///tmp/graft_raw/specs__007-hyperlexical-model__HERMES-SPARK-RUN.md
