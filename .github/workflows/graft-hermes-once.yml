@@ -1,0 +1,29 @@
+name: graft-hermes-once
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/graft-hermes-once.yml'
+permissions:
+  contents: write
+jobs:
+  graft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: sync/personal-naming-lock-20260924
+      - name: Fetch exact HERMES from personal SoT
+        run: |
+          curl -fsSL -o specs/007-hyperlexical-model/HERMES-SPARK-RUN.md \
+            https://raw.githubusercontent.com/scrimshawlife-ctrl/Hyperlex/main/specs/007-hyperlexical-model/HERMES-SPARK-RUN.md
+          echo "blob=$(git hash-object specs/007-hyperlexical-model/HERMES-SPARK-RUN.md)"
+          test "$(git hash-object specs/007-hyperlexical-model/HERMES-SPARK-RUN.md)" = "40e7687b08b43989787f3c1c8f0bb95596eb456a"
+      - name: Commit if changed
+        run: |
+          git config user.name "Daniel Meyer"
+          git config user.email "scrimshawlife@gmail.com"
+          git add specs/007-hyperlexical-model/HERMES-SPARK-RUN.md
+          git diff --cached --quiet && echo "no change" && exit 0
+          git commit -m "sync: graft personal naming lock + Spec 007 operator surface (no force)"
+          git push origin HEAD:sync/personal-naming-lock-20260924
