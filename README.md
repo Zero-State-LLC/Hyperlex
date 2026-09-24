@@ -140,7 +140,22 @@ Phases **0–4** are production skill surface. **5.0–5.3** adds research simul
 
 ## How to use
 
-### Install
+#
+## Naming
+
+Repo **Hyperlex** is the transitional monorepo shell. Do not use bare public **Hyperlex** as a product name — it collides with French legaltech CLM / DiliTrust.
+
+**Durable lock:** [`docs/NAMING.md`](docs/NAMING.md) · Notion Naming lock · receipt `specs/007-hyperlexical-model/receipts/20260924-name-ne0l0gist-as-in-repo.md`.
+
+| Name | Role |
+|------|------|
+| **Hyperlexical** | Spec 007 model / train / eval / E2 / `name_gate` product claim |
+| **ne0l0gist** | Slang ingest tool (zeros spelling) — operator-named 2026-09-24 |
+| **Hyperlex** (repo) | Transitional monorepo shell / paths / env |
+
+`name_gate` stays **false**. Org mirror is not train SoT (`docs/remotes.md`).
+
+## Install
 
 ```bash
 bash install.sh --dry-run && bash install.sh
