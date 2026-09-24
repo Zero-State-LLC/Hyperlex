@@ -1,3 +1,5 @@
+**Org mirror note:** this STATUS is grafted from personal tip for Spec 007 continuity. License SoT on this repo remains Proprietary (`LICENSE`). Train SoT remains personal `scrimshawlife-ctrl/Hyperlex`.
+
 # Hyperlex status
 
 **Naming:** repo **Hyperlex** is the transitional monorepo shell. Public products: **Hyperlexical** (Spec 007 model / train / eval / E2 / `name_gate` claim) and **ne0l0gist** (slang ingest — operator-named 2026-09-24, repo spelling). `name_gate` remains false.
