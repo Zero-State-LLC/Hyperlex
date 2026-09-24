@@ -265,7 +265,7 @@ Nothing to unload by hand. No `docker stop`, no restart. The box returns to exac
 Verify with the same call used to measure the baseline:
 
 ```bash
-ssh spark 'docker run --rm --gpus all   --user "$(id -u):$(id -g)" -e HOME="$HOME"   lmsysorg/sglang:dev-qwen38-27b-dflash2   python -c "import torch;f,t=torch.cuda.mem_get_info();print(round(f/1e9,1),round(t/1e9,1))"'
+ssh spark 'docker run --rm --gpus all   --user \"$(id -u):$(id -g)\" -e HOME=\"$HOME\"   lmsysorg/sglang:dev-qwen38-27b-dflash2   python -c \"import torch;f,t=torch.cuda.mem_get_info();print(round(f/1e9,1),round(t/1e9,1))\"'
 ```
 
 **Done:** free returns to ~5.2 / 130.7.
@@ -284,7 +284,7 @@ Added by this procedure:
 1. **`unbind_exact` val n=1.** C48 requires per-epoch val unbind exact. The split yields a single val unbind row, so the metric is 0.0 or 1.0 — noise, not a measurement. The receipt will look like a metric and is not one. Either accept it as decorative for the seed or re-split before reading it.
 2. **`transformers 5.12.1`.** S3 proves load; nothing proves the whole loop across the 4.x→5.x boundary until S5 runs.
 3. **SGLang API key in plaintext** in `docker inspect` output — readable by anyone with box access. Unrelated to 007, worth rotating.
-4. **`docs/remotes.md` premise is wrong, and `push-org.sh` is a force-push trap.** See below — this is the one that can lose work.
+4. **`docs.remotes.md` premise is wrong, and `push-org.sh` is a force-push trap.** See below — this is the one that can lose work.
 
 ## 6. Remotes contract — measured 2026-09-09, after PR #25
 
