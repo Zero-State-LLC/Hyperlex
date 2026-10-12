@@ -1,0 +1,99 @@
+"""U3 train gate + optional --run loop. No Hub."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import sys
+from pathlib import Path
+
+from .export import LiveStoreMissing, resolve_live_store
+from .holdout_guard import merge_manifest_env
+
+TRUNK = "answerdotai/ModernBERT-base"
+
+
+def want_include_live(cli_flag: bool = False) -> bool:
+    return bool(cli_flag) or os.environ.get("HYPERLEX_INCLUDE_LIVE") == "1"
+
+
+def _gate() -> tuple[int, dict, Path | None]:
+    allow = os.environ.get("HYPERLEX_ALLOW_TRAIN") == "1"
+    trunk_dir = os.environ.get("HYPERLEX_TRUNK_DIR", "")
+    local = Path(trunk_dir) if trunk_dir else None
+    ok = bool(allow and local is not None and local.is_dir() and (local / "config.json").is_file())
+    payload = {
+        "abort": not ok,
+        "trunk": TRUNK,
+        "trunk_dir": str(local) if local else None,
+        "allow_train": allow,
+        "recipe": "specs/007-hyperlexical-model/AARON-SPARK-TRAIN.md",
+        "brier": None,
+    }
+    if not ok:
+        payload["reason"] = "set HYPERLEX_ALLOW_TRAIN=1 and HYPERLEX_TRUNK_DIR to a local ModernBERT-base snapshot"
+        return 2, payload, None
+    return 0, payload, local
+
+
+def main(argv=None) -> int:
+    p = argparse.ArgumentParser(prog="hyperlexical-train")
+    p.add_argument("--offline", action="store_true", default=True)
+    p.add_argument("--run", action="store_true", help="execute loop after gate")
+    p.add_argument(
+        "--include-live",
+        action="store_true",
+        help="merge live ingest store into the train export (same as export --include-live)",
+    )
+    p.add_argument(
+        "--live-store",
+        default="",
+        help="optional path to ingest_candidates.jsonl (else HYPERLEX_LIVE_STORE or ~/.hyperlex/...)",
+    )
+    p.add_argument(
+        "--holdout-manifest",
+        action="append",
+        default=None,
+        help="holdout manifest JSON (repeatable). Also HLX_HOLDOUT_MANIFESTS, comma-separated.",
+    )
+    args = p.parse_args(argv)
+    include_live = want_include_live(args.include_live)
+    live_store = Path(args.live_store) if args.live_store else None
+    code, payload, local = _gate()
+    payload["offline"] = bool(args.offline)
+    payload["include_live"] = include_live
+    if include_live:
+        try:
+            payload["live_store"] = str(resolve_live_store(live_store, required=True))
+        except LiveStoreMissing as exc:
+            payload["abort"] = True
+            payload["error"] = str(exc)
+            print(json.dumps(payload, indent=2), file=sys.stderr)
+            return 2
+    if code != 0:
+        print(json.dumps(payload, indent=2), file=sys.stderr)
+        return code
+    if not args.run:
+        payload["note"] = "gate open. pass --run on Spark to execute the seed loop."
+        print(json.dumps(payload, indent=2))
+        return 0
+    if args.holdout_manifest:
+        merge_manifest_env(args.holdout_manifest)
+    from .loop import run_loop
+
+    out = Path(os.environ.get("HYPERLEX_TRAIN_OUT") or (Path.home() / ".hyperlex" / "models" / "hyperlex-encoder-modernbert-base-seed"))
+    try:
+        receipt = run_loop(local, out, include_live=include_live, live_store=live_store)
+    except LiveStoreMissing as exc:
+        print(json.dumps({"abort": True, "error": str(exc), "brier": None}, indent=2), file=sys.stderr)
+        return 2
+    except Exception as exc:
+        print(json.dumps({"abort": True, "error": str(exc), "brier": None}, indent=2), file=sys.stderr)
+        return 4
+    print(json.dumps(receipt, indent=2, sort_keys=True))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
