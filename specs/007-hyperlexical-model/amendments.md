@@ -1,3 +1,10 @@
+---
+id: 007/amendments
+status: see specs/index.yaml
+depends_on: ["007"]
+dag: specs/DAG.md
+---
+
 # Amendments 007
 
 ## A1 — C6 ceiling 150M

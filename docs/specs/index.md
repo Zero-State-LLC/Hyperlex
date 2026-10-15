@@ -4,9 +4,9 @@ Hyperlex **runs as a Hermes skill** today. Spec 007 is the **model path** (T0 �
 
 **Naming:** **Hyperlexical** = Spec 007 model / train / eval / E2 / `name_gate` claim. **ne0l0gist** = slang ingest / harvest. Repo **Hyperlex** is the transitional monorepo shell. `name_gate` **true** for `seed-morph78` (Danny `flip name_gate`, 2026-09-24, amendment A6).
 
-Specs live under [`specs/`](https://github.com/scrimshawlife-ctrl/Hyperlex/tree/main/specs) in the repository. This page is the docs-site index. It does not add gates.
+Specs live under [`specs/`](https://github.com/Zero-State-LLC/Hyperlex/tree/main/specs) in the repository. This page is the docs-site index. It does not add gates.
 
-Constitution: [`.specify/memory/constitution.md`](https://github.com/scrimshawlife-ctrl/Hyperlex/blob/main/.specify/memory/constitution.md) (v1.0.0, **SHADOW** until operator promotion).
+Constitution: [`.specify/memory/constitution.md`](https://github.com/Zero-State-LLC/Hyperlex/blob/main/.specify/memory/constitution.md) (v1.0.0, **SHADOW** until operator promotion).
 
 | ID | Title | SDD status | Runtime on main |
 |----|-------|------------|-----------------|
@@ -15,7 +15,7 @@ Constitution: [`.specify/memory/constitution.md`](https://github.com/scrimshawli
 | 002 | Hermes command surface | SPECIFY locked · implement partial | package CLI + `hlx-mutation` + `hyperlex init` |
 | 003 | Mutation detect v0.2 | SPECIFY locked · implement SHADOW | GAME_ENCODE / CODE_SWITCH / PHONETIC_WARP + watch jsonl + `--human` |
 | 004 | Recoverable-structure probe | SPECIFY locked · implement SHADOW | `scripts/shadow/recoverable_structure/` |
-| 005 | Route labels | SPECIFY locked (Notion + branch `005-route-labels`) | not on main — [PR 18](https://github.com/scrimshawlife-ctrl/Hyperlex/pull/18) |
+| 005 | Route labels | SPECIFY locked (Notion + branch `005-route-labels`) | not on main — [PR 18](https://github.com/Zero-State-LLC/Hyperlex/pull/18) |
 | 006 | IsA | reserved — do not open from 007 | — |
 | 007 | Hyperlexical model | SPECIFY locked C1–C52 · A5 milestones · SHADOW implement on main | `scripts/shadow/hyperlexical/` · stub E2 fail (expected) · trained E2 PASS on BEST `seed-morph78` · `name_gate` **true** (morph78) · no Hub |
 
@@ -25,9 +25,9 @@ Not on `API_V1`. Not a Hugging Face model. Pin `seed-morph78` is named **Hyperle
 
 - Pages overview: [SHADOW encoder (007)](../shadow-hyperlexical.md)
 - Operator snapshot: [Status](../status.md)
-- Spark bring-up (procedure, not a card): [SPARK-BRINGUP.md](https://github.com/scrimshawlife-ctrl/Hyperlex/blob/main/specs/007-hyperlexical-model/SPARK-BRINGUP.md)
-- Aaron train spec: [AARON-SPARK-TRAIN.md](https://github.com/scrimshawlife-ctrl/Hyperlex/blob/main/specs/007-hyperlexical-model/AARON-SPARK-TRAIN.md)
-- A5 milestones: [milestones.md](https://github.com/scrimshawlife-ctrl/Hyperlex/blob/main/specs/007-hyperlexical-model/milestones.md)
+- Spark bring-up (procedure, not a card): [SPARK-BRINGUP.md](https://github.com/Zero-State-LLC/Hyperlex/blob/main/specs/007-hyperlexical-model/SPARK-BRINGUP.md)
+- Aaron train spec: [AARON-SPARK-TRAIN.md](https://github.com/Zero-State-LLC/Hyperlex/blob/main/specs/007-hyperlexical-model/AARON-SPARK-TRAIN.md)
+- A5 milestones: [milestones.md](https://github.com/Zero-State-LLC/Hyperlex/blob/main/specs/007-hyperlexical-model/milestones.md)
 - Harvest receipts: [KEEP-93](../receipts/settle-keep93-2026-09-10.md) · [Blanket-yes unlock](../receipts/blanket-yes-unlock-2026-09-10.md)
 
 ## Historical spine

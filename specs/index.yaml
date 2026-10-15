@@ -1,0 +1,115 @@
+# Hyperlex spec DAG index (generated 2026-10-15). See specs/DAG.md.
+convention: depends_on = direct prerequisites; a spec is listed after everything it depends on. Edges taken from each spec's own 'Depends on' line or explicit references; nothing invented.
+specs:
+- id: constitution
+  path: .specify/memory/constitution.md
+  status: live (SHADOW)
+  depends_on: []
+  title: Constitution v1.0.0 I-X
+- id: P01
+  path: specs/pre-sdd/P01-signal-report-adaptation.md
+  status: live (complete, pre-SDD)
+  depends_on: []
+  title: Analysis enrichment + attractor store design
+- id: P02
+  path: specs/pre-sdd/P02-mutation-prediction-design.md
+  status: superseded-by:000 (folded into spine)
+  depends_on: []
+  title: Mutation prediction design (draft, shipped as mutation_prediction.v1)
+- id: P02-plan
+  path: specs/pre-sdd/P02-mutation-prediction-plan.md
+  status: stale (executed)
+  depends_on:
+  - P02
+  title: Implementation plan for P02
+- id: P03
+  path: specs/pre-sdd/P03-hermes-workflow-wizard-design.md
+  status: superseded-by:000/002 (wizard shipped)
+  depends_on: []
+  title: Hermes workflow wizard design (draft)
+- id: P03-plan
+  path: specs/pre-sdd/P03-hermes-workflow-wizard-plan.md
+  status: stale (executed)
+  depends_on:
+  - P03
+  title: Implementation plan for P03
+- id: legacy-v0.3
+  path: SPEC.md
+  status: superseded-by:000
+  depends_on: []
+  title: Technical spec v0.3 (mirrored at docs/spec.md)
+- id: '000'
+  path: specs/000-hyperlex-spine/spec.md
+  status: live (SPECIFY locked)
+  depends_on:
+  - constitution
+  - legacy-v0.3
+  - P01
+  - P02
+  - P03
+  title: Hyperlex spine, as-built v0.4.0
+- id: intent-p1
+  path: intent/2026-09-05-p1-adversary-fail-closed.md
+  status: live (intent)
+  depends_on:
+  - '000'
+  title: ADVERSARY P1 fail-closed fixes
+- id: '001'
+  path: specs/001-mutation-grammar/spec.md
+  status: live (CLARIFY locked, SHADOW)
+  depends_on:
+  - constitution
+  - '000'
+  title: Adversarial slang mutation grammar
+- id: '002'
+  path: specs/002-command-surface/spec.md
+  status: live (SPECIFY locked, partial)
+  depends_on:
+  - constitution
+  - '000'
+  - '001'
+  title: Hermes command surface
+- id: '003'
+  path: specs/003-mutation-detect-v02/spec.md
+  status: live (SPECIFY locked, SHADOW)
+  depends_on:
+  - constitution
+  - '000'
+  - '001'
+  - '002'
+  title: Mutation detect v0.2
+- id: runtime-ready
+  path: specs/runtime-ready.md
+  status: live (gate)
+  depends_on:
+  - '000'
+  - '001'
+  - '002'
+  title: Runtime-ready gate, mutation grammar v0.1
+- id: '004'
+  path: '(not on main: origin/personal-archive/004-recoverable-structure-probe)'
+  status: missing-on-main
+  depends_on:
+  - '000'
+  title: Recoverable-structure probe
+- id: '005'
+  path: '(not on main: branch 005-route-labels / old PR 18)'
+  status: missing-on-main
+  depends_on:
+  - '000'
+  title: Route labels
+- id: '006'
+  path: (reserved)
+  status: reserved
+  depends_on: []
+  title: IsA (do not open from 007)
+- id: '007'
+  path: specs/007-hyperlexical-model/ (spec.md not on main)
+  status: live (SPECIFY locked C1-C52 + A1-A6, SHADOW)
+  depends_on:
+  - constitution
+  - '000'
+  - '001'
+  - '003'
+  - '004'
+  title: 'Hyperlexical model; pack: status, amendments, milestones, engineering, tasks, plans, receipts'

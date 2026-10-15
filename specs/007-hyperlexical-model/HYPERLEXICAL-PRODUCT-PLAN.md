@@ -1,3 +1,10 @@
+---
+id: 007/HYPERLEXICAL-PRODUCT-PLAN
+status: see specs/index.yaml
+depends_on: ["007"]
+dag: specs/DAG.md
+---
+
 # Hyperlexical model product — completion plan
 
 **Status:** DRAFT (operator review) · **Reconciled:** 2026-09-24 (PR #102)

@@ -1,3 +1,10 @@
+---
+id: legacy-v0.3
+status: "superseded-by:000"
+depends_on: []
+dag: specs/DAG.md
+---
+
 # Hyperlex Technical Specification v0.3
 
 **Hermes skill (Python package repo).** No hard dependency on Abraxas. Relevant Abraxas wire

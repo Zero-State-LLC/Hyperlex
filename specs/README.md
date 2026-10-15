@@ -15,4 +15,6 @@ Constitution: `.specify/memory/constitution.md` (v1.0.0, **SHADOW** until operat
 
 Gate: `specs/runtime-ready.md`
 
+Dependency order (DAG), statuses and known problems: [`DAG.md`](DAG.md) · [`index.yaml`](index.yaml). Pre-SDD design docs now live in [`pre-sdd/`](pre-sdd/).
+
 Merged PRs that landed the gate: #6 detector, #7–9 skill alias, #10 wheel, #11 graft-style init.

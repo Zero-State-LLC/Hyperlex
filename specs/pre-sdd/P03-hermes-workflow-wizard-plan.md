@@ -1,3 +1,10 @@
+---
+id: P03-plan
+status: stale (executed)
+depends_on: ["P03"]
+dag: specs/DAG.md
+---
+
 # Hermes Workflow Wizard Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
@@ -8,7 +15,7 @@
 
 **Tech Stack:** Python 3.10+, existing Hyperlex package (`pipeline`, `calibration.score_log`), argparse CLI, pytest, no new runtime dependencies.
 
-**Spec:** `docs/superpowers/specs/2026-08-08-hermes-workflow-wizard-design.md`
+**Spec:** `specs/pre-sdd/P03-hermes-workflow-wizard-design.md`
 
 ## Global Constraints
 
@@ -1111,7 +1118,7 @@ For v1, interactive ≡ auto with human-readable coach (no required prompts) is 
 
 ## Execution handoff
 
-Plan complete and saved to `docs/superpowers/plans/2026-08-08-hermes-workflow-wizard.md`.
+Plan complete and saved to `specs/pre-sdd/P03-hermes-workflow-wizard-plan.md`.
 
 **Two execution options:**
 

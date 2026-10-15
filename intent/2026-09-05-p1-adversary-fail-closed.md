@@ -1,3 +1,10 @@
+---
+id: intent-p1
+status: live (intent)
+depends_on: ["000"]
+dag: specs/DAG.md
+---
+
 # Intent
 
 ## Problem

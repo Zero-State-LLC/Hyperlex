@@ -1,3 +1,10 @@
+---
+id: 001/dual-use-gate
+status: companion
+depends_on: ["001"]
+dag: specs/DAG.md
+---
+
 # T11 Dual-use merge gate
 
 Answered 2026-09-04. Required before merge to main.
