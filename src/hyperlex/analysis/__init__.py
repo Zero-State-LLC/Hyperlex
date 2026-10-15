@@ -25,14 +25,41 @@ from .signal_report import attach_signal_report_fields, build_seed_header
 LINEAGE_REGISTRY: List[Dict[str, Any]] = [
     {
         "family_id": "betting-sharp",
-        "terms": ["sharp", "steam", "square", "wiseguy", "hammer", "holler", "revenge", "low block", "false nine"],
+        "terms": [
+            "sharp", "steam", "square", "wiseguy", "hammer", "holler", "revenge", "low block",
+            "false nine", "revenge bet", "vig",
+            # diagram / calibration / phylogeny morphs (wave2)
+            "sharp money", "closing line value", "clv", "reverse line movement", "steam move",
+            "public money", "line move", "sharper", "card-sharp",
+            # wave3 morphs (diagram / Action-physics leaves)
+            "sharp money revenge", "line movement", "closing line", "steam chase",
+            # wave4 attested leaves (vernacular/Hyperlex/hermes on-disk)
+            "the vig", "against the spread", "public side", "sharp side", "steam chaser",
+            # wave5 / attested-w2 (vernacular watchlist + Hyperlex examples + kaikki gambling + harvest caches)
+            "parlay", "reverse line", "chalk eaters", "comeback money", "dark flow",
+            "sucker bet", "morning line", "hot money", "advantage play", "dutch book",
+            "point-shave",
+        ],
         "branch_operator": "sense_extension",
         "diagram_ref": "examples/slang-families/betting-sharp-family.mmd",
         "payload_note": "professional edge vs public money; line-physics signaling",
     },
     {
         "family_id": "crypto-degen",
-        "terms": ["hodl", "diamond hands", "paper hands", "rekt", "ape", "degen", "moon", "bagholder", "fud", "fomo", "ngmi", "wagmi", "rug"],
+        "terms": [
+            "hodl", "diamond hands", "paper hands", "rekt", "ape", "degen", "moon", "bagholder",
+            "fud", "fomo", "ngmi", "wagmi", "rug", "rugpull", "rug pull", "hopium", "ape in",
+            "to the moon",
+            # diagram morphs + distinctive CT leaves (wave2)
+            "rugged", "exit liquidity", "soft rug", "dyor", "lfg", "memecoin", "wen moon",
+            "airdrop", "altcoin", "buy the dip",
+            # wave3 morphs (rug/hands inflection + exact CT short)
+            "rug pulled", "rugging", "diamond handed", "paper handed", "ath",
+            # wave4 attested leaves (vernacular/Hyperlex/hermes on-disk)
+            "gm", "gn", "jeet", "jeeting", "frens", "bagholding", "exit liq", "nfa", "probably nothing",
+            # wave5 / attested-w2 (harvest ape_in + kaikki cryptocurrencies)
+            "aped in", "shitcoin", "hodler", "jeetery", "crypto winter",
+        ],
         "branch_operator": "cross_family_borrowing",
         "diagram_ref": "examples/slang-families/crypto-degen-family.mmd",
         "payload_note": "conviction under volatility; risk identity as honorific",
@@ -41,7 +68,18 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
         "family_id": "ai-native",
         "terms": [
             "hallucinate", "slop", "clanker", "agentic", "glazing", "skill issue",
-            "token", "context window", "vibe coding",
+            "token", "context window", "vibe coding", "vibe code", "prompt injection",
+            "hallucination", "jailbreak", "sycophancy", "tool use", "token burn",
+            # diagram morphs (wave2)
+            "ai slop", "slopper", "agentic workflow",
+            # wave3 morphs (demos / hyphen)
+            "agentic slop", "context-window",
+            # moltbook agent-memory leaves (additive; still 8-family only)
+            "rented cognition", "KDR", "ghost in the cache", "episodic memory", "provenance", "context loss", "re-entry cost", "memory tier", "rented memory", "Memory Paradox", "3-Tier Pattern",
+            # wave4 attested leaves (vernacular/Hyperlex/hermes on-disk)
+            "glaze", "clankers", "jailbroken", "vibe coded", "slopped", "prompt inject", "rlhf", "context stuffed", "sycophantic",
+            # wave5 / attested-w2 (harvest wiktionary AI/ML category caches)
+            "sycophant", "model collapse", "stochastic parrot", "alignment tax",
         ],
         "branch_operator": "platform_compression",
         "diagram_ref": "examples/slang-families/ai-native-family.mmd",
@@ -51,13 +89,35 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
         "family_id": "brainrot-aura",
         "terms": [
             # core (pre-2026 trunk)
-            "brainrot", "brain rot", "aura", "aura farming", "mid", "cooked", "let him cook",
+            "brainrot", "brain rot", "aura", "aura farming", "aura farm", "mid", "cooked", "let him cook",
             # 2026 YTD leaves (see data/backfill/2026/)
-            "rizz", "skibidi", "gyatt", "sigma", "delulu", "no cap", "locked in", "crash out",
-            "mewing", "looksmaxxing", "mog", "mogging", "ate", "left no crumbs", "it's giving",
+            "rizz", "rizzler", "skibidi", "gyatt", "sigma", "delulu", "no cap", "no cap fr",
+            "locked in", "crash out",
+            "mewing", "looksmaxxing", "looksmax", "heightmaxxing", "copemaxxing", "mog", "mogging",
+            "ate", "ate that", "left no crumbs", "it's giving",
             "npc", "main character", "main character energy", "fanum tax", "ohio",
             "bussin", "slay", "six seven", "67", "edging", "gooning",
-            "vibe check", "negative aura", "aura points", "yap", "yapping", "chat is this real",
+            "vibe check", "negative aura", "aura points", "plus aura", "yap", "yapping",
+            "chat is this real", "no thoughts just vibes",
+            # dialect / seed expansions (distinctive; still 8-family only)
+            "fine shyt", "giga chad", "caught in 4k", "in my bag", "understood the assignment",
+            "mid af", "unspoken rizz",
+            # morphs / multiword variants (wave2)
+            "skibidi toilet", "rizzed up", "brainrotted", "looksmaxxer", "gooner",
+            "ate and left no crumbs", "sigma male", "on god", "say less", "fr fr",
+            "took an l", "big w",
+            # wave3 morphs (vernacular slang_seed + maxxing/mog variants)
+            "crashing out", "jestermaxxing", "jestermaxx", "jestergooning",
+            "frame-mogging", "framemogging", "framemogged", "frame mogged",
+            "404 coded", "sybau", "canon event", "choppleganger", "choppelganger",
+            "chopped doppelganger", "lowkenuinely", "6-7",
+            # wave4 attested leaves (vernacular/Hyperlex/hermes on-disk)
+            "bruh", "sheesh", "lowkey", "highkey", "periodt", "iykyk", "mew", "chopped", "mogged", "looksmaxxed", "minus aura", "negative rizz", "sigma grindset", "delulu era", "aura farmed", "no thoughts", "just vibes",
+            # wave5 / attested-w2 (vernacular watchlist + harvest wiktionary + Hyperlex docs/timeline)
+            "-1000 aura", "unrizzed", "rizzless", "crashout", "crashed out",
+            "aura loss", "aura farmer", "goon cave", "gigachad", "no crumbs",
+            "delulu is the solulu", "solulu", "gyatt dayum", "main character syndrome",
+            "it's giving mid",
         ],
         "branch_operator": "irony_inversion",
         "diagram_ref": "examples/slang-families/brainrot-aura-family.mmd",
@@ -65,14 +125,35 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
     },
     {
         "family_id": "kinship-address",
-        "terms": ["bro", "sis", "twin", "unc", "cuz", "family"],
+        "terms": [
+            "bro", "sis", "twin", "unc", "cuz", "family", "fam", "bestie",
+            # morphs / multiword address (wave2)
+            "broski", "bruh moment", "lil bro", "big bro",
+            # wave3 morphs (diagram auntie + sis/unc address frames)
+            "auntie", "lil sis", "big sis", "yo unc",
+            # wave4 attested leaves (vernacular/Hyperlex/hermes on-disk)
+            "yo fam", "lil unc", "big unc", "twinning", "my guy", "big dog",
+            # wave5 / attested-w2 (kaikki/harvest address morphs)
+            "bruv", "dawg",
+        ],
         "branch_operator": "sense_extension",
         "diagram_ref": "examples/slang-families/kinship-address.mmd",
         "payload_note": "fictive kinship; community responsibility + platform acceleration",
     },
     {
         "family_id": "political-status",
-        "terms": ["based", "redpilled", "blackpilled", "cope", "seethe", "dilate"],
+        "terms": [
+            "based", "redpilled", "blackpilled", "bluepilled", "cope", "copium", "seethe", "dilate",
+            "redpill", "blackpill",
+            # pill-discourse morphs (wave2)
+            "bluepill", "whitepill", "whitepilled", "based and redpilled", "cope and seethe",
+            # wave3 spacing / parallel pill morphs
+            "red pilled", "black pilled", "blue pilled", "based and blackpilled",
+            # wave4 attested leaves (vernacular/Hyperlex/hermes on-disk)
+            "doomer", "bloomer", "pinkpilled", "redpilling", "blackpilling", "cope harder", "seething", "based department",
+            # wave5 / attested-w2 (Hyperlex golden political query compression)
+            "cope seethe",
+        ],
         "branch_operator": "irony_inversion",
         "diagram_ref": "examples/slang-families/political-status-family.mmd",
         "payload_note": "tribal signaling + emotional routing; high mutation rate",
@@ -80,8 +161,19 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
     {
         "family_id": "gaming-meta",
         "terms": [
-            "nerf", "buff", "meta", "sweaty", "noob", "gg", "ez", "ratio",
-            "touch grass", "skill issue", "diff", "int", "feed", "smurf", "sus",
+            "nerf", "buff", "meta", "sweaty", "noob", "gg", "ez", "ratio", "ratioed",
+            "touch grass", "skill issue", "diff", "int", "feed", "feeding", "smurf", "sus",
+            "griefing", "360 noscope", "beast mode", "bunny hopper", "bacon hair",
+            "achievement whore",
+            # morphs / multiword status (wave2)
+            "ez clap", "gg ez", "inting", "smurfing", "tryhard", "try hard", "elo hell",
+            "hardstuck", "afk", "pwned", "border gore",
+            # wave3 morphs (tryhard/hardstuck/noscope inflection + exact pwn)
+            "tryharding", "hard stuck", "360 no-scope", "no scoping", "pwn",
+            # wave4 attested leaves (vernacular/Hyperlex/hermes on-disk)
+            "boosted", "cracked", "one trick", "one-tricking", "hardstuck bronze", "touch grassed", "diffed", "outskilled",
+            # wave5 / attested-w2 (harvest wiktionary gaming caches + kaikki)
+            "git gud", "noscope", "smurf account", "tryhards", "quickscope",
         ],
         "branch_operator": "platform_compression",
         "diagram_ref": "examples/slang-families/gaming-meta-family.mmd",
@@ -92,7 +184,16 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
         "terms": [
             "quiet quitting", "quiet firing", "rto", "return to office", "layoffs",
             "pip", "synergy", "circle back", "bandwidth", "low-hanging fruit",
-            "act your wage",
+            "act your wage", "touch base", "deep dive", "move the needle",
+            # morphs / hyphen + managerial cant (wave2)
+            "quiet quit", "quiet fire", "return-to-office", "low hanging fruit", "circle-back",
+            "performance improvement plan", "take offline", "boil the ocean",
+            # wave3 agent/participle morphs
+            "quiet quitter", "quiet fired", "boiling the ocean", "taken offline", "circleback",
+            # wave4 attested leaves (vernacular/Hyperlex/hermes on-disk)
+            "sync up", "put a pin in it", "alignment meeting", "ping me", "quiet quitters", "rto mandate", "return-to-office mandate", "performance managed", "boiling ocean",
+            # wave5 / attested-w2 (harvest employment/business category caches)
+            "circling back", "quiet hiring", "bare minimum monday",
         ],
         "branch_operator": "sense_extension",
         "diagram_ref": "examples/slang-families/workplace-corp-family.mmd",
