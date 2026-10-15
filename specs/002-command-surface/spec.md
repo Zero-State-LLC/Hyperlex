@@ -1,3 +1,10 @@
+---
+id: 002
+status: live (SPECIFY locked, partial)
+depends_on: ["constitution", "000", "001"]
+dag: specs/DAG.md
+---
+
 # Spec 002 — Hermes command surface (usability)
 
 **Date:** 2026-09-04  

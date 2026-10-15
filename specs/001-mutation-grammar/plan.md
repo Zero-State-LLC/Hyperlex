@@ -1,3 +1,10 @@
+---
+id: 001/plan
+status: companion
+depends_on: ["001"]
+dag: specs/DAG.md
+---
+
 # Plan 001 — Mutation grammar
 
 **Spec**: `spec.md` + `clarify.md`  

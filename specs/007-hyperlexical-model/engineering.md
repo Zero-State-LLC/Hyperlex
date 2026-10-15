@@ -1,3 +1,10 @@
+---
+id: 007/engineering
+status: see specs/index.yaml
+depends_on: ["007"]
+dag: specs/DAG.md
+---
+
 # Engineering guidelines 007 (A5)
 
 **Status**: SHADOW  

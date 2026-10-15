@@ -1,3 +1,10 @@
+---
+id: 000
+status: live (SPECIFY locked)
+depends_on: ["constitution", "legacy-v0.3", "P01", "P02", "P03"]
+dag: specs/DAG.md
+---
+
 # Spec 000 — Hyperlex Spine (as-built, SDD lock)
 
 **Feature**: Hyperlex system specification  

@@ -1,3 +1,10 @@
+---
+id: 007/model-card.draft
+status: see specs/index.yaml
+depends_on: ["007"]
+dag: specs/DAG.md
+---
+
 # Model card
 
 Canonical draft for Hub shape: `hf-package/README.md`.

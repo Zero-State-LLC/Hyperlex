@@ -1,3 +1,10 @@
+---
+id: 007/tasks
+status: see specs/index.yaml
+depends_on: ["007"]
+dag: specs/DAG.md
+---
+
 # Tasks 007 — Hyperlexical model (SHADOW)
 
 U1 + U2 + U3 harness on branch `007-hyperlexical-model`. Not merged to main.

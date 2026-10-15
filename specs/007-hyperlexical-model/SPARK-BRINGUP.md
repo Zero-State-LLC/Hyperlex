@@ -1,3 +1,10 @@
+---
+id: 007/SPARK-BRINGUP
+status: see specs/index.yaml
+depends_on: ["007"]
+dag: specs/DAG.md
+---
+
 # Spark bring-up 007 — operator procedure
 
 Companion to `AARON-SPARK-TRAIN.md`. That file is the **spec** (Danny owns it). This file is **procedure**: how the box gets from bare to able to run the smoke. It changes no lock. C41–C52 stand as written.

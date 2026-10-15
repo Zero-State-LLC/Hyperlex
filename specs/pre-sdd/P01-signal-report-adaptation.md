@@ -1,3 +1,10 @@
+---
+id: P01
+status: live (complete, pre-SDD)
+depends_on: []
+dag: specs/DAG.md
+---
+
 # Design: analysis enrichment + attractor store (Hyperlex-native)
 
 **Date:** 2026-08-06  

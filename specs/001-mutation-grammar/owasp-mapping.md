@@ -1,3 +1,10 @@
+---
+id: 001/owasp-mapping
+status: companion
+depends_on: ["001"]
+dag: specs/DAG.md
+---
+
 # OWASP / ATLAS mapping — Spec 001
 
 Hyperlex mutation grammar is a **sociolinguistic instrumentation layer**. It is not a WAF, not a guardrail product, and not a red-team harness.
