@@ -4,7 +4,7 @@
 **Ratified**: 2026-09-04  
 **Last Amended**: 2026-09-04  
 **Status**: SHADOW / ADVISORY until operator promotion  
-**Remote**: scrimshawlife-ctrl/Hyperlex  
+**Remote**: Zero-State-LLC/Hyperlex  
 **Notion owner**: Hyperlex spine (01 Specs & Spines)
 
 This constitution is the evaluation gate for every later Spec Kit artifact (`specify`, `plan`, `tasks`, `implement`, `converge`). Existing `DESIGN.md`, `SPEC.md`, `SKILL.md`, and `docs/api-v1.md` remain runtime truth until an implement cycle lands. This file does not mutate API_V1.

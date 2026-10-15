@@ -1,6 +1,6 @@
 ---
 id: P02
-status: "superseded-by:000 (folded into spine)"
+status: "superseded-by:000"
 depends_on: []
 dag: specs/DAG.md
 ---

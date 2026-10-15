@@ -1,6 +1,6 @@
 # Source identity and upgrades
 
-This distribution is `scrimshawlife-ctrl/Hyperlex`. Source identity is the
+This distribution is `Zero-State-LLC/Hyperlex`. Source identity is the
 `VERSION` file plus `git rev-parse HEAD` recorded at install time. Do not use a
 version string alone. Do not pin a commit SHA in this document; the installed
 receipt stores the checkout's HEAD when the source is its own repository root.

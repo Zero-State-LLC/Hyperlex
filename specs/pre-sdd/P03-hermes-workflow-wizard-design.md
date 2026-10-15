@@ -1,6 +1,6 @@
 ---
 id: P03
-status: "superseded-by:000/002 (wizard shipped)"
+status: "superseded-by:000,002"
 depends_on: []
 dag: specs/DAG.md
 ---

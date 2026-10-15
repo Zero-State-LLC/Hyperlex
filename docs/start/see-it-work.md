@@ -5,7 +5,7 @@ static examples; offline CLI for a live receipt.
 
 ## Featured: brainrot-aura golden receipt {#featured-brainrot-aura}
 
-**Source:** [`examples/receipts/golden/brainrot-aura.json`](https://github.com/scrimshawlife-ctrl/Hyperlex/blob/main/examples/receipts/golden/brainrot-aura.json)
+**Source:** [`examples/receipts/golden/brainrot-aura.json`](https://github.com/Zero-State-LLC/Hyperlex/blob/main/examples/receipts/golden/brainrot-aura.json)
 
 ### Human-readable summary
 

@@ -76,7 +76,7 @@ Personal is source of truth (`docs/remotes.md`). Clone that, nothing else:
 
 ```bash
 ssh spark
-git clone https://github.com/scrimshawlife-ctrl/Hyperlex.git ~/Hyperlex
+git clone https://github.com/Zero-State-LLC/Hyperlex.git ~/Hyperlex
 cd ~/Hyperlex && git checkout main && git pull --ff-only origin main
 ```
 

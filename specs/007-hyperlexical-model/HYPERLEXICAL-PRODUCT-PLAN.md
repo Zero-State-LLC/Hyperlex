@@ -131,6 +131,6 @@ Q1 status is not a substitute for Spec 007 product completion, and Spec 007 prog
 ## Pointers
 
 - Name gate + phrases: `NAME-GATE-AND-NAMED-PHRASES.md`
-- Next moves: root `NEXT_MOVES_007.md`
+- Next moves: `specs/007-hyperlexical-model/NEXT_MOVES_007.md`
 - Promote receipt: `receipts/20260924-morph78-soft-ceiling-promote-best.md`
 - Historical gate authorize: `receipts/20260923-authorize-gate-soft-ceiling.md`

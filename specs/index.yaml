@@ -1,4 +1,4 @@
-# Hyperlex spec DAG index (generated 2026-10-15). See specs/DAG.md.
+# Hyperlex spec DAG index (updated 2026-10-15). See specs/DAG.md.
 convention: depends_on = direct prerequisites; a spec is listed after everything it depends on. Edges taken from each spec's own 'Depends on' line or explicit references; nothing invented.
 specs:
 - id: constitution
@@ -13,23 +13,23 @@ specs:
   title: Analysis enrichment + attractor store design
 - id: P02
   path: specs/pre-sdd/P02-mutation-prediction-design.md
-  status: superseded-by:000 (folded into spine)
+  status: superseded-by:000
   depends_on: []
   title: Mutation prediction design (draft, shipped as mutation_prediction.v1)
 - id: P02-plan
   path: specs/pre-sdd/P02-mutation-prediction-plan.md
-  status: stale (executed)
+  status: stale (archived, executed)
   depends_on:
   - P02
   title: Implementation plan for P02
 - id: P03
   path: specs/pre-sdd/P03-hermes-workflow-wizard-design.md
-  status: superseded-by:000/002 (wizard shipped)
+  status: superseded-by:000,002
   depends_on: []
   title: Hermes workflow wizard design (draft)
 - id: P03-plan
   path: specs/pre-sdd/P03-hermes-workflow-wizard-plan.md
-  status: stale (executed)
+  status: stale (archived, executed)
   depends_on:
   - P03
   title: Implementation plan for P03
@@ -37,7 +37,7 @@ specs:
   path: SPEC.md
   status: superseded-by:000
   depends_on: []
-  title: Technical spec v0.3 (mirrored at docs/spec.md)
+  title: Technical spec v0.3 (docs/spec.md is now a CI-generated copy, not tracked)
 - id: '000'
   path: specs/000-hyperlex-spine/spec.md
   status: live (SPECIFY locked)
@@ -87,14 +87,14 @@ specs:
   - '002'
   title: Runtime-ready gate, mutation grammar v0.1
 - id: '004'
-  path: '(not on main: origin/personal-archive/004-recoverable-structure-probe)'
-  status: missing-on-main
+  path: specs/004-recoverable-structure-probe/spec.md
+  status: live (SPECIFY locked, SHADOW) - restored 2026-10-15 from personal-archive-2026-10-09@f8f0ef0
   depends_on:
   - '000'
   title: Recoverable-structure probe
 - id: '005'
-  path: '(not on main: branch 005-route-labels / old PR 18)'
-  status: missing-on-main
+  path: specs/005-route-labels/spec.md
+  status: live (SPECIFY locked) - restored 2026-10-15 from personal-archive-2026-10-09@8b7f603
   depends_on:
   - '000'
   title: Route labels
@@ -104,7 +104,7 @@ specs:
   depends_on: []
   title: IsA (do not open from 007)
 - id: '007'
-  path: specs/007-hyperlexical-model/ (spec.md not on main)
+  path: specs/007-hyperlexical-model/spec.md
   status: live (SPECIFY locked C1-C52 + A1-A6, SHADOW)
   depends_on:
   - constitution
@@ -112,4 +112,5 @@ specs:
   - '001'
   - '003'
   - '004'
+  - '005'
   title: 'Hyperlexical model; pack: status, amendments, milestones, engineering, tasks, plans, receipts'

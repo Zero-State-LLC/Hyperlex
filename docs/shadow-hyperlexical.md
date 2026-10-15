@@ -59,10 +59,10 @@ Bring-up is procedure, not a product card. A seed smoke that ends with E2 failin
 
 | Doc | Role |
 |-----|------|
-| [SPARK-BRINGUP.md](https://github.com/scrimshawlife-ctrl/Hyperlex/blob/main/specs/007-hyperlexical-model/SPARK-BRINGUP.md) | Box procedure (#28) |
-| [AARON-SPARK-TRAIN.md](https://github.com/scrimshawlife-ctrl/Hyperlex/blob/main/specs/007-hyperlexical-model/AARON-SPARK-TRAIN.md) | Train spec (Danny) |
-| [HERMES-SPARK-RUN.md](https://github.com/scrimshawlife-ctrl/Hyperlex/blob/main/specs/007-hyperlexical-model/HERMES-SPARK-RUN.md) | Hermes run order |
-| [milestones.md](https://github.com/scrimshawlife-ctrl/Hyperlex/blob/main/specs/007-hyperlexical-model/milestones.md) | A5 name-gate / tier table (#33) |
+| [SPARK-BRINGUP.md](https://github.com/Zero-State-LLC/Hyperlex/blob/main/specs/007-hyperlexical-model/SPARK-BRINGUP.md) | Box procedure (#28) |
+| [AARON-SPARK-TRAIN.md](https://github.com/Zero-State-LLC/Hyperlex/blob/main/specs/007-hyperlexical-model/AARON-SPARK-TRAIN.md) | Train spec (Danny) |
+| [HERMES-SPARK-RUN.md](https://github.com/Zero-State-LLC/Hyperlex/blob/main/specs/007-hyperlexical-model/HERMES-SPARK-RUN.md) | Hermes run order |
+| [milestones.md](https://github.com/Zero-State-LLC/Hyperlex/blob/main/specs/007-hyperlexical-model/milestones.md) | A5 name-gate / tier table (#33) |
 
 Trunk: `answerdotai/ModernBERT-base`. Local snapshot only. Recipe default: last 2 layers trainable (climb pins such as `seed-morph78` use LAST_TRAINABLE=8). Span aligner + val metrics. HF-shaped dump (`config.json`, `model.safetensors` or `heads.pt`). No Hub upload from the recipe. Card name stays `hyperlex-encoder-modernbert-base-seed` until `name_gate` yes.
 
@@ -83,7 +83,7 @@ Trunk: `answerdotai/ModernBERT-base`. Local snapshot only. Recipe default: last 
 ## Live ingest tap
 
 Current slang atoms from `pipeline` / `analyze` / `scan` / inbox write INFERRED rows to `~/.hyperlex/hyperlexical/ingest_candidates.jsonl` (local SoT; **4333** rows as of 2026-09-10 PT evening).
-They do not become OBSERVED and do not mint Brier unless an operator settles them. Spec: [ingest-tap.md](https://github.com/scrimshawlife-ctrl/Hyperlex/blob/main/specs/007-hyperlexical-model/ingest-tap.md).
+They do not become OBSERVED and do not mint Brier unless an operator settles them. Spec: [ingest-tap.md](https://github.com/Zero-State-LLC/Hyperlex/blob/main/specs/007-hyperlexical-model/ingest-tap.md).
 
 Spark trains from this local store / `--include-live`, not from the tracked 883-row seed.
 

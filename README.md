@@ -10,8 +10,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/scrimshawlife-ctrl/Hyperlex/actions/workflows/hermes-evals.yml"><img src="https://img.shields.io/github/actions/workflow/status/scrimshawlife-ctrl/Hyperlex/hermes-evals.yml?branch=main&label=skill%20ci&logo=github" alt="Skill CI"></a>
-  <a href="https://github.com/scrimshawlife-ctrl/Hyperlex/actions/workflows/docs.yml"><img src="https://img.shields.io/github/actions/workflow/status/scrimshawlife-ctrl/Hyperlex/docs.yml?branch=main&label=docs&logo=github" alt="Docs CI"></a>
+  <a href="https://github.com/Zero-State-LLC/Hyperlex/actions/workflows/hermes-evals.yml"><img src="https://img.shields.io/github/actions/workflow/status/Zero-State-LLC/Hyperlex/hermes-evals.yml?branch=main&label=skill%20ci&logo=github" alt="Skill CI"></a>
+  <a href="https://github.com/Zero-State-LLC/Hyperlex/actions/workflows/docs.yml"><img src="https://img.shields.io/github/actions/workflow/status/Zero-State-LLC/Hyperlex/docs.yml?branch=main&label=docs&logo=github" alt="Docs CI"></a>
   <a href="https://scrimshawlife-ctrl.github.io/Hyperlex/"><img src="https://img.shields.io/badge/docs-GitHub%20Pages-0d9488?logo=markdown" alt="Docs"></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-LicenseRef-Zero-State-Proprietary-1.0-blue.svg" alt="License: LicenseRef-Zero-State-Proprietary-1.0"></a>
   <a href="./VERSION"><img src="https://img.shields.io/badge/version-0.4.0-informational" alt="Version 0.4.0"></a>

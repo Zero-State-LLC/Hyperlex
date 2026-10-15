@@ -1,6 +1,6 @@
 ---
 id: P02-plan
-status: stale (executed)
+status: "stale (archived, executed)"
 depends_on: ["P02"]
 dag: specs/DAG.md
 ---
