@@ -29,6 +29,18 @@ def context_of(r):
     return ctx, kind
 
 
+def formation_map(db="/workspace/vernacular-ingest/data/vernacular.sqlite3"):
+    """term (lower) -> list of word-formation types from terms.formation_json (2026-10-16). Optional, backward-compatible:
+    missing column/db -> {} and rows get formation=[] (consumers must tolerate absence)."""
+    import sqlite3
+    try:
+        c = sqlite3.connect(f"file:{db}?mode=ro", uri=True)
+        return {cf.lower(): (json.loads(fj) or {}).get("types", []) for cf, fj in
+                c.execute("SELECT canonical_form, formation_json FROM terms WHERE formation_json IS NOT NULL")}
+    except Exception:
+        return {}
+
+
 def text_key(r):
     """Dedup key on the exported text itself (case/whitespace-normalised), not only the source post hash:
     identical short excerpts from different posts were surviving as duplicates (readiness check 2026-10-16)."""
@@ -63,6 +75,7 @@ def main(src=ROOT + "/curated_sense_observation.jsonl", out=OUT):
     rep["dropped_non_gold_row_status"] = len(rows2_all) - len(rows2)
     rep["dropped_cross_split"] = len(rows1) - len(rows2)
     by = collections.defaultdict(list)
+    FORM = formation_map()
     for r in rows2:
         g = gold(r)
         ctx, kind = context_of(r)
@@ -70,6 +83,7 @@ def main(src=ROOT + "/curated_sense_observation.jsonl", out=OUT):
         by[r["_split"]].append({
             "record_id": r["record_id"], "split": r["_split"], "term": r["term"], "term_family": r["term_family"],
             "lineage_family": (r.get("mutation_lineage") or {}).get("lineage_family"),
+            "formation": FORM.get(r["term"].lower(), []),
             "context": ctx, "context_match": kind, "label": g or r["sense_candidate"],
             "use_mention": h.get("use_mention"), "row_status": h.get("row_status"),
             "excerpt_provenance": h.get("excerpt_provenance"),
