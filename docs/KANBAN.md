@@ -26,3 +26,4 @@ The Obsidian board is the source of truth. This file carries no slur terms, post
 ## Done
 - [x] **Betting-sharp replacement pick.** Retired in PR #27 (220c108); six lineage families added.
 - [x] **Spec 009 Q1-Q5 decisions applied, and the repair queue re-ruled** (2026-10-16). 0 `TARGET_ABSENT` rows remain.
+- [x] **Merge specs 008 and 009 to main.** #28 squash d87e3af, #29 squash 4f17542 (2026-10-16).
