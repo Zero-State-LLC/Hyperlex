@@ -13,6 +13,22 @@
 
 This file is the operator snapshot. The docs site copies it to [status](https://scrimshawlife-ctrl.github.io/Hyperlex/status/). Do not treat it as a Hub card or a Brier score.
 
+## Hyperlex v2 dataset and specs 008/009 (2026-10-16 PT)
+
+- **Spec 008, lexical emergence** (PR #28): SHADOW draft. CR-5 is amended by 009: R is row-level and never a term rejection.
+- **Spec 009, ruling label taxonomy** (PR #29):
+  - Labels: S, O, U, and R. R means "unusable evidence" and is recorded as a row status, `TARGET_ABSENT` or `UNUSABLE_EVIDENCE`.
+  - Replies: corrections-only and multi-part replies are supported.
+  - Term auto-reject is removed.
+  - Excerpts are windowed around the target.
+  - VERDICT-RULES is now `metrics-rule-v1.5` (use/mention split).
+- **Ruling landing:** 1,343 rulings and 1,307 gold (test 159, val 164, train 984).
+  - Test gold is 159/470 (G1 159/250).
+  - 0 `TARGET_ABSENT` rows remain.
+- **Board:** https://app.notion.com/p/f57ad22c76d7436c9e024229be560a8e (mirror of the Obsidian board).
+- **Readiness:** NOT READY (G1 test gold, export rebuild, manifest freeze). No Spark run without READY and Danny's go.
+- Tooling runs from `hyperlex-v2-tracker/ruling_queue.py` on the operator box. The mirror is `scripts/v2/ruling_queue.py`.
+
 ## Trajectory
 
 | Layer | Role | State |

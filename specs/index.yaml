@@ -115,7 +115,7 @@ specs:
   title: 'Hyperlexical model; pack: status, amendments, milestones, engineering, tasks, plans, receipts'
 - id: '008'
   path: specs/008-lexical-emergence/
-  status: draft (SPECIFY, SHADOW; awaiting Danny)
+  status: SPECIFY, SHADOW; merged with Danny's yes 2026-10-16; CR-5 amended by 009
   depends_on:
   - constitution
   - '000'
@@ -125,7 +125,7 @@ specs:
   slug: ruling-label-taxonomy
   title: "Ruling label taxonomy (S / O / R / U)"
   path: specs/009-ruling-label-taxonomy/
-  status: DRAFT
+  status: SPECIFY (Q1-Q5 decided 2026-10-16)
   mode: SHADOW
   created: '2026-10-16'
   depends_on:
