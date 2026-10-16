@@ -6,6 +6,7 @@
       --out /path/private/audit_v1.jsonl --endpoint http://spark:8000/v1 --dry-run
 
 --dry-run (default) only counts rows and estimates tokens; --run is required to call the model.
+Only rows with a human-settled SLANG/OTHER ruling are audited (fail closed). T2 judge pass: not implemented yet.
 """
 import argparse, hashlib, json, os, sys, urllib.request
 
@@ -15,8 +16,29 @@ PROMPT_SHA = hashlib.sha256(PROMPT.encode()).hexdigest()[:12]
 
 
 def gold_label(r):
+    """Human-settled gold only. Candidate/model labels never count as gold (fail closed)."""
     h = r.get("human_ruling") or {}
-    return h.get("sense") if h.get("sense") in ("SLANG_SENSE", "OTHER_SENSE") else r.get("sense_candidate")
+    if str(h.get("source", "")).lower() != "human":
+        return None
+    return h.get("sense") if h.get("sense") in ("SLANG_SENSE", "OTHER_SENSE") else None
+
+
+def select_keep(audited, keep_correct_share, seed="g4-v1"):
+    """Keep every row BASE got wrong (target beats BASE); keep a deterministic share of BASE-correct rows."""
+    out = []
+    wrong = [r for r in audited if not r["base_correct"]]
+    right = sorted((r for r in audited if r["base_correct"]),
+                   key=lambda r: hashlib.sha256((seed + r["record_id"]).encode()).hexdigest())
+    n_right = int(round(keep_correct_share * len(wrong) / max(1e-9, 1 - keep_correct_share))) if keep_correct_share < 1 else len(right)
+    keep_right = {r["record_id"] for r in right[:n_right]}
+    for r in audited:
+        if not r["base_correct"]:
+            out.append(dict(r, keep=True, reason="target_beats_base"))
+        elif r["record_id"] in keep_right:
+            out.append(dict(r, keep=True, reason="base_correct_capped_share"))
+        else:
+            out.append(dict(r, keep=False, reason="base_already_correct"))
+    return out
 
 
 def ask(endpoint, model, prompt, key=None):
@@ -36,22 +58,30 @@ def main():
     ap.add_argument("--endpoint", default="http://localhost:8000/v1")
     ap.add_argument("--model", default="nvidia/Llama-3.1-Nemotron-Nano-8B-v1")
     ap.add_argument("--keep-correct-share", type=float, default=0.30)
-    ap.add_argument("--run", action="store_true")
+    mode = ap.add_mutually_exclusive_group()
+    mode.add_argument("--dry-run", action="store_true", help="default: count rows and estimate tokens only")
+    mode.add_argument("--run", action="store_true")
     a = ap.parse_args()
     rows = [json.loads(l) for l in open(a.inp) if l.strip()]
-    rows = [r for r in rows if r.get("contextual_use") and (r.get("rights") or {}).get("redistribution") == "allowed_internal"]
+    rows = [r for r in rows if r.get("contextual_use") and (r.get("rights") or {}).get("redistribution") == "allowed_internal"
+            and gold_label(r) is not None]
     est_in = sum(len(r["contextual_use"]) // 4 + 40 for r in rows)
     print(json.dumps({"rows": len(rows), "est_input_tokens": est_in, "est_output_tokens": 8 * len(rows), "prompt_sha": PROMPT_SHA}))
     if not a.run:
         return
     key = os.environ.get("AUDIT_API_KEY")  # only for a paid endpoint, after cost approval
+    audited = []
+    for r in rows:
+        g = gold_label(r)
+        b = ask(a.endpoint, a.model, PROMPT.format(term=r["term"], ctx=r["contextual_use"]), key)
+        audited.append({"record_id": r["record_id"], "split": (r.get("human_ruling") or {}).get("split"),
+                        "gold": g, "base": b, "base_correct": b == g, "prompt_sha": PROMPT_SHA})
+    final = select_keep(audited, a.keep_correct_share)
     with open(a.out, "w") as fh:
-        for r in rows:
-            g = gold_label(r)
-            b = ask(a.endpoint, a.model, PROMPT.format(term=r["term"], ctx=r["contextual_use"]), key)
-            fh.write(json.dumps({"record_id": r["record_id"], "gold": g, "base": b, "base_correct": b == g,
-                                 "prompt_sha": PROMPT_SHA}) + "\n")
-    # keep/drop selection is applied in a second pass so the correct-share cap is deterministic (seeded by record_id)
+        for r in final:
+            fh.write(json.dumps(r) + "\n")
+    print(json.dumps({"audited": len(final), "kept": sum(r["keep"] for r in final),
+                      "base_acc": sum(r["base_correct"] for r in final) / max(1, len(final))}))
 
 
 if __name__ == "__main__":

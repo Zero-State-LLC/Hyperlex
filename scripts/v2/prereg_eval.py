@@ -24,6 +24,14 @@ def macro_f1(pairs):
     return sum(f) / len(f) if f else 0.0
 
 
+def holm(pvals):
+    """Holm step-down adjusted p-values (dict name -> p)."""
+    items = sorted(pvals.items(), key=lambda kv: kv[1]); m = len(items); out = {}; run = 0.0
+    for i, (k, p) in enumerate(items):
+        run = max(run, min(1.0, (m - i) * p)); out[k] = run
+    return out
+
+
 def load(p):
     return {r["record_id"]: r for r in (json.loads(l) for l in open(p) if l.strip())}
 
@@ -35,6 +43,8 @@ def main():
     ap.add_argument("--baseline", action="append", default=[], help="name=path")
     ap.add_argument("--final", action="store_true", help="the single preregistered run")
     a = ap.parse_args()
+    if not a.final:
+        raise SystemExit("refusing to read test gold without --final (preregistered single run)")
     gold = load(a.gold); tuned = load(a.tuned)
     ids = sorted(gold)
     rep = {"n": len(ids), "final": a.final, "tuned_acc": sum(tuned[i]["pred"] == gold[i]["gold"] for i in ids) / len(ids)}
@@ -43,6 +53,9 @@ def main():
         b = sum(1 for i in ids if tuned[i]["pred"] == gold[i]["gold"] and base[i]["pred"] != gold[i]["gold"])
         c = sum(1 for i in ids if tuned[i]["pred"] != gold[i]["gold"] and base[i]["pred"] == gold[i]["gold"])
         rep[name] = {"b": b, "c": c, "p_exact": mcnemar_exact(b, c)}
+    adj = holm({k: v["p_exact"] for k, v in rep.items() if isinstance(v, dict)})
+    for k, p in adj.items():
+        rep[k]["p_holm"] = p; rep[k]["significant_0.05"] = p < 0.05
     pairs = [(gold[i]["gold"], tuned[i]["pred"]) for i in ids]
     rng = random.Random(7)
     boots = sorted(macro_f1([rng.choice(pairs) for _ in pairs]) for _ in range(10000))
