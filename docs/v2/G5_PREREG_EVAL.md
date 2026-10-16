@@ -30,3 +30,10 @@ Recommendation: all G5 compute on Spark/Morpheus; paid path only for BASE cross-
 
 ## Change log
 - 2026-10-16: test floor redefined (250 rows covering all test terms with posts; 150 terms moved to train pool/overall gold) and row-level McNemar replaced by term-level bootstrap. Per Danny 2026-10-16 approval of recommendation. Supersedes the 2026-10 draft wording (history kept in git).
+
+## Freeze record (2026-10-16, per Danny go 3:55 PM PT)
+
+- Test manifest: 273 record_ids (sorted), SHA-256 `a03c8619ba91a0f3d3edb43a358adbb5a6fcc83fe462442b6cb66e94be8296b6`. Verified unchanged after the 2026-10-16 attestation load.
+- Preregistration text above (this file before this section): SHA-256 `1954a35a5bba8586489c07bf5300f28da26a20e9160e6ed693926c13613e2cbe`.
+- gold_test.jsonl SHA-256 prefix `06caba1397df`. 15 quarantined gold rows (suspect synthetic source id) are excluded from test and stay quarantined.
+- Tag: `v2-test-freeze-2026-10-16`. Read-only copy kept in the private tracker. Any change to the manifest after this point voids the freeze.
