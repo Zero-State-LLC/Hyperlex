@@ -15,8 +15,8 @@ This file is the operator snapshot. The docs site copies it to [status](https://
 
 ## Hyperlex v2 dataset and specs 008/009 (2026-10-16 PT)
 
-- **Spec 008, lexical emergence** (PR #28): SHADOW draft. CR-5 is amended by 009: R is row-level and never a term rejection.
-- **Spec 009, ruling label taxonomy** (PR #29):
+- **Spec 008, lexical emergence** (PR #28, merged as d87e3af): SHADOW. CR-5 is amended by 009: R is row-level and never a term rejection.
+- **Spec 009, ruling label taxonomy** (PR #29, merged as 4f17542):
   - Labels: S, O, U, and R. R means "unusable evidence" and is recorded as a row status, `TARGET_ABSENT` or `UNUSABLE_EVIDENCE`.
   - Replies: corrections-only and multi-part replies are supported.
   - Term auto-reject is removed.
