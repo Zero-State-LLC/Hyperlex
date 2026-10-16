@@ -167,3 +167,8 @@ data/backfill/2026/
 ## README
 
 Operator front door expanded for stack parity with Athanor / Semion / Yggdrasil (2026-09-11). Changelog-style dumps stay in CHANGELOG / receipts — not the main page.
+
+### 2026-10-16 2:20 PM PT
+- G1 test floor redefined per Danny 2026-10-16 approval of recommendation: >=250 human-ruled test rows covering all test-lineage terms with posts (37). Now MET (274 export rows, 37/37 terms). 150 terms = train pool / overall gold (G2/G3). G5 uses term-level bootstrap (PR #33).
+- T2 ruled meanings 149/300 (140 with >=3 contexts, 133 with >=3 slang contexts). 128 model drafts staged for review, not counted.
+- Verdict: NOT READY (T2).
