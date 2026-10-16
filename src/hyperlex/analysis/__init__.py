@@ -38,6 +38,8 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
             "gm", "gn", "jeeting", "frens", "bagholding", "exit liq", "nfa", "probably nothing",
             # wave5 / attested-w2 (harvest ape_in + kaikki cryptocurrencies)
             "aped in", "shitcoin", "hodler", "jeetery", "crypto winter",
+            # 2026-10-15 unfamilied sort (OBSERVED-usage fit; rationale in tracker rulings)
+            "crypto", "solana", "employim",
         ],
         "branch_operator": "cross_family_borrowing",
         "diagram_ref": "examples/slang-families/crypto-degen-family.mmd",
@@ -59,6 +61,8 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
             "glaze", "clankers", "jailbroken", "vibe coded", "slopped", "prompt inject", "rlhf", "context stuffed", "sycophantic",
             # wave5 / attested-w2 (harvest wiktionary AI/ML category caches)
             "sycophant", "model collapse", "stochastic parrot", "alignment tax",
+            # 2026-10-15 unfamilied sort (OBSERVED-usage fit; rationale in tracker rulings)
+            "grok",
         ],
         "branch_operator": "platform_compression",
         "diagram_ref": "examples/slang-families/ai-native-family.mmd",
@@ -97,6 +101,8 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
             "aura loss", "aura farmer", "goon cave", "gigachad", "no crumbs",
             "delulu is the solulu", "solulu", "gyatt dayum", "main character syndrome",
             "it's giving mid",
+            # 2026-10-15 unfamilied sort (OBSERVED-usage fit; rationale in tracker rulings)
+            "mogs", "goonicide",
         ],
         "branch_operator": "irony_inversion",
         "diagram_ref": "examples/slang-families/brainrot-aura-family.mmd",
@@ -132,6 +138,8 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
             "doomer", "bloomer", "pinkpilled", "redpilling", "blackpilling", "cope harder", "seething", "based department",
             # wave5 / attested-w2 (Hyperlex golden political query compression)
             "cope seethe",
+            # 2026-10-15 unfamilied sort (OBSERVED-usage fit; rationale in tracker rulings)
+            "pilled", "degeneracy", "gibs",
         ],
         "branch_operator": "irony_inversion",
         "diagram_ref": "examples/slang-families/political-status-family.mmd",
@@ -153,6 +161,8 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
             "boosted", "cracked", "one trick", "one-tricking", "hardstuck bronze", "touch grassed", "diffed", "outskilled",
             # wave5 / attested-w2 (harvest wiktionary gaming caches + kaikki)
             "git gud", "noscope", "smurf account", "tryhards", "quickscope",
+            # 2026-10-15 unfamilied sort (OBSERVED-usage fit; rationale in tracker rulings)
+            "shitter", "shitters", "grindfest", "murderhobo",
         ],
         "branch_operator": "platform_compression",
         "diagram_ref": "examples/slang-families/gaming-meta-family.mmd",
@@ -179,13 +189,15 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
         "payload_note": "labor identity under corporate speech; resistance + managerial cant",
     },
     # ---- 2026-10-15 v2 families (Danny-approved; clustered from unassigned v2 store terms) ----
-    # Families marked ``terms_private`` keep some/all members out of this public repo; the
-    # members load at import from a private overlay (see ``HYPERLEX_PRIVATE_REGISTRY`` below).
+    # 2026-10-15 (Danny): all members now public. ``HYPERLEX_PRIVATE_REGISTRY`` (below) stays as
+    # an optional local overlay mechanism for any future private-only members.
     {
         "family_id": "imageboard-meta",
         "terms": [
             "kek", "anons", "desu", "mfw", "picrel", "lel", "janny", "jannies",
             "shitpost", "shitposting", "sneed", "moar", "redditor",
+            # 2026-10-15 unfamilied sort (OBSERVED-usage fit; rationale in tracker rulings)
+            "unironically", "fren", "heckin", "hecking", "hurr", "trvke",
         ],
         "branch_operator": "platform_compression",
         "diagram_ref": None,
@@ -196,8 +208,9 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
         "terms": [
             "shill", "shills", "psyop", "larp", "larping", "larper", "chud", "chuds", "muh",
             "performative", "luddite", "virtue signalling", "grift", "contrarian",
+            # 2026-10-15 unfamilied sort (OBSERVED-usage fit; rationale in tracker rulings)
+            "cuck", "cucked", "cucks",
         ],
-        "terms_private": True,
         "branch_operator": "sense_extension",
         "diagram_ref": None,
         "payload_note": "bad-faith / inauthenticity accusations used to dismiss an opponent",
@@ -207,8 +220,9 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
         "terms": [
             "normie", "normies", "chads", "beta", "wagie", "neet", "zoomer", "zoomers",
             "midwit", "manlet", "simp", "enjoyer",
+            # 2026-10-15 unfamilied sort (OBSERVED-usage fit; rationale in tracker rulings)
+            "incel", "incels", "simps", "manchild", "trailer trash",
         ],
-        "terms_private": True,
         "branch_operator": "sense_extension",
         "diagram_ref": None,
         "payload_note": "social-hierarchy archetype labels (rank, generation, lifestyle)",
@@ -218,6 +232,8 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
         "terms": [
             "girl dinner", "fit check", "spooky month", "baddie", "goat", "full of soup",
             "crytyping", "idek", "wdym",
+            # 2026-10-15 unfamilied sort (OBSERVED-usage fit; rationale in tracker rulings)
+            "idec", "smmfh",
         ],
         "branch_operator": "platform_compression",
         "diagram_ref": None,
@@ -234,11 +250,24 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
     },
     {
         "family_id": "neuro-insult",
-        "terms": [],
-        "terms_private": True,
+        "terms": [
+            "schizo", "schizos", "autist", "weaponized autism", "melty", "braindead", "tard",
+        ],
         "branch_operator": "sense_extension",
         "diagram_ref": None,
-        "payload_note": "ableist mental-state insults; members are private-overlay only",
+        "payload_note": "ableist mental-state insults",
+    },
+    {
+        "family_id": "general-slang",
+        "terms": [
+            # explicit weak-fit bucket: real slang with OBSERVED use but no clear parent family
+            "y'all", "doomerslop", "goreslop", "gigglebait", "flame war", "oh shittings",
+            "city slicker", "mad dog", "gerblin", "oovoo javer", "gem", "smol", "hotshot",
+            "lef a word a prayer", "cakewalk", "purple patch", "belt", "bloat",
+        ],
+        "branch_operator": "sense_extension",
+        "diagram_ref": None,
+        "payload_note": "catch-all for attested slang without a coherent parent family; not a lineage claim",
     },
 ]
 

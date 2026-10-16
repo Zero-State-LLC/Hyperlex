@@ -27,7 +27,7 @@ def test_overlay_extends_and_appends(tmp_path, monkeypatch):
     monkeypatch.setenv("HYPERLEX_PRIVATE_REGISTRY", str(ov))
     assert _load_private_registry_overlay(reg) == str(ov)
     by = {e["family_id"]: e for e in reg}
-    assert by["neuro-insult"]["terms"] == ["zzplaceholdera", "zzplaceholderb"]
+    assert by["neuro-insult"]["terms"][-2:] == ["zzplaceholdera", "zzplaceholderb"]
     assert by["zz-new"]["terms"] == ["zzplaceholderc"]
     hit = match_lineage("zzplaceholdera zzplaceholderb", registry=reg, use_vector=False)
     assert hit and hit["family_id"] == "neuro-insult"

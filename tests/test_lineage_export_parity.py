@@ -66,7 +66,6 @@ EXPECTED_NONE = [
     "artstyle",
     "assmosis",
     "atomic blonde",
-    "autist",
     "baby boo",
     "balls",
     "band kid",
@@ -74,7 +73,6 @@ EXPECTED_NONE = [
     "bbnaija",
     "bearposting",
     "belle",
-    "belt",
     "big money man",
     "bini",
     "bini_signals_worldtour_2026",
@@ -82,8 +80,6 @@ EXPECTED_NONE = [
     "bird hands",
     "birdgender",
     "black",
-    "bloat",
-    "braindead",
     "brainmaxx",
     "breadloser",
     "breakfast",
@@ -116,6 +112,7 @@ def test_export_term_without_family_stays_none(term):
 NEW_2026_10_15 = {
     "imageboard-meta", "discourse-accusation", "status-labels",
     "tiktok-lifestyle", "weeb-otaku", "neuro-insult",
+    "general-slang",  # 2026-10-15 explicit weak-fit bucket
 }
 
 
