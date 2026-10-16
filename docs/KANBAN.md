@@ -40,3 +40,4 @@ Ruling landing: 1,472 rulings, 1,425 gold (test 277, val 164, train 984). Export
 - [x] **Betting-sharp replacement pick.** Retired in PR #27 (220c108).
 - [x] **Spec 009 Q1-Q5 decisions applied, and the repair queue re-ruled** (2026-10-16).
 - [x] **Merge specs 008 and 009 to main.** #28 squash d87e3af, #29 squash 4f17542.
+- [x] **Open items (Danny 2026-10-16 4:03 PM PT).** Held family calls applied; family gate reported as 16 (one private family excluded from H3 claims); betting-sharp stays retired; meaning/dictionary rows added for 65 new terms; formation tags accepted; 80-row label audit queued for Danny. Test manifest a03c8619 unchanged; readiness still READY.
