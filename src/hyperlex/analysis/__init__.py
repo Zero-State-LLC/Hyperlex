@@ -162,7 +162,7 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
             # wave5 / attested-w2 (harvest wiktionary gaming caches + kaikki)
             "git gud", "noscope", "smurf account", "tryhards", "quickscope",
             # 2026-10-15 unfamilied sort (OBSERVED-usage fit; rationale in tracker rulings)
-            "shitter", "shitters", "grindfest", "murderhobo",
+            "grindfest", "murderhobo",
         ],
         "branch_operator": "platform_compression",
         "diagram_ref": "examples/slang-families/gaming-meta-family.mmd",
