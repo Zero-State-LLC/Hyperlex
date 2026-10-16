@@ -178,3 +178,6 @@ Operator front door expanded for stack parity with Athanor / Semion / Yggdrasil 
 
 ### 2026-10-16 3:15 PM PT family assignments
 - 18 unfamilied terms assigned to parent families, 3 sent to noise, 5 held for Danny (refs F1-F5, private). 0 split moves. Test gold now spans 10 lineage families (H3 needs >=8). Gate 17 families (16 without slur).
+
+### 2026-10-16 3:10 PM PT
+- algo: off the noise list, Danny-ruled meaning (algorithm / platform feed; mechanism note: clipping), family tiktok-lifestyle, split unchanged. Meanings 150/300 (141 with >=3 contexts / 134 with >=3 slang contexts). Test families 10; test gold rows without a family 86.
