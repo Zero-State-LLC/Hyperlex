@@ -7,7 +7,7 @@ No org-wide spec-DAG convention was found (the vault's Research-DAG convention c
 
 ## Topological order
 
-`constitution` → `P01` → `P02` → `P02-plan` → `P03` → `P03-plan` → `legacy-v0.3` → `000` → `intent-p1` → `001` → `002` → `003` → `runtime-ready` → `004`* → `005`* → `006`* → `007`
+`constitution` → `P01` → `P02` → `P02-plan` → `P03` → `P03-plan` → `legacy-v0.3` → `000` → `intent-p1` → `001` → `002` → `003` → `runtime-ready` → `004`* → `005`* → `006`* → `007` → `008`
 
 \* not on `main` (see Problems). Cycle check: **none** (checked by script).
 
@@ -30,6 +30,7 @@ graph TD
   S005[005 route labels · NOT ON MAIN]:::miss
   S006[006 IsA · reserved]:::miss
   S007[007 Hyperlexical model · spec.md NOT ON MAIN]
+  S008[008 Lexical emergence · DRAFT SHADOW]
   P02 --> P02p
   P03 --> P03p
   C --> S000
@@ -54,6 +55,8 @@ graph TD
   S001 --> S007
   S003 --> S007
   S004 --> S007
+  S000 --> S008
+  S007 --> S008
   classDef sup fill:#eee,stroke:#999,color:#666
   classDef miss fill:#fdd,stroke:#c33
 ```

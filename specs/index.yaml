@@ -113,3 +113,11 @@ specs:
   - '003'
   - '004'
   title: 'Hyperlexical model; pack: status, amendments, milestones, engineering, tasks, plans, receipts'
+- id: '008'
+  path: specs/008-lexical-emergence/
+  status: draft (SPECIFY, SHADOW; awaiting Danny)
+  depends_on:
+  - constitution
+  - '000'
+  - '007'
+  title: Lexical emergence (observation, interpretation, emergence measurement; EmergenceEvidence v1)
