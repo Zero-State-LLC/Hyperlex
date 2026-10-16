@@ -28,7 +28,7 @@ Ruling landing: 1,472 rulings, 1,425 gold (test 277, val 164, train 984). Export
 - [ ] **PR #31: T026/T028 (windowed export context, R statuses non-gold, Jev use_mention).** Owner: Danny (merge yes). Opus review findings fixed; 42 tests pass. Not merged.
 
 ## Blocked
-- [ ] **Freeze the held-out test manifest.** Owner: Grok Bot, with Danny's sign-off. T2 met; blocked on Danny's sign-off (and the 15 quarantined gold rows decision).
+- [x] **Freeze the held-out test manifest.** Done 2026-10-16 4:00 PM PT (Danny go 3:55 PM PT): 273 ids, sha256 a03c8619…; recorded in docs/v2/G5_PREREG_EVAL.md (PR #33), tag v2-test-freeze-2026-10-16. The 15 quarantined gold rows stay out of test. Readiness: READY (G1 273, 37/37 test terms; T2 318/300). Nothing runs on the Sparks until Danny says go.
 - [ ] **Archive repo is read-only (scrimshawlife-ctrl/Hyperlex).** Owner: Danny. Decide: unarchive it, or move VERDICT-RULES into this repo.
 
 ## Done
