@@ -175,3 +175,6 @@ Operator front door expanded for stack parity with Athanor / Semion / Yggdrasil 
 
 ### 2026-10-16 3:05 PM PT pre-Spark check
 - PASS: test gold 273/250, 37/37 test terms, 186 train terms, formats, overlap 0, duplicates fixed (manifest sha now a03c8619, not frozen). FAIL: T2 149/300. Danny: 15 quarantined gold rows, whether the slur family counts toward the family gate. Verdict NOT READY.
+
+### 2026-10-16 3:15 PM PT family assignments
+- 18 unfamilied terms assigned to parent families, 3 sent to noise, 5 held for Danny (refs F1-F5, private). 0 split moves. Test gold now spans 10 lineage families (H3 needs >=8). Gate 17 families (16 without slur).
