@@ -115,7 +115,7 @@ specs:
   title: 'Hyperlexical model; pack: status, amendments, milestones, engineering, tasks, plans, receipts'
 - id: '008'
   path: specs/008-lexical-emergence/
-  status: SPECIFY, SHADOW; merged with Danny's yes 2026-10-16; CR-5 amended by 009
+  status: SPECIFY, SHADOW; merge approved by Danny 2026-10-16 (awaiting required review); CR-5 amended by 009
   depends_on:
   - constitution
   - '000'
