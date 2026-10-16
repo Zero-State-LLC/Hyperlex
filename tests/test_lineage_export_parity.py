@@ -1,7 +1,8 @@
 """Parity with the archived scrimshawlife-ctrl/Hyperlex main (ad4075b9) for the vernacular export.
 
 Expected families are match_lineage(term, use_vector=False) outputs on the archive for the 336-term
-vernacular export (2026-10-15 PT). Lexical only; no network, no vector DB.
+vernacular export (2026-10-15 PT), updated for the 2026-10-15 family change (betting-sharp removed,
+six families added). Lexical only; no network, no vector DB, no private overlay.
 """
 
 from __future__ import annotations
@@ -46,7 +47,12 @@ EXPECTED_FAMILY = {
     "slop grenade": "ai-native",
     "touch grass": "gaming-meta",
     "unc": "kinship-address",
-    "wagmi": "crypto-degen"
+    "wagmi": "crypto-degen",
+    # 2026-10-15 new families (archive had these as none)
+    "anons": "imageboard-meta",
+    "baddie": "tiktok-lifestyle",
+    "baka": "weeb-otaku",
+    "beta": "status-labels",
 }
 
 EXPECTED_NONE = [
@@ -56,15 +62,12 @@ EXPECTED_NONE = [
     "algo",
     "amish bus driver rule",
     "anchovy",
-    "anons",
     "art",
     "artstyle",
     "assmosis",
     "atomic blonde",
     "autist",
     "baby boo",
-    "baddie",
-    "baka",
     "balls",
     "band kid",
     "bb28",
@@ -72,7 +75,6 @@ EXPECTED_NONE = [
     "bearposting",
     "belle",
     "belt",
-    "beta",
     "big money man",
     "bini",
     "bini_signals_worldtour_2026",
@@ -111,6 +113,12 @@ def test_export_term_without_family_stays_none(term):
     assert not out or not out.get("family_id")
 
 
+NEW_2026_10_15 = {
+    "imageboard-meta", "discourse-accusation", "status-labels",
+    "tiktok-lifestyle", "weeb-otaku", "neuro-insult",
+}
+
+
 def test_layout_families_are_eight_plus_none():
     path = ROOT / "scripts" / "shadow" / "hyperlexical" / "layout.py"
     spec = importlib.util.spec_from_file_location("hyperlexical_layout_test", path)
@@ -122,6 +130,9 @@ def test_layout_families_are_eight_plus_none():
         "betting-sharp", "crypto-degen", "ai-native", "brainrot-aura",
         "kinship-address", "political-status", "gaming-meta", "workplace-corp",
     )
+    # The T1 head + jevgate prereg v5 prompt are frozen on the original eight labels.
+    # The live registry dropped betting-sharp and added six families on 2026-10-15
+    # (Danny-approved); retraining the head / re-preregistering is a separate change.
     from hyperlex.analysis import LINEAGE_REGISTRY
 
-    assert {e["family_id"] for e in LINEAGE_REGISTRY} == set(fams[:-1])
+    assert {e["family_id"] for e in LINEAGE_REGISTRY} == (set(fams[:-1]) - {"betting-sharp"}) | NEW_2026_10_15

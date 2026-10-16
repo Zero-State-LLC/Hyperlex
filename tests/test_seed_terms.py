@@ -26,7 +26,7 @@ ENV = {
 DEMO_CASES = [
     ("sigma rizz locked in", ["sigma", "rizz", "locked in"]),
     ("agentic slop skill issue", ["agentic slop", "skill issue"]),
-    ("sharp steam revenge", ["sharp", "steam", "revenge"]),
+    ("kek mfw picrel", ["kek", "mfw", "picrel"]),
     ("locked in crash out", ["locked in", "crash out"]),
 ]
 
@@ -59,11 +59,11 @@ def test_split_agentic_slop_skill_issue():
     assert "agentic" not in s["terms"] or "agentic slop" in s["terms"]
 
 
-def test_split_sharp_steam_revenge():
+def test_split_kek_mfw_picrel():
     from hyperlex.analysis.terms import split_seed_terms
 
-    s = split_seed_terms("sharp steam revenge")
-    assert s["terms"] == ["sharp", "steam", "revenge"]
+    s = split_seed_terms("kek mfw picrel")
+    assert s["terms"] == ["kek", "mfw", "picrel"]
     assert s["multi_term"] is True
 
 

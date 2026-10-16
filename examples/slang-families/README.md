@@ -14,7 +14,6 @@ These diagrams are intended for:
 
 | File | Content |
 |------|---------|
-| `betting-sharp-family.mmd` | Core betting/sharp-money family and modern tactical extensions |
 | `kinship-address.mmd` | Fictive kinship address terms (bro → twin / unc lineage) |
 | `crypto-degen-family.mmd` | HODL / diamond hands / ape / rekt / degen cluster |
 | `brainrot-aura-family.mmd` | Content-degradation + status-signaling lineage (mid / cooked / aura / brainrot) |
@@ -22,14 +21,12 @@ These diagrams are intended for:
 | `political-status-family.mmd` | Based / redpilled / cope tribal-judgment lineage |
 | `gaming-meta-family.mmd` | Nerf / buff / meta / sweaty multiplayer status |
 | `workplace-corp-family.mmd` | Quiet quitting / RTO / bandwidth corporate labor speech |
-| `sharp-family-timeline.mmd` | Chronological drift view of the betting-sharp family |
 | `emergence-process.mmd` | Abstract process by which Hyperlex detects and archives new branches |
 
 ## HTML Renderers
 
 | File | Renders |
 |------|--------|
-| `render-betting-sharp.html` | Betting / sharp mindmap |
 | `render-ai-native.html` | AI-native mindmap |
 | `render-emergence.html` | Emergence process flowchart |
 

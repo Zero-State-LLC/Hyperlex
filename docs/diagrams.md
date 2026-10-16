@@ -19,7 +19,7 @@ python3 "$H" diagram --from-ledger --out-dir out/diagrams
 python3 "$H" diagram --input path/to/receipt.json --out-dir out/diagrams
 
 # Filter family on ledger
-python3 "$H" diagram --from-ledger --lineage-family betting-sharp
+python3 "$H" diagram --from-ledger --lineage-family crypto-degen
 ```
 
 ## Kinds

@@ -1,0 +1,571 @@
+{
+  "analysis": {
+    "compression_metrics": {
+      "compression_efficiency": "Medium",
+      "drift_probability": "Low",
+      "emotional_density": "Low",
+      "identity_signaling_strength": "Medium",
+      "semantic_density": "Medium",
+      "virality_potential": "Medium"
+    },
+    "hyperstition": {
+      "loop_stage": "EMERGENT",
+      "mechanism": "narrative circulating but no market confirmation yet"
+    },
+    "lineage": {
+      "branch_operator": "platform_compression",
+      "confidence": 0.52,
+      "diagram_ref": null,
+      "family_id": "imageboard-meta",
+      "matched_terms": [
+        "jannies"
+      ],
+      "multi_term_mode": true,
+      "note": "Primary lineage from best single-term match; independent lexicon items considered separately (not density-stacked).",
+      "payload_note": "imageboard board-culture register: reaction tokens, mod jokes, in-group address",
+      "primary_term": "jannies",
+      "provenance": "INFERRED",
+      "score_breakdown": {
+        "coverage": 0.077,
+        "density": 0.0,
+        "hit_bonus": 0.12,
+        "hybrid_applied": false,
+        "hybrid_confidence": 0.52,
+        "lexical_confidence": 0.52,
+        "n_hits": 1,
+        "raw": 0.52,
+        "specificity": 0.535,
+        "term_weights": {
+          "jannies": 0.535
+        },
+        "vector_boost": 0.0,
+        "vector_flipped": false
+      }
+    },
+    "lineage_bag": {
+      "confidence": 0.98,
+      "family_id": "imageboard-meta",
+      "matched_terms": [
+        "kek",
+        "anons",
+        "mfw",
+        "picrel",
+        "jannies",
+        "sneed"
+      ],
+      "note": "Density-stacked bag match (not used as primary when multi_term)"
+    },
+    "memetics": {
+      "is_memetic": false,
+      "provenance": "INFERRED",
+      "rules_hit": {
+        "platform_agency": [
+          "lineage:imageboard-meta"
+        ]
+      },
+      "score": 0.31,
+      "typology": "platform_agency",
+      "typology_primary": "platform_agency",
+      "typology_scores": {
+        "platform_agency": 0.15
+      }
+    },
+    "multi_term": true,
+    "mutation_prediction": {
+      "brier": null,
+      "candidates": [
+        {
+          "confidence": 0.4,
+          "form": "janniesed",
+          "operator": "derivational",
+          "provenance": "SPECULATIVE",
+          "rationale": "derivational suffix -ed",
+          "source": "deterministic"
+        },
+        {
+          "confidence": 0.4,
+          "form": "jannieser",
+          "operator": "derivational",
+          "provenance": "SPECULATIVE",
+          "rationale": "derivational suffix -er",
+          "source": "deterministic"
+        },
+        {
+          "confidence": 0.4,
+          "form": "janniesing",
+          "operator": "derivational",
+          "provenance": "SPECULATIVE",
+          "rationale": "derivational suffix -ing",
+          "source": "deterministic"
+        },
+        {
+          "confidence": 0.4,
+          "form": "janniesposting",
+          "operator": "derivational",
+          "provenance": "SPECULATIVE",
+          "rationale": "derivational suffix -posting",
+          "source": "deterministic"
+        },
+        {
+          "confidence": 0.4,
+          "form": "janniesy",
+          "operator": "derivational",
+          "provenance": "SPECULATIVE",
+          "rationale": "derivational suffix -y",
+          "source": "deterministic"
+        },
+        {
+          "confidence": 0.38,
+          "form": "jnns",
+          "operator": "platform_compression",
+          "provenance": "SPECULATIVE",
+          "rationale": "vowel-drop compression of seed",
+          "source": "deterministic"
+        },
+        {
+          "confidence": 0.37,
+          "form": "jannies anons",
+          "operator": "compound_phrase",
+          "provenance": "SPECULATIVE",
+          "rationale": "compound with family co-term anons",
+          "source": "deterministic"
+        },
+        {
+          "confidence": 0.37,
+          "form": "jannies desu",
+          "operator": "compound_phrase",
+          "provenance": "SPECULATIVE",
+          "rationale": "compound with family co-term desu",
+          "source": "deterministic"
+        }
+      ],
+      "family_id": "imageboard-meta",
+      "family_operator": "platform_compression",
+      "n_candidates": 8,
+      "note": "Next surface forms are speculative. Not calibrated probabilities / Brier.",
+      "provenance": "SPECULATIVE",
+      "schema": "hyperlex.mutation_prediction.v1",
+      "seed_term": "jannies"
+    },
+    "neologisms": [],
+    "per_term": [
+      {
+        "confidence": 0.482,
+        "considered_separately": true,
+        "family_id": "imageboard-meta",
+        "lineage": {
+          "branch_operator": "platform_compression",
+          "confidence": 0.482,
+          "diagram_ref": null,
+          "family_id": "imageboard-meta",
+          "matched_terms": [
+            "kek"
+          ],
+          "payload_note": "imageboard board-culture register: reaction tokens, mod jokes, in-group address",
+          "provenance": "INFERRED",
+          "score_breakdown": {
+            "coverage": 0.077,
+            "density": 0.0,
+            "hit_bonus": 0.12,
+            "hybrid_applied": false,
+            "hybrid_confidence": 0.482,
+            "lexical_confidence": 0.482,
+            "n_hits": 1,
+            "raw": 0.482,
+            "specificity": 0.435,
+            "term_weights": {
+              "kek": 0.435
+            },
+            "vector_boost": 0.0,
+            "vector_flipped": false
+          }
+        },
+        "lineage_soft": null,
+        "term": "kek"
+      },
+      {
+        "confidence": 0.501,
+        "considered_separately": true,
+        "family_id": "imageboard-meta",
+        "lineage": {
+          "branch_operator": "platform_compression",
+          "confidence": 0.501,
+          "diagram_ref": null,
+          "family_id": "imageboard-meta",
+          "matched_terms": [
+            "anons"
+          ],
+          "payload_note": "imageboard board-culture register: reaction tokens, mod jokes, in-group address",
+          "provenance": "INFERRED",
+          "score_breakdown": {
+            "coverage": 0.077,
+            "density": 0.0,
+            "hit_bonus": 0.12,
+            "hybrid_applied": false,
+            "hybrid_confidence": 0.501,
+            "lexical_confidence": 0.501,
+            "n_hits": 1,
+            "raw": 0.501,
+            "specificity": 0.485,
+            "term_weights": {
+              "anons": 0.485
+            },
+            "vector_boost": 0.0,
+            "vector_flipped": false
+          }
+        },
+        "lineage_soft": null,
+        "term": "anons"
+      },
+      {
+        "confidence": 0.482,
+        "considered_separately": true,
+        "family_id": "imageboard-meta",
+        "lineage": {
+          "branch_operator": "platform_compression",
+          "confidence": 0.482,
+          "diagram_ref": null,
+          "family_id": "imageboard-meta",
+          "matched_terms": [
+            "mfw"
+          ],
+          "payload_note": "imageboard board-culture register: reaction tokens, mod jokes, in-group address",
+          "provenance": "INFERRED",
+          "score_breakdown": {
+            "coverage": 0.077,
+            "density": 0.0,
+            "hit_bonus": 0.12,
+            "hybrid_applied": false,
+            "hybrid_confidence": 0.482,
+            "lexical_confidence": 0.482,
+            "n_hits": 1,
+            "raw": 0.482,
+            "specificity": 0.435,
+            "term_weights": {
+              "mfw": 0.435
+            },
+            "vector_boost": 0.0,
+            "vector_flipped": false
+          }
+        },
+        "lineage_soft": null,
+        "term": "mfw"
+      },
+      {
+        "confidence": 0.511,
+        "considered_separately": true,
+        "family_id": "imageboard-meta",
+        "lineage": {
+          "branch_operator": "platform_compression",
+          "confidence": 0.511,
+          "diagram_ref": null,
+          "family_id": "imageboard-meta",
+          "matched_terms": [
+            "picrel"
+          ],
+          "payload_note": "imageboard board-culture register: reaction tokens, mod jokes, in-group address",
+          "provenance": "INFERRED",
+          "score_breakdown": {
+            "coverage": 0.077,
+            "density": 0.0,
+            "hit_bonus": 0.12,
+            "hybrid_applied": false,
+            "hybrid_confidence": 0.511,
+            "lexical_confidence": 0.511,
+            "n_hits": 1,
+            "raw": 0.511,
+            "specificity": 0.51,
+            "term_weights": {
+              "picrel": 0.51
+            },
+            "vector_boost": 0.0,
+            "vector_flipped": false
+          }
+        },
+        "lineage_soft": null,
+        "term": "picrel"
+      },
+      {
+        "confidence": 0.52,
+        "considered_separately": true,
+        "family_id": "imageboard-meta",
+        "lineage": {
+          "branch_operator": "platform_compression",
+          "confidence": 0.52,
+          "diagram_ref": null,
+          "family_id": "imageboard-meta",
+          "matched_terms": [
+            "jannies"
+          ],
+          "payload_note": "imageboard board-culture register: reaction tokens, mod jokes, in-group address",
+          "provenance": "INFERRED",
+          "score_breakdown": {
+            "coverage": 0.077,
+            "density": 0.0,
+            "hit_bonus": 0.12,
+            "hybrid_applied": false,
+            "hybrid_confidence": 0.52,
+            "lexical_confidence": 0.52,
+            "n_hits": 1,
+            "raw": 0.52,
+            "specificity": 0.535,
+            "term_weights": {
+              "jannies": 0.535
+            },
+            "vector_boost": 0.0,
+            "vector_flipped": false
+          }
+        },
+        "lineage_soft": null,
+        "term": "jannies"
+      },
+      {
+        "confidence": 0.501,
+        "considered_separately": true,
+        "family_id": "imageboard-meta",
+        "lineage": {
+          "branch_operator": "platform_compression",
+          "confidence": 0.501,
+          "diagram_ref": null,
+          "family_id": "imageboard-meta",
+          "matched_terms": [
+            "sneed"
+          ],
+          "payload_note": "imageboard board-culture register: reaction tokens, mod jokes, in-group address",
+          "provenance": "INFERRED",
+          "score_breakdown": {
+            "coverage": 0.077,
+            "density": 0.0,
+            "hit_bonus": 0.12,
+            "hybrid_applied": false,
+            "hybrid_confidence": 0.501,
+            "lexical_confidence": 0.501,
+            "n_hits": 1,
+            "raw": 0.501,
+            "specificity": 0.485,
+            "term_weights": {
+              "sneed": 0.485
+            },
+            "vector_boost": 0.0,
+            "vector_flipped": false
+          }
+        },
+        "lineage_soft": null,
+        "term": "sneed"
+      }
+    ],
+    "primary_term": "jannies",
+    "propagation_vector": [
+      "imageboard",
+      "niche"
+    ],
+    "seed_terms": {
+      "matched": [
+        "kek",
+        "anons",
+        "mfw",
+        "picrel",
+        "jannies",
+        "sneed"
+      ],
+      "method": "lexicon_longest_match",
+      "multi_term": true,
+      "n_terms": 6,
+      "note": "Atomic lexicon terms only. Multi-word phrases (e.g. locked in) stay together; independent items are not blended into one seed.",
+      "original": "kek anons mfw picrel jannies sneed",
+      "residual": [],
+      "schema": "hyperlex.seed_terms.v1",
+      "terms": [
+        "kek",
+        "anons",
+        "mfw",
+        "picrel",
+        "jannies",
+        "sneed"
+      ]
+    },
+    "semantic_variation": {
+      "community": "general",
+      "driver": "communicative_need + community_identity + platform_compression",
+      "drivers": [
+        "communicative_need",
+        "community_identity",
+        "platform_compression"
+      ],
+      "lineage_family": "imageboard-meta",
+      "provenance": "INFERRED",
+      "sense": "general"
+    },
+    "signal_report": {
+      "actionable_recommendations": [
+        "Bind RUNE.HLX.COMMUNICATION_RELAY via hyperlex.relay; extract_forecasts for calibration; cron LIVE_EMERGENCE_SCAN.",
+        "Route high-virality attractors through receipt + forecast extract before settlement.",
+        "Prefer lineage-matched atoms for calibration series continuity."
+      ],
+      "generated_mutations": [
+        {
+          "confidence": 0.4,
+          "form": "janniesed",
+          "operator": "derivational",
+          "provenance": "SPECULATIVE"
+        },
+        {
+          "confidence": 0.4,
+          "form": "jannieser",
+          "operator": "derivational",
+          "provenance": "SPECULATIVE"
+        },
+        {
+          "confidence": 0.4,
+          "form": "janniesing",
+          "operator": "derivational",
+          "provenance": "SPECULATIVE"
+        },
+        {
+          "confidence": 0.4,
+          "form": "janniesposting",
+          "operator": "derivational",
+          "provenance": "SPECULATIVE"
+        },
+        {
+          "confidence": 0.4,
+          "form": "janniesy",
+          "operator": "derivational",
+          "provenance": "SPECULATIVE"
+        }
+      ],
+      "inferred": "Memetic spread accelerating. Neologisms: 0. Memetic: False. Variation: general. Virality: 0.443. Lineage: imageboard-meta (conf=0.52).",
+      "observed": "Mock channel note on \"kek anons mfw picrel jannies sneed\". Quiet discourse sample.",
+      "speculative": "EMERGENT hyperstition risk. narrative circulating but no market confirmation yet. Virality prediction (SPECULATIVE): 0.422 \u0394=-0.021. Brier requires settlement via hyperlex.calibration \u2014 not claimed on open forecasts."
+    },
+    "slang_family_tree": {
+      "branch_operator": "platform_compression",
+      "confidence": 0.52,
+      "diagram_ref": null,
+      "matched_terms": [
+        "jannies"
+      ],
+      "provenance": "INFERRED",
+      "root": "imageboard-meta"
+    },
+    "symbolic_role": [
+      "platform_agency",
+      "lineage:imageboard-meta",
+      "communicative_need",
+      "community_identity",
+      "platform_compression",
+      "hyperstition_emergent"
+    ],
+    "virality": {
+      "acceleration": 0.3,
+      "hybrid_score": 0.443,
+      "prediction": {
+        "baseline_hybrid": 0.443,
+        "confidence": 0.5,
+        "delta_vs_baseline": -0.021,
+        "features_used": {
+          "acceleration": 0.3,
+          "hybrid_score": 0.443,
+          "hyperstition_stage": "EMERGENT",
+          "lineage_confidence": 0.52,
+          "memetic_score": 0.31,
+          "n_neologisms": 0,
+          "velocity": 0.325
+        },
+        "horizon": "short",
+        "method": "feature_blend_v0",
+        "note": "Not a settled forecast; do not treat as Brier-eligible without settlement design.",
+        "predicted_hybrid": 0.422,
+        "provenance": "SPECULATIVE"
+      },
+      "spread_cues": 0,
+      "velocity": 0.325
+    }
+  },
+  "inferred": "Memetic spread accelerating. Neologisms: 0. Memetic: False. Variation: general. Virality: 0.443. Lineage: imageboard-meta (conf=0.52).",
+  "ingest": {
+    "extracted_terms": [],
+    "metadata": {
+      "adapter": {},
+      "cache": {
+        "cache_dir": "/home/box/.hyperlex/cache",
+        "disk_entries": 212,
+        "memory_entries": 0,
+        "rate_state_path": "/home/box/.hyperlex/rate_limit.json"
+      },
+      "cached": false,
+      "fetched_at": "2026-10-16T01:50:23.100665+00:00",
+      "live": false,
+      "offline_forced": true,
+      "requested_source": "mock",
+      "route": null,
+      "source_locator": "hyperlex://mock",
+      "source_type": "synthetic_stub"
+    },
+    "query": "kek anons mfw picrel jannies sneed",
+    "source": "mock",
+    "source_fingerprint": {
+      "adapter_version": "ingest-v1.7",
+      "content_hash": "d59fb746718926594bc23be6014ec55c79f459a6e056f972f555f21280ff639a",
+      "content_hash_short": "d59fb74671892659",
+      "fetched_at": "2026-10-16T01:50:23.100665+00:00",
+      "fingerprint_id": "f75e69fb07f43a8b86864171",
+      "package_version": "0.4.2",
+      "query": "kek anons mfw picrel jannies sneed",
+      "source": "mock",
+      "source_locator": "hyperlex://mock"
+    }
+  },
+  "notes": "Humanizer + lineage confidence scoring applied. Brier is not emitted until forecasts are settled (see hyperlex.calibration / docs/brier-calibration.md).",
+  "observed": "Mock channel note on \"kek anons mfw picrel jannies sneed\". Quiet discourse sample.",
+  "provenance": {
+    "adapter_version": "ingest-v1.7",
+    "arxiv_concepts_applied": [
+      "neologism_pipeline",
+      "semantic_variation",
+      "virality_hybrid",
+      "memetics_protocol",
+      "hyperstition_loop",
+      "cultural_transmission"
+    ],
+    "brier": null,
+    "brier_note": "brier_requires_settlement",
+    "canonical_hash": "4f3b8e79865c92da",
+    "content_hash": "d59fb746718926594bc23be6014ec55c79f459a6e056f972f555f21280ff639a",
+    "hyperstition_risk": "EMERGENT",
+    "ingest_source": "mock",
+    "memclaw": "agent_id=hermes-governed-operator, type=projection, weight=0.92",
+    "seed": {
+      "authority": "advisory",
+      "capability_lane": "advisory",
+      "determinism": "rule_based_lineage_vector",
+      "entropy_class": "high",
+      "hyperstition_stage": "EMERGENT",
+      "ingest_source": "mock",
+      "method": "rule_based_lineage_vector",
+      "provenance": "ingest=mock;stage=EMERGENT",
+      "risk_band": "elevated",
+      "status": "PARTIAL"
+    },
+    "source_fingerprint": {
+      "adapter_version": "ingest-v1.7",
+      "content_hash": "d59fb746718926594bc23be6014ec55c79f459a6e056f972f555f21280ff639a",
+      "content_hash_short": "d59fb74671892659",
+      "fetched_at": "2026-10-16T01:50:23.100665+00:00",
+      "fingerprint_id": "f75e69fb07f43a8b86864171",
+      "package_version": "0.4.2",
+      "query": "kek anons mfw picrel jannies sneed",
+      "source": "mock",
+      "source_locator": "hyperlex://mock"
+    },
+    "source_locator": "hyperlex://mock",
+    "timestamp": "2026-10-16T01:50:23.116013+00:00",
+    "version": "0.4.2"
+  },
+  "receipt": {
+    "integrity": "da90ee0cf2347564c9e1e3a74340dcdecb1749c3b4b15b149c9b518ab0b7692d",
+    "path": "examples/receipts/golden/imageboard-meta.json"
+  },
+  "recommendation": "Bind RUNE.HLX.COMMUNICATION_RELAY via hyperlex.relay; extract_forecasts for calibration; cron LIVE_EMERGENCE_SCAN.",
+  "speculative": "EMERGENT hyperstition risk. narrative circulating but no market confirmation yet. Virality prediction (SPECULATIVE): 0.422 \u0394=-0.021. Brier requires settlement via hyperlex.calibration \u2014 not claimed on open forecasts."
+}

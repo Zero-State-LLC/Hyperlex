@@ -24,27 +24,6 @@ from .signal_report import attach_signal_report_fields, build_seed_header
 
 LINEAGE_REGISTRY: List[Dict[str, Any]] = [
     {
-        "family_id": "betting-sharp",
-        "terms": [
-            "sharp", "steam", "square", "wiseguy", "hammer", "holler", "revenge", "low block",
-            "false nine", "revenge bet", "vig",
-            # diagram / calibration / phylogeny morphs (wave2)
-            "sharp money", "closing line value", "clv", "reverse line movement", "steam move",
-            "public money", "line move", "sharper", "card-sharp",
-            # wave3 morphs (diagram / Action-physics leaves)
-            "sharp money revenge", "line movement", "closing line", "steam chase",
-            # wave4 attested leaves (vernacular/Hyperlex/hermes on-disk)
-            "the vig", "against the spread", "public side", "sharp side", "steam chaser",
-            # wave5 / attested-w2 (vernacular watchlist + Hyperlex examples + kaikki gambling + harvest caches)
-            "parlay", "reverse line", "chalk eaters", "comeback money", "dark flow",
-            "sucker bet", "morning line", "hot money", "advantage play", "dutch book",
-            "point-shave",
-        ],
-        "branch_operator": "sense_extension",
-        "diagram_ref": "examples/slang-families/betting-sharp-family.mmd",
-        "payload_note": "professional edge vs public money; line-physics signaling",
-    },
-    {
         "family_id": "crypto-degen",
         "terms": [
             "hodl", "diamond hands", "paper hands", "rekt", "ape", "degen", "moon", "bagholder",
@@ -56,7 +35,7 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
             # wave3 morphs (rug/hands inflection + exact CT short)
             "rug pulled", "rugging", "diamond handed", "paper handed", "ath",
             # wave4 attested leaves (vernacular/Hyperlex/hermes on-disk)
-            "gm", "gn", "jeet", "jeeting", "frens", "bagholding", "exit liq", "nfa", "probably nothing",
+            "gm", "gn", "jeeting", "frens", "bagholding", "exit liq", "nfa", "probably nothing",
             # wave5 / attested-w2 (harvest ape_in + kaikki cryptocurrencies)
             "aped in", "shitcoin", "hodler", "jeetery", "crypto winter",
         ],
@@ -199,7 +178,107 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
         "diagram_ref": "examples/slang-families/workplace-corp-family.mmd",
         "payload_note": "labor identity under corporate speech; resistance + managerial cant",
     },
+    # ---- 2026-10-15 v2 families (Danny-approved; clustered from unassigned v2 store terms) ----
+    # Families marked ``terms_private`` keep some/all members out of this public repo; the
+    # members load at import from a private overlay (see ``HYPERLEX_PRIVATE_REGISTRY`` below).
+    {
+        "family_id": "imageboard-meta",
+        "terms": [
+            "kek", "anons", "desu", "mfw", "picrel", "lel", "janny", "jannies",
+            "shitpost", "shitposting", "sneed", "moar", "redditor",
+        ],
+        "branch_operator": "platform_compression",
+        "diagram_ref": None,
+        "payload_note": "imageboard board-culture register: reaction tokens, mod jokes, in-group address",
+    },
+    {
+        "family_id": "discourse-accusation",
+        "terms": [
+            "shill", "shills", "psyop", "larp", "larping", "larper", "chud", "chuds", "muh",
+            "performative", "luddite", "virtue signalling", "grift", "contrarian",
+        ],
+        "terms_private": True,
+        "branch_operator": "sense_extension",
+        "diagram_ref": None,
+        "payload_note": "bad-faith / inauthenticity accusations used to dismiss an opponent",
+    },
+    {
+        "family_id": "status-labels",
+        "terms": [
+            "normie", "normies", "chads", "beta", "wagie", "neet", "zoomer", "zoomers",
+            "midwit", "manlet", "simp", "enjoyer",
+        ],
+        "terms_private": True,
+        "branch_operator": "sense_extension",
+        "diagram_ref": None,
+        "payload_note": "social-hierarchy archetype labels (rank, generation, lifestyle)",
+    },
+    {
+        "family_id": "tiktok-lifestyle",
+        "terms": [
+            "girl dinner", "fit check", "spooky month", "baddie", "goat", "full of soup",
+            "crytyping", "idek", "wdym",
+        ],
+        "branch_operator": "platform_compression",
+        "diagram_ref": None,
+        "payload_note": "short-video lifestyle trends, captions and chat abbreviations",
+    },
+    {
+        "family_id": "weeb-otaku",
+        "terms": [
+            "isekai", "waifu", "gacha", "baka", "doujin", "fanservice", "smol bean",
+        ],
+        "branch_operator": "sense_extension",
+        "diagram_ref": None,
+        "payload_note": "anime / manga / gacha fandom loanwords and genre labels",
+    },
+    {
+        "family_id": "neuro-insult",
+        "terms": [],
+        "terms_private": True,
+        "branch_operator": "sense_extension",
+        "diagram_ref": None,
+        "payload_note": "ableist mental-state insults; members are private-overlay only",
+    },
 ]
+
+
+def _load_private_registry_overlay(registry: List[Dict[str, Any]]) -> Optional[str]:
+    """Merge a local, uncommitted family-term overlay into ``registry`` in place.
+
+    ``HYPERLEX_PRIVATE_REGISTRY`` names a JSON file ``{"families": [{"family_id": ..., "terms": [...],
+    ...}]}``. Terms extend an existing family (deduped) or a new family is appended. Used for
+    sensitive members that must not live in this public repo. Unset, missing or bad file: no-op.
+    """
+    import os
+
+    path = os.environ.get("HYPERLEX_PRIVATE_REGISTRY", "").strip()
+    if not path or not os.path.isfile(path):
+        return None
+    try:
+        with open(path, encoding="utf-8") as fh:
+            data = json.load(fh)
+    except (OSError, ValueError):
+        return None
+    by_id = {e["family_id"]: e for e in registry}
+    for fam in data.get("families") or []:
+        fid = fam.get("family_id")
+        if not fid:
+            continue
+        terms = [str(t) for t in fam.get("terms") or []]
+        if fid in by_id:
+            have = {t.lower() for t in by_id[fid].get("terms") or []}
+            by_id[fid]["terms"] = list(by_id[fid].get("terms") or []) + [t for t in terms if t.lower() not in have]
+        else:
+            entry = {"branch_operator": "sense_extension", "diagram_ref": None, "payload_note": ""}
+            entry.update(fam)
+            entry["terms"] = terms
+            registry.append(entry)
+            by_id[fid] = entry
+    return path
+
+
+PRIVATE_REGISTRY_OVERLAY = _load_private_registry_overlay(LINEAGE_REGISTRY)
 
 LINEAGE_CONFIDENCE_THRESHOLD = 0.42
 
@@ -734,7 +813,6 @@ TYPOLOGY_RULES: List[Dict[str, Any]] = [
 
 # Lineage family → preferred typology (soft prior when cues tied)
 LINEAGE_TYPOLOGY = {
-    "betting-sharp": "tactical_edge",
     "crypto-degen": "risk_identity",
     "ai-native": "platform_agency",
     "brainrot-aura": "status_radiation",
@@ -742,6 +820,12 @@ LINEAGE_TYPOLOGY = {
     "political-status": "irony_inversion",
     "gaming-meta": "platform_agency",
     "workplace-corp": "status_radiation",
+    "imageboard-meta": "platform_agency",
+    "discourse-accusation": "irony_inversion",
+    "status-labels": "status_radiation",
+    "tiktok-lifestyle": "status_radiation",
+    "weeb-otaku": "platform_agency",
+    "neuro-insult": "irony_inversion",
 }
 
 

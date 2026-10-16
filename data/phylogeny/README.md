@@ -6,7 +6,7 @@ These are not full linguistic trees — curated root/trunk/leaf sketches that
 
 | Pack | Domain | Families emphasized |
 |------|--------|---------------------|
-| `finance.json` | markets / betting / crypto | betting-sharp, crypto-degen |
+| `finance.json` | markets / crypto | crypto-degen, workplace-corp |
 | `ai-native.json` | model culture | ai-native, gaming-meta crossover |
 | `political.json` | tribal judgment | political-status, brainrot-aura irony |
 | `regional.json` | platform/geo-accelerated slang | kinship-address, brainrot-aura |

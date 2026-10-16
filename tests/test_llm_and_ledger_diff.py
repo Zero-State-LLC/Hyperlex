@@ -63,7 +63,7 @@ def test_analyze_without_llm_has_no_block_or_skipped(monkeypatch) -> None:
 
 
 def test_ledger_diff_cli() -> None:
-    a = GOLDEN / "betting-sharp.json"
+    a = GOLDEN / "imageboard-meta.json"
     b = GOLDEN / "gaming-meta.json"
     env = os.environ.copy()
     env["HYPERLEX_OFFLINE"] = "1"
