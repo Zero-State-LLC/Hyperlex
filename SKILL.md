@@ -101,7 +101,7 @@ export HERMES_SKILL_DIR="${HERMES_SKILL_DIR:-$HOME/.hermes/skills/hyperlex}"
 - Emit integrity-hashed **receipts** for auditable runs
 - Extract **forecasts** from analysis (probabilities only — no fake Brier)
 - **Settle** forecasts as an operator and recompute Brier series from the score log
-- Scan crypto-degen, ai-native, brainrot, kinship, political-status, gaming-meta, workplace-corp, imageboard-meta, discourse-accusation, status-labels, tiktok-lifestyle, weeb-otaku, neuro-insult families
+- Scan betting-sharp, crypto-degen, ai-native, brainrot, kinship, political-status families
 
 ## When Not to Use
 

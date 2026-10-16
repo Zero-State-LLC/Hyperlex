@@ -17,7 +17,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from hyperlex.analysis import LINEAGE_REGISTRY  # noqa: E402
+from hyperlex.analysis import PUBLIC_LINEAGE_REGISTRY as LINEAGE_REGISTRY  # noqa: E402  (never export private overlay terms)
 from hyperlex.vectordb.embed import cosine, embed_hash  # noqa: E402
 
 META = {

@@ -52,7 +52,6 @@ EXPECTED_FAMILY = {
     "anons": "imageboard-meta",
     "baddie": "tiktok-lifestyle",
     "baka": "weeb-otaku",
-    "beta": "status-labels",
 }
 
 EXPECTED_NONE = [

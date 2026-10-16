@@ -6,6 +6,7 @@ Expanded ingest integration + schema support + lineage matching with confidence 
 Brier scores are NOT emitted here. Use hyperlex.calibration after settlement.
 """
 import re
+import copy
 import json
 import hashlib
 from datetime import datetime, timezone
@@ -287,8 +288,12 @@ def _load_private_registry_overlay(registry: List[Dict[str, Any]]) -> Optional[s
             data = json.load(fh)
     except (OSError, ValueError):
         return None
+    if not isinstance(data, dict) or not isinstance(data.get("families") or [], list):
+        return None
     by_id = {e["family_id"]: e for e in registry}
     for fam in data.get("families") or []:
+        if not isinstance(fam, dict):
+            continue
         fid = fam.get("family_id")
         if not fid:
             continue
@@ -305,7 +310,13 @@ def _load_private_registry_overlay(registry: List[Dict[str, Any]]) -> Optional[s
     return path
 
 
+# Immutable snapshot of the committed (public) registry, taken BEFORE the private overlay merges.
+# Anything that serializes the registry to tracked files (e.g. scripts/export_lineage_map.py) must use this.
+PUBLIC_LINEAGE_REGISTRY: List[Dict[str, Any]] = copy.deepcopy(LINEAGE_REGISTRY)
 PRIVATE_REGISTRY_OVERLAY = _load_private_registry_overlay(LINEAGE_REGISTRY)
+
+# Atoms that are also common non-slang words: never attach a lineage on a lone exact hit of these.
+AMBIGUOUS_SINGLE_HIT_TERMS = frozenset({"beta"})
 
 LINEAGE_CONFIDENCE_THRESHOLD = 0.42
 
@@ -452,6 +463,8 @@ def match_lineage(
         hits = _find_hits(corpus, family_terms)
         if not hits:
             continue
+        if all(h.lower() in AMBIGUOUS_SINGLE_HIT_TERMS for h in hits) and len(hits) == 1:
+            continue  # ambiguous atom needs a co-occurring family cue
 
         score, breakdown = compute_lineage_confidence(hits, family_terms, corpus)
         # keep near-misses for hybrid (slightly below threshold)
