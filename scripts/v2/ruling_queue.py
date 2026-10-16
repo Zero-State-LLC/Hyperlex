@@ -341,12 +341,19 @@ def parse_answers(lines_or_files, valid=None, ignored=None):
 
 
 TARGET_ABSENT = "TARGET_ABSENT"
-NON_GOLD_ROW_STATUS = {TARGET_ABSENT}
+NON_GOLD_ROW_STATUS = {TARGET_ABSENT, "UNUSABLE_EVIDENCE"}
 
 
-def target_absent_fields(at):
-    """Spec 009 Q5: R = target absent from the excerpt -> row-level status, extraction repair.
-    Kept out of gold, cohorts and attestation; the R label stays as history."""
+UNUSABLE_EVIDENCE = "UNUSABLE_EVIDENCE"
+
+
+def target_absent_fields(at, q=None):
+    """R = unusable evidence (Danny 2026-10-16 11:53). Row-level, never term-level. If the target is
+    missing from the supplied excerpt -> TARGET_ABSENT (extraction repair); if it is visible but the
+    evidence is still unusable -> UNUSABLE_EVIDENCE (operator review). Both stay out of gold,
+    cohorts and attestation; the R label is kept as history."""
+    if q is not None and q.get("text") and q.get("term") and _target_span(q["text"], q["term"]):
+        return {"row_status": UNUSABLE_EVIDENCE, "repair_route": "operator_review", "row_status_at": at}
     return {"row_status": TARGET_ABSENT, "repair_route": "extraction_repair", "row_status_at": at}
 
 
@@ -432,6 +439,41 @@ def _write_answered(p, date, srcs):
             out.write(txt if txt.endswith("\n") or not txt else txt + "\n")
 
 
+def _sha(t):
+    return hashlib.sha256((t or "").encode()).hexdigest()
+
+
+def apply_repair_ruling(old, q, sense, ans, revision_source):
+    """Re-ruling from an excerpt-repair queue (spec 009 T026). Always records provenance linking the
+    original and repaired excerpts (by queue id + sha256; texts stay in the queue files), moves the
+    previous label/status/flags into history, and never drops anything."""
+    at = now_iso()
+    upd = dict(old)
+    prev = {k: upd.pop(k) for k in ("row_status", "repair_route", "row_status_at", "row_status_source",
+                                     "repair_flag", "repair_flagged_at", "repair_reason") if k in upd}
+    prev.update({"sense": old.get("sense"), "queue_id": old.get("queue_id"), "superseded_at": at,
+                 "superseded_by": q["queue_id"]})
+    upd.setdefault("status_history", []).append(prev)
+    upd.setdefault("excerpt_provenance", []).append({
+        "original_queue_id": q.get("repair_of"), "original_excerpt_sha256": _sha(q.get("original_text")),
+        "repaired_queue_id": q["queue_id"], "repaired_excerpt_sha256": _sha(q.get("text")),
+        "repair_method": "window_excerpt (spec 009 T026)", "target_match": q.get("target_match")})
+    if old.get("sense") != sense:
+        upd["revised_from"] = old.get("sense")
+        upd["revised_at"] = at
+        upd["revision_source"] = revision_source
+    else:
+        upd["reconfirmed_at"] = at
+        upd["reconfirmed_source"] = revision_source
+    upd["sense"] = sense
+    if ans.get("definition"):
+        upd["definition"] = ans["definition"]
+    upd["answer_mode"] = q.get("answer_mode", "explicit")
+    if sense == "REJECT":  # R = unusable evidence, even after repair
+        upd.update(target_absent_fields(at, q))
+    return upd
+
+
 def cmd_apply(a):
     p = paths(a.root)
     recs, srcs = read_answers(a, p)
@@ -458,6 +500,10 @@ def cmd_apply(a):
                 unchanged += 1
                 continue
             old = landing[i]
+            if update_existing and r.get("repair_of") and mode != "corrections_only_retained":
+                landing[i] = apply_repair_ruling(old, r, sense, ans, revision_source)
+                updated.append(landing[i])
+                continue
             if (update_existing and mode != "corrections_only_retained"
                     and old.get("sense") != sense):
                 upd = dict(old)
@@ -469,7 +515,7 @@ def cmd_apply(a):
                     upd["definition"] = ans["definition"]
                 upd["answer_mode"] = mode
                 if sense == "REJECT":
-                    upd.update(target_absent_fields(upd["revised_at"]))
+                    upd.update(target_absent_fields(upd["revised_at"], r))
                 else:
                     hist = {k: upd.pop(k) for k in ("row_status", "repair_route", "row_status_at",
                                                      "repair_flag", "repair_flagged_at") if k in upd}
@@ -491,7 +537,7 @@ def cmd_apply(a):
         if mode == "corrections_only_retained" and ratification:
             new[-1]["ratification_ref"] = ratification
         if sense == "REJECT":
-            new[-1].update(target_absent_fields(at))
+            new[-1].update(target_absent_fields(at, r))
         pos[key] = None
     modes = Counter(r.get("answer_mode") for r in recs if (r.get("answer") or {}).get("sense"))
     print(json.dumps({"new_rulings": len(new), "updated": len(updated), "unchanged": unchanged,

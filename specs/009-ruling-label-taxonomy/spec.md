@@ -47,7 +47,7 @@ Danny's definitions (2026-10-16 training notes) are quoted verbatim.
 |---|---|---|---|
 | **S** | `SLANG_SENSE` | "slang (contextual slang usage)" | Yes |
 | **O** | `OTHER_SENSE` | "ordinary meaning, including proper names and established non-slang usage" | Yes |
-| **R** | `REJECT` | "target absent from the visible excerpt" | No |
+| **R** | `REJECT` | "unusable evidence" (2026-10-16 11:53; earlier wording: "target absent from the visible excerpt") | No |
 | **U** | `UNSURE` | "unresolved sense, meaning or referent" | No |
 
 - Gold is S and O only.
@@ -106,7 +106,7 @@ Danny's definitions (2026-10-16 training notes) are quoted verbatim.
   - Example: *algo* in the Spanish "o algo" ("or something") is O (2026-10-16).
   - Example: *algo* as short for "algorithm" was ruled O at 2026-10-13:142 (Danny, 2026-10-13).
 - **FR-013 U.** U means the sense, meaning or referent is unresolved, so more context is needed. Examples include 2026-10-16:021, :080, :131, :170, :208, :257, :277 and :292. U also still covers deliberately meaningless memes, stored as U and capped at OBSERVE (CR-E).
-- **FR-014 R.** R means the target is absent from the supplied or visible excerpt, including truncated excerpts.
+- **FR-014 R.** R means unusable evidence (Danny, 2026-10-16 11:53 AM PT). The commonest case is the target missing from the supplied or visible excerpt, including truncated excerpts. R is always row-level: it is evidence about the excerpt, never about the term.
   - R is a row-level extraction fact, not a lexical judgement.
   - A forward R row maps to row status `EXCLUDED_INVALID`, is kept for audit, and is never a term-level rejection (CR-B).
   - An R row never counts as an attested occurrence (CR-I).
@@ -366,3 +366,46 @@ Nothing was deleted. Every superseded record is kept. SQLite and the landing fil
     - 31 of them have the word in the full post beyond the window.
     - 1 is a spacing variant.
   - New R rulings get `row_status=TARGET_ABSENT` automatically. `status` and gold use `is_gold()`, which excludes `TARGET_ABSENT`.
+
+## 10. R = "unusable evidence" and the repair re-ruling (2026-10-16 11:53 AM PT)
+
+### Reconciliation
+
+- Danny's repair-queue legend defines R as "unusable evidence". Spec 009's earlier wording, "target absent from the excerpt", describes one cause of that. The two do not conflict: R is the label, and the cause is recorded as a row status.
+  - `TARGET_ABSENT`: the target is not in the supplied excerpt. Routed to extraction repair.
+  - `UNUSABLE_EVIDENCE`: the target is visible, but the excerpt still can't support a ruling. Routed to operator review.
+- Both statuses stay out of gold, cohorts and attestation, and both keep the R label as history. Neither leads to a term-level status.
+- `ruling_queue.py` picks the status automatically from the queued excerpt.
+- Spec 008 CR-5's amendment is unchanged in effect: R stays row-level and never maps to `EXCLUDED_INVALID`.
+
+### Repair re-ruling applied
+
+- All 85 rows of `2026-10-16-repair` were re-ruled and revised in place with `--update-existing`. The result is S 67, O 16, U 2, R 0.
+- 80 labels changed and 5 were reconfirmed:
+
+| Change | Rows |
+|---|---|
+| R → S | 40 |
+| U → S | 13 |
+| R → O | 12 |
+| O → S | 11 |
+| U → O | 2 |
+| R → U | 1 |
+| O → U | 1 |
+| S → S (reconfirmed) | 3 |
+| O → O (reconfirmed) | 2 |
+
+- On each row:
+  - The previous label, status and flags were moved into `status_history`.
+  - `excerpt_provenance` links the original queue id and excerpt sha256 to the repaired queue id and excerpt sha256. The texts themselves stay in the queue files.
+- 0 `TARGET_ABSENT` rows remain.
+
+### Adjudication examples (Danny; row refs are repair-queue rows)
+
+- **004 *glaze*:** "glaze over" is an ordinary idiom, not the excessive-praise slang (O). This is the per-occurrence sense rule (FR on cracked).
+- **006 / 012 *algo*:** Spanish "o algo" means "or something" (O). This is the foreign-language collision rule.
+- **021 *seethe*:** ordinary anger vocabulary in this construction (O).
+- **067 *braindead*:** explicitly medical (O). This is the clinical vs insult rule.
+- **077 *gacha*:** established game-industry terminology (O). This is the subject jargon vs register rule (Q4).
+- **057 *chud*:** stays U. The capitalized direct address could be a nickname or an insult, so the referent is unresolved.
+- **065 *shill*:** syntactically unclear in the excerpt (U).

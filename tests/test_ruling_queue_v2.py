@@ -304,5 +304,43 @@ class WindowExcerptTests(unittest.TestCase):
             self.assertEqual(r["revised_from"], "REJECT")
 
 
+
+class RepairApplyTests(unittest.TestCase):
+    def test_repair_ruling_keeps_history_and_links_excerpts(self):
+        old = {"queue_id": "Q:001", "sense": "REJECT", "row_status": "TARGET_ABSENT",
+               "repair_route": "extraction_repair", "observation_id": "o", "term_id": "t"}
+        q = {"queue_id": "R:001", "repair_of": "Q:001", "original_text": "head", "text": "window", "target_match": "word"}
+        u = rq.apply_repair_ruling(old, q, "SLANG_SENSE", {}, "r.txt")
+        self.assertEqual(u["sense"], "SLANG_SENSE")
+        self.assertNotIn("row_status", u)
+        self.assertEqual(u["status_history"][0]["row_status"], "TARGET_ABSENT")
+        self.assertEqual(u["status_history"][0]["sense"], "REJECT")
+        pv = u["excerpt_provenance"][0]
+        self.assertEqual(pv["original_queue_id"], "Q:001")
+        self.assertNotEqual(pv["original_excerpt_sha256"], pv["repaired_excerpt_sha256"])
+        self.assertEqual(u["revised_from"], "REJECT")
+        self.assertEqual(old["row_status"], "TARGET_ABSENT")  # input untouched
+
+    def test_repair_same_label_reconfirms_and_clears_flag(self):
+        old = {"queue_id": "Q:2", "sense": "OTHER_SENSE", "repair_flag": "TARGET_NOT_FOUND_IN_EXCERPT"}
+        u = rq.apply_repair_ruling(old, {"queue_id": "R:2", "repair_of": "Q:2", "text": "x"}, "OTHER_SENSE", {}, "r")
+        self.assertIn("reconfirmed_at", u)
+        self.assertNotIn("repair_flag", u)
+        self.assertEqual(u["status_history"][0]["repair_flag"], "TARGET_NOT_FOUND_IN_EXCERPT")
+
+
+
+class UnusableEvidenceTests(unittest.TestCase):
+    def test_r_with_visible_target_is_unusable_evidence(self):
+        f = rq.target_absent_fields("t", {"text": "a zorblet b", "term": "zorblet"})
+        self.assertEqual(f["row_status"], "UNUSABLE_EVIDENCE")
+        self.assertFalse(rq.is_gold({"sense": "OTHER_SENSE", "row_status": "UNUSABLE_EVIDENCE"}))
+
+    def test_r_with_absent_target_is_target_absent(self):
+        f = rq.target_absent_fields("t", {"text": "nothing here", "term": "zorblet"})
+        self.assertEqual(f["row_status"], "TARGET_ABSENT")
+        self.assertEqual(rq.target_absent_fields("t")["row_status"], "TARGET_ABSENT")
+
+
 if __name__ == "__main__":
     unittest.main()
