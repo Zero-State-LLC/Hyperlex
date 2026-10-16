@@ -14,21 +14,21 @@ Readiness rule (Danny 2026-10-16 12:45 PT): test-gold coverage (G1) and ruled me
 |---|---|---|---|
 | G1 test gold rows (export) | 274/250 | 274 (test.jsonl human S/O = gold_test.jsonl = manifest ids) | MET (rows) |
 | G1 term breadth (roadmap >=150 terms) | 37 terms | 37 | NOT MET; Danny to confirm the clause applies |
-| T2 ruled meanings | 254/300 | 254 (defined terms with a terms row; = 150 before + 104 from queue 16m, Danny 2026-10-16 3:29 PM PT). 170 with >=3 contexts / 157 with >=3 slang contexts | SHORT by 46 |
+| T2 ruled meanings | 318/300 | (A) 318 definitions; (B) 150 pre-16m + 168 from the 16m and disc ruling ledgers = 318 (Danny 2026-10-16 3:29 and 3:52 PM PT). 171 with >=3 store contexts / 157 with >=3 slang contexts | MET |
 
 Ruling landing: 1,472 rulings, 1,425 gold (test 277, val 164, train 984). Export gold: test 274, val 158, train 933. Manifest 274 ids, sha 57543bbd…, not frozen.
 
 ## Next
 - [ ] **Danny decisions on families (private).** Owner: Danny. 1 Kimi low-confidence item and 4 held terms (named in the private store only). 63 rows stay unfamilied until then.
 - [ ] **15 quarantined gold rows.** Owner: Danny (decision). Ruled gold rows (3 test, 2 val, 10 train) fail the existing DQ checks (author id present plus suspect synthetic source id). Fix the check, or keep them out.
-- [ ] **Reach 300 ruled meanings (T2).** Owner: Grok Bot (drafts), Danny (rulings). 254/300 after queue 16m (+104 ratified, 23 rejected as insufficient evidence for a generalized sense, kept in the emergence registry; 1 held). Next: term-discovery pass (~57-77 terms, ~$0.76-1.02), waits on Danny's cost approval.
+- [x] **Reach 300 ruled meanings (T2).** Owner: Grok Bot (drafts), Danny (rulings). 318/300 MET 2026-10-16 4:05 PM PT after queues 16m and disc (65 new term rows; export byte-identical, 0 split changes).
 
 ## In progress
 - [ ] **Raise test gold to 250 (G1), then 470 (G5).** Owner: Danny (rulings), Grok Bot (queues). Rows: export 274/250 met (recount 274; landing 277); G5 274/470; 37 test terms (roadmap >=150 open). Test-gap fill: 228 posts for 18/21 empty test terms; queues 2026-10-16c (54), 16d (42), 16e (33) ruled and applied. tlpur needs context.
 - [ ] **PR #31: T026/T028 (windowed export context, R statuses non-gold, Jev use_mention).** Owner: Danny (merge yes). Opus review findings fixed; 42 tests pass. Not merged.
 
 ## Blocked
-- [ ] **Freeze the held-out test manifest.** Owner: Grok Bot, with Danny's sign-off. Blocked on READY (T2 254/300) and Danny's sign-off.
+- [ ] **Freeze the held-out test manifest.** Owner: Grok Bot, with Danny's sign-off. T2 met; blocked on Danny's sign-off (and the 15 quarantined gold rows decision).
 - [ ] **Archive repo is read-only (scrimshawlife-ctrl/Hyperlex).** Owner: Danny. Decide: unarchive it, or move VERDICT-RULES into this repo.
 
 ## Done
