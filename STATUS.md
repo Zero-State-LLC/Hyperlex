@@ -13,7 +13,7 @@
 
 This file is the operator snapshot. The docs site copies it to [status](https://scrimshawlife-ctrl.github.io/Hyperlex/status/). Do not treat it as a Hub card or a Brier score.
 
-## Hyperlex v2 dataset and specs 008/009 (2026-10-16 1:05 PM PT)
+## Hyperlex v2 dataset and specs 008/009 (2026-10-16 1:15 PM PT)
 
 - **Spec 008, lexical emergence** (PR #28, merged as d87e3af): SHADOW. CR-5 is amended by 009: R is row-level and never a term rejection.
 - **Spec 009, ruling label taxonomy** (PR #29, merged as 4f17542):
@@ -22,10 +22,10 @@ This file is the operator snapshot. The docs site copies it to [status](https://
   - Term auto-reject is removed.
   - Excerpts are windowed around the target.
   - VERDICT-RULES is now `metrics-rule-v1.5` (use/mention split).
-- **Ruling landing:** 1,439 rulings and 1,396 gold (test 248, val 164, train 984).
-- **Export:** gold test 245, val 158, train 933; overlaps 0; manifest 245 ids (not frozen).
-- **Readiness:** NOT READY. G1 test gold 245/250 (independent recount 245). T2 ruled meanings 149/300 (independent recount 149). Rule (Danny 2026-10-16): the two checks are independent and each needs its own recount. No Spark run without READY and Danny's go.
-- **Test-gap fill (Danny 2026-10-16):** posts collected for 18/21 empty test terms; queues 2026-10-16c and 16d ruled; 16e (33 rows) prepared, not sent.
+- **Ruling landing:** 1,472 rulings and 1,425 gold (test 277, val 164, train 984).
+- **Export:** gold test 274, val 158, train 933; overlaps 0; manifest 274 ids (not frozen).
+- **Readiness:** NOT READY. G1 test gold rows 274/250 met (independent recount 274; 37 terms vs roadmap >=150, open). T2 ruled meanings 149/300 (independent recount 149). Rule (Danny 2026-10-16): the two checks are independent and each needs its own recount. No Spark run without READY and Danny's go.
+- **Test-gap fill (Danny 2026-10-16):** posts collected for 18/21 empty test terms; queues 2026-10-16c, 16d and 16e ruled and applied.
 - **Board:** https://app.notion.com/p/f57ad22c76d7436c9e024229be560a8e (mirror of the Obsidian board). Kanban: `docs/KANBAN.md`.
 - Tooling runs from `hyperlex-v2-tracker/ruling_queue.py` on the operator box. The mirror is `scripts/v2/ruling_queue.py`.
 

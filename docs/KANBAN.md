@@ -1,6 +1,6 @@
 # Hyperlex v2 kanban (steps to data READY)
 
-Updated 2026-10-16 1:05 PM PT (parity pass). Mirrors:
+Updated 2026-10-16 1:15 PM PT (queue 2026-10-16e applied). Mirrors:
 - Notion board: https://app.notion.com/p/f57ad22c76d7436c9e024229be560a8e
 - GitHub Project: https://github.com/orgs/Zero-State-LLC/projects/28 (Column field)
 - Obsidian: `Projects/Hyperlex v2 board.md`
@@ -12,10 +12,11 @@ Readiness rule (Danny 2026-10-16 12:45 PT): test-gold coverage (G1) and ruled me
 
 | Check | Count | Independent recount | Status |
 |---|---|---|---|
-| G1 test gold (export) | 245/250 | 245 (test.jsonl human S/O = gold_test.jsonl = manifest ids) | SHORT by 5 |
+| G1 test gold rows (export) | 274/250 | 274 (test.jsonl human S/O = gold_test.jsonl = manifest ids) | MET (rows) |
+| G1 term breadth (roadmap >=150 terms) | 37 terms | 37 | NOT MET; Danny to confirm the clause applies |
 | T2 ruled meanings | 149/300 | 149 (operator_definitions by source: 100 T2 review + 47 queue definitions + 2 chat) | SHORT by 151 |
 
-Ruling landing: 1,439 rulings, 1,396 gold (test 248, val 164, train 984). Export gold: test 245, val 158, train 933. Manifest 245 ids, sha c10826ed…, not frozen.
+Ruling landing: 1,472 rulings, 1,425 gold (test 277, val 164, train 984). Export gold: test 274, val 158, train 933. Manifest 274 ids, sha 57543bbd…, not frozen.
 
 ## Next
 - [ ] **Danny decisions on families (private).** Owner: Danny. 1 Kimi low-confidence item and 4 held terms (named in the private store only). 63 rows stay unfamilied until then.
@@ -23,11 +24,11 @@ Ruling landing: 1,439 rulings, 1,396 gold (test 248, val 164, train 984). Export
 - [ ] **Reach 300 ruled meanings (T2).** Owner: Grok Bot (drafts), Danny (rulings). 149/300. Plan proposed 2026-10-16: draft meanings for undefined terms with evidence, then collect for undefined terms without posts.
 
 ## In progress
-- [ ] **Raise test gold to 250 (G1), then 470 (G5).** Owner: Danny (rulings), Grok Bot (queues). Export 245/250 (landing 248); G5 245/470. Test-gap fill: 228 posts collected for 18/21 empty test terms; queues 2026-10-16c (54) and 16d (42) ruled and applied. Queue 2026-10-16e (33 rows, 11 terms) prepared, not sent. tlpur needs context; god shot skipped (insufficient context).
+- [ ] **Raise test gold to 250 (G1), then 470 (G5).** Owner: Danny (rulings), Grok Bot (queues). Rows: export 274/250 met (recount 274; landing 277); G5 274/470; 37 test terms (roadmap >=150 open). Test-gap fill: 228 posts for 18/21 empty test terms; queues 2026-10-16c (54), 16d (42), 16e (33) ruled and applied. tlpur needs context.
 - [ ] **PR #31: T026/T028 (windowed export context, R statuses non-gold, Jev use_mention).** Owner: Danny (merge yes). Opus review findings fixed; 42 tests pass. Not merged.
 
 ## Blocked
-- [ ] **Freeze the held-out test manifest.** Owner: Grok Bot, with Danny's sign-off. Blocked on G1 reaching 250 and on READY.
+- [ ] **Freeze the held-out test manifest.** Owner: Grok Bot, with Danny's sign-off. Blocked on READY (T2 149/300) and Danny's sign-off.
 - [ ] **Archive repo is read-only (scrimshawlife-ctrl/Hyperlex).** Owner: Danny. Decide: unarchive it, or move VERDICT-RULES into this repo.
 
 ## Done
