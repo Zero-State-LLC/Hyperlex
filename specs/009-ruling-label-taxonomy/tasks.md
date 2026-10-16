@@ -1,0 +1,32 @@
+# Spec 009 tasks
+
+## Done
+
+- [x] T001 Detect the "Corrections only" header automatically, and add `--no-auto-corrections` (tracker).
+- [x] T002 Add the `--corrections-only` flag.
+- [x] T003 Write `answer_mode=corrections_only_listed` / `corrections_only_retained`.
+- [x] T004 Support multi-part replies: several files and "PART n:" comma lists for one queue date.
+- [x] T005 Abort on conflicting duplicate indices. Collapse identical duplicates.
+- [x] T006 `--update-existing`: upsert in place with `revised_from`, `revised_at` and `revision_source`. No duplicate rows.
+- [x] T007 Auto-reject off by default, behind `--auto-reject-terms`.
+- [x] T008 Auto-reject, when on, requires every landing ruling for the term to be R.
+- [x] T009 Add `--dry-run` counts and `--write-sqlite`.
+- [x] T010 Add the mirror copy at `scripts/v2/ruling_queue.py`.
+- [x] T011 Tests at `tests/test_ruling_queue_v2.py`: 18 passing.
+- [x] T012 Apply the 2026-10-16 queue (11:02 AM PT) and training parts 1–3 (11:15 AM PT): S 177, O 90, R 24, U 9.
+- [x] T013 Verify idempotence with a dry run: new 0, updated 0, unchanged 300, listed 91, retained 209.
+
+## Open
+
+- [ ] T014 Danny reviews spec 009 and promotes it (constitution VIII).
+- [ ] T015 Add the `use_mention` field (`USE` / `MENTION`) to `jev_sense_contract` (Hyperlex-archive). Blocked on Q3.
+- [ ] T016 Bump VERDICT-RULES (§3 count base, `C_ATTESTED`, `LOW_SENSE_PURITY` treatment of mentions). Blocked on Q3.
+- [ ] T017 Audit historical `operator_term_status='rejected'` rows written by auto-reject, starting with "normie". Blocked on Q1.
+- [ ] T018 Add `ratification_ref` to `corrections_only_retained` rows (DEC-010 provenance).
+- [ ] T019 Add a mirror drift check (tracker sha256 vs mirror header).
+- [ ] T020 Decide on the 2026-10-15 unlisted-row backfill. Blocked on Q2.
+- [ ] T021 Map forward R to `EXCLUDED_INVALID` or `TARGET_ABSENT`, and amend 008 CR-5 text. Blocked on Q5.
+- [ ] T022 Confirm the headcanon-class boundary in FR-010. Blocked on Q4.
+- [ ] T023 Make the 008 cohort builder exclude R rows from attestation (SC-007).
+- [ ] T024 Remove `--auto-reject-terms` if Danny agrees. Blocked on Q1.
+- [ ] T025 Run the SC-005 private-registry check on the owner box before the PR leaves draft.
