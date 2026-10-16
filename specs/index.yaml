@@ -115,9 +115,29 @@ specs:
   title: 'Hyperlexical model; pack: status, amendments, milestones, engineering, tasks, plans, receipts'
 - id: '008'
   path: specs/008-lexical-emergence/
-  status: draft (SPECIFY, SHADOW; awaiting Danny)
+  status: SPECIFY, SHADOW; merge approved by Danny 2026-10-16 (awaiting required review); CR-5 amended by 009
   depends_on:
   - constitution
   - '000'
   - '007'
   title: Lexical emergence (observation, interpretation, emergence measurement; EmergenceEvidence v1)
+- id: '009'
+  slug: ruling-label-taxonomy
+  title: "Ruling label taxonomy (S / O / R / U)"
+  path: specs/009-ruling-label-taxonomy/
+  status: SPECIFY (Q1-Q5 decided 2026-10-16)
+  mode: SHADOW
+  created: '2026-10-16'
+  depends_on:
+    - constitution
+    - '007'
+    - '008'
+  amends:
+    - spec: '008'
+      section: CR-5
+  stacked_on: "PR #28"
+  promotion: "operator only (constitution VIII)"
+  runtime_canonical: "hyperlex-v2-tracker/ruling_queue.py (operator box, not in repo)"
+  mirror: scripts/v2/ruling_queue.py
+  tests: tests/test_ruling_queue_v2.py
+  open_questions: [Q1, Q2, Q3, Q4, Q5]

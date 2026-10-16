@@ -8,6 +8,8 @@ Constitution: `.specify/memory/constitution.md` (v1.0.0, **SHADOW** until operat
 | 001 | Mutation grammar detector | CLARIFY locked · implement on main · not CONVERGED | `hyperlex.mutation` + tests |
 | 002 | Hermes command surface | SPECIFY locked · implement partial | package CLI + `hlx-mutation` + `hyperlex init` |
 | 003 | Mutation detect v0.2 | SPECIFY locked · implement SHADOW | GAME_ENCODE / CODE_SWITCH / PHONETIC_WARP + watch jsonl + `--human` |
+| 008 | Lexical emergence | SPECIFY draft · SHADOW · merge approved by Danny 2026-10-16 (awaiting required review) (CR-5 amended by 009) | docs + contracts only |
+| 009 | Ruling label taxonomy (S/O/U/R) | SPECIFY · SHADOW · decisions Q1-Q5 applied 2026-10-16 | `scripts/v2/ruling_queue.py` mirror + tests |
 
 001 extras: `clarify.md`, `threat-model.md`, `owasp-mapping.md`, `checklist.md`, `dual-use-gate.md`, `ux-commands.md`, `schemas/mutation_trace.v0.1.schema.json`
 

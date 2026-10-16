@@ -55,7 +55,7 @@ Status: DRAFT / SHADOW.
 ## E1: Registry and provisional senses
 
 - [ ] **T023** Stable `candidate_id` assignment. Test: every OBSERVED occurrence maps to exactly 1 candidate, and ids are stable across replay.
-- [ ] **T024** Legacy ruling copy: S/O/U/R are copied verbatim. Historical R (through 2026-10-15) = REJECTED and stays out of cohorts. Test: no historical ruling changes meaning. New rulings use R (invalid → `EXCLUDED_INVALID`) or H (not yet established → stays `OBSERVED`).
+- [ ] **T024** Legacy ruling copy: S/O/U/R are copied verbatim. Historical R (through 2026-10-15) = REJECTED and stays out of cohorts. Test: no historical ruling changes meaning. New rulings use R (target absent → occurrence `TARGET_ABSENT`, extraction repair; amended 2026-10-16 by spec 009 Q5) or H (not yet established → stays `OBSERVED`).
 - [ ] **T025** Sense hypotheses: null gloss is allowed, competing hypotheses are kept, and labels are INFERRED, OBSERVED, or SPECULATIVE per FR-010.
 - [ ] **T026** -slop non-identity test: related candidates never pool counts, and `merged_into` is only set by a MergeRecord fixture.
 - [ ] **T027** Oct-13 holds:

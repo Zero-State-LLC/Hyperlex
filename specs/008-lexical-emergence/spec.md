@@ -307,6 +307,14 @@ Each entry gives the existing rule and why it exists, the research basis, the in
   - G5 exclusions are unchanged.
   - Rationale: never-spread innovations are needed as forecast negatives (C2 design inference), but rewriting past human rulings would break receipt integrity (constitution VI), so the split is prospective.
 - **Residual risk:** Some historical R rows may have been genuine-but-unestablished innovations. They are lost to emergence cohorts unless re-ruled under the new vocabulary by an operator.
+- **Amendment (Danny, 2026-10-16 11:36 AM PT, via spec 009 Q5: "Do as recommended"):**
+  - **Meaning of R:** R means the target is absent from the supplied excerpt. It is a **row-level** extraction fact.
+  - **Forward mapping:** R maps to the occurrence status `TARGET_ABSENT`, routed to extraction repair and kept out of gold, cohorts and attestation. It is **not** candidate `EXCLUDED_INVALID` and never a term-level rejection. `EXCLUDED_INVALID` stays candidate-level, for things like proper names and tokenization errors.
+  - **Historical R rulings:** all keep their R label verbatim as history (receipt integrity, constitution VI).
+    - 50 of 53 were migrated to `TARGET_ABSENT`. In every one, the target is present in the full stored post but outside the queued excerpt window.
+    - The other 3 show the target in the excerpt and are flagged for operator review. They are not migrated.
+  - **Auto-reject:** the batch-all-R term auto-reject was removed from `ruling_queue.py`. Its 8 status rows were moved to `operator_term_status_audit`, with the original rows kept.
+  - **H (hold):** unchanged.
 
 ### CR-6 Text-hash dedup
 
