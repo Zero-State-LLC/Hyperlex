@@ -39,7 +39,7 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
             # wave5 / attested-w2 (harvest ape_in + kaikki cryptocurrencies)
             "aped in", "shitcoin", "hodler", "jeetery", "crypto winter",
             # 2026-10-15 unfamilied sort (OBSERVED-usage fit; rationale in tracker rulings)
-            "crypto", "solana", "employim",
+            "employim",
         ],
         "branch_operator": "cross_family_borrowing",
         "diagram_ref": "examples/slang-families/crypto-degen-family.mmd",
@@ -62,7 +62,6 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
             # wave5 / attested-w2 (harvest wiktionary AI/ML category caches)
             "sycophant", "model collapse", "stochastic parrot", "alignment tax",
             # 2026-10-15 unfamilied sort (OBSERVED-usage fit; rationale in tracker rulings)
-            "grok",
         ],
         "branch_operator": "platform_compression",
         "diagram_ref": "examples/slang-families/ai-native-family.mmd",
@@ -139,7 +138,7 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
             # wave5 / attested-w2 (Hyperlex golden political query compression)
             "cope seethe",
             # 2026-10-15 unfamilied sort (OBSERVED-usage fit; rationale in tracker rulings)
-            "pilled", "degeneracy", "gibs",
+            "pilled", "gibs",
         ],
         "branch_operator": "irony_inversion",
         "diagram_ref": "examples/slang-families/political-status-family.mmd",
@@ -197,7 +196,7 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
             "kek", "anons", "desu", "mfw", "picrel", "lel", "janny", "jannies",
             "shitpost", "shitposting", "sneed", "moar", "redditor",
             # 2026-10-15 unfamilied sort (OBSERVED-usage fit; rationale in tracker rulings)
-            "unironically", "fren", "heckin", "hecking", "hurr", "trvke",
+            "fren", "hurr", "trvke",
         ],
         "branch_operator": "platform_compression",
         "diagram_ref": None,
@@ -221,7 +220,7 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
             "normie", "normies", "chads", "beta", "wagie", "neet", "zoomer", "zoomers",
             "midwit", "manlet", "simp", "enjoyer",
             # 2026-10-15 unfamilied sort (OBSERVED-usage fit; rationale in tracker rulings)
-            "incel", "incels", "simps", "manchild", "trailer trash",
+            "incel", "incels", "simps", "trailer trash",
         ],
         "branch_operator": "sense_extension",
         "diagram_ref": None,
@@ -262,8 +261,7 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
         "terms": [
             # explicit weak-fit bucket: real slang with OBSERVED use but no clear parent family
             "y'all", "doomerslop", "goreslop", "gigglebait", "flame war", "oh shittings",
-            "city slicker", "mad dog", "gerblin", "oovoo javer", "gem", "smol", "hotshot",
-            "lef a word a prayer", "cakewalk", "purple patch", "belt", "bloat",
+            "oovoo javer", "smol", "lef a word a prayer", "unironically", "heckin", "hecking",
         ],
         "branch_operator": "sense_extension",
         "diagram_ref": None,
