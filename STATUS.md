@@ -172,3 +172,6 @@ Operator front door expanded for stack parity with Athanor / Semion / Yggdrasil 
 - G1 test floor redefined per Danny 2026-10-16 approval of recommendation: >=250 human-ruled test rows covering all test-lineage terms with posts (37). Now MET (274 export rows, 37/37 terms). 150 terms = train pool / overall gold (G2/G3). G5 uses term-level bootstrap (PR #33).
 - T2 ruled meanings 149/300 (140 with >=3 contexts, 133 with >=3 slang contexts). 128 model drafts staged for review, not counted.
 - Verdict: NOT READY (T2).
+
+### 2026-10-16 3:05 PM PT pre-Spark check
+- PASS: test gold 273/250, 37/37 test terms, 186 train terms, formats, overlap 0, duplicates fixed (manifest sha now a03c8619, not frozen). FAIL: T2 149/300. Danny: 15 quarantined gold rows, whether the slur family counts toward the family gate. Verdict NOT READY.
