@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""G5 preregistered eval (draft): exact McNemar + bootstrap macro-F1. Inputs are private prediction
+"""G5 preregistered eval (draft): term-level paired bootstrap (primary, per G5_PREREG_EVAL.md 2026-10-16) +
+exact McNemar (descriptive) + bootstrap macro-F1. Inputs are private prediction
 JSONL files keyed by record_id ({"record_id","pred"}) plus a gold JSONL ({"record_id","gold","family"})."""
 import argparse, json, random
 from math import comb
@@ -32,6 +33,25 @@ def holm(pvals):
     return out
 
 
+def term_bootstrap(ids, gold, tuned, base, n=10000, seed=7, key="family"):
+    """Resample test terms (clusters) with replacement; all rows of a term move together.
+    Returns accuracy diff (tuned - base), 95% CI, two-sided bootstrap p, number of clusters."""
+    clusters = {}
+    for i in ids:
+        clusters.setdefault(gold[i].get(key) or i, []).append(i)
+    names = sorted(clusters)
+    stats = {c: (sum(tuned[i]["pred"] == gold[i]["gold"] for i in clusters[c]),
+                 sum(base[i]["pred"] == gold[i]["gold"] for i in clusters[c]), len(clusters[c])) for c in names}
+    def diff(sample):
+        t = sum(stats[c][0] for c in sample); b = sum(stats[c][1] for c in sample); m = sum(stats[c][2] for c in sample)
+        return (t - b) / m if m else 0.0
+    obs = diff(names); rng = random.Random(seed)
+    boots = sorted(diff([rng.choice(names) for _ in names]) for _ in range(n))
+    lo, hi = boots[int(0.025 * n)], boots[int(0.975 * n) - 1]
+    p = min(1.0, 2 * min(sum(d <= 0 for d in boots), sum(d >= 0 for d in boots)) / n)
+    return {"acc_diff": obs, "ci95": [lo, hi], "p_boot": p, "n_terms": len(names)}
+
+
 def load(p):
     return {r["record_id"]: r for r in (json.loads(l) for l in open(p) if l.strip())}
 
@@ -52,8 +72,9 @@ def main():
         name, path = spec.split("=", 1); base = load(path)
         b = sum(1 for i in ids if tuned[i]["pred"] == gold[i]["gold"] and base[i]["pred"] != gold[i]["gold"])
         c = sum(1 for i in ids if tuned[i]["pred"] != gold[i]["gold"] and base[i]["pred"] == gold[i]["gold"])
-        rep[name] = {"b": b, "c": c, "p_exact": mcnemar_exact(b, c)}
-    adj = holm({k: v["p_exact"] for k, v in rep.items() if isinstance(v, dict)})
+        rep[name] = {"term_bootstrap": term_bootstrap(ids, gold, tuned, base),
+                     "mcnemar_descriptive": {"b": b, "c": c, "p_exact": mcnemar_exact(b, c)}}
+    adj = holm({k: v["term_bootstrap"]["p_boot"] for k, v in rep.items() if isinstance(v, dict)})
     for k, p in adj.items():
         rep[k]["p_holm"] = p; rep[k]["significant_0.05"] = p < 0.05
     pairs = [(gold[i]["gold"], tuned[i]["pred"]) for i in ids]
