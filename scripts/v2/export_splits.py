@@ -29,6 +29,14 @@ def context_of(r):
     return ctx, kind
 
 
+def text_key(r):
+    """Dedup key on the exported text itself (case/whitespace-normalised), not only the source post hash:
+    identical short excerpts from different posts were surviving as duplicates (readiness check 2026-10-16)."""
+    import hashlib as _h
+    t = " ".join(str(r.get("contextual_use") or "").lower().split())
+    return _h.sha256(t.encode()).hexdigest() if t else r["content_sha256"]
+
+
 def main(src=ROOT + "/curated_sense_observation.jsonl", out=OUT):
     os.makedirs(out, exist_ok=True)
     rows = [json.loads(l) for l in open(src) if l.strip()]
@@ -39,16 +47,16 @@ def main(src=ROOT + "/curated_sense_observation.jsonl", out=OUT):
     # 1 within-split (text, term)
     best = {}
     for r in sorted(rows, key=lambda r: (gold(r) is None, r["record_id"])):
-        k = (r["_split"], r["content_sha256"], r["term"].lower())
+        k = (r["_split"], text_key(r), r["term"].lower())
         best.setdefault(k, r)
     rows1 = list(best.values()); rep["dropped_exact_dup"] = len(rows) - len(rows1)
     # 2 cross-split
     home = {}
     for r in rows1:
-        s = home.get(r["content_sha256"])
+        s = home.get(text_key(r))
         if s is None or PRI[r["_split"]] < PRI[s]:
-            home[r["content_sha256"]] = r["_split"]
-    rows2 = [r for r in rows1 if home[r["content_sha256"]] == r["_split"]]
+            home[text_key(r)] = r["_split"]
+    rows2 = [r for r in rows1 if home[text_key(r)] == r["_split"]]
     # Opus review PR #31: rows a human judged unusable (R) are not SFT rows either; counted, kept in the store
     rows2_all = rows2
     rows2 = [r for r in rows2 if (r.get("human_ruling") or {}).get("row_status") not in NON_GOLD_ROW_STATUS]
