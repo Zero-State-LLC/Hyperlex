@@ -40,6 +40,54 @@ ENTRY = re.compile(r"(\d{1,3})\s*[:.)\-]?\s*([A-Za-z]+)[.;:]?(?:\s+(.*))?", re.S
 ENTRY_SPLIT = re.compile(r"\s*,\s*(?=\d{1,3}\s*[:.)\-]?\s*[A-Za-z]+\b)")
 
 
+EXCERPT_CHARS = 500  # queue excerpt width; spec 009 T026: windowed around the target, not a head cut
+
+
+def _target_span(full, term):
+    m = re.search(r"(?i)(?<![A-Za-z0-9])" + re.escape(term) + r"(?![A-Za-z0-9])", full)
+    if m:
+        return m.start(), m.end(), "word"
+    i = full.lower().find(term.lower())
+    if i >= 0:
+        return i, i + len(term), "substring"
+    # spacing / hyphen variants ("smol bean" vs "smol-bean"/"smolbean")
+    parts = [re.escape(p) for p in re.split(r"[\s\-_]+", term) if p]
+    if len(parts) > 1:
+        m = re.search(r"(?i)" + r"[\s\-_]?".join(parts), full)
+        if m:
+            return m.start(), m.end(), "variant"
+    return None
+
+
+def window_excerpt(full, term, width=EXCERPT_CHARS):
+    """Return (excerpt, match_kind). Window of <= width chars centred on the first occurrence
+    of term; ellipses mark cut edges. match_kind is word/substring/variant, or None if absent
+    (then the head of the text is returned, as before)."""
+    full = full or ""
+    if len(full) <= width:
+        span = _target_span(full, term)
+        return full, (span[2] if span else None)
+    span = _target_span(full, term)
+    if not span:
+        return full[:width], None
+    s, e, kind = span
+    room = max(0, width - (e - s))
+    start = max(0, s - room // 2)
+    end = min(len(full), start + width)
+    start = max(0, end - width)
+    out = full[start:end]
+    return ("\u2026" if start > 0 else "") + out + ("\u2026" if end < len(full) else ""), kind
+
+
+def present_snippet(text, term, ctx=50):
+    span = _target_span(text, term)
+    if not span:
+        return text[:100] + ("\u2026" if len(text) > 100 else ""), False
+    s, e, _ = span
+    a, b = max(0, s - ctx), min(len(text), e + ctx)
+    return ("\u2026" if a > 0 else "") + text[a:b].replace("\n", " ") + ("\u2026" if b < len(text) else ""), True
+
+
 def split_for(family):
     b = int(hashlib.sha256(f"{SPLIT_METHOD_VERSION}:{family}".encode()).hexdigest(), 16) % 100
     return "train" if b < 80 else "val" if b < 90 else "test"
@@ -150,9 +198,10 @@ def cmd_pick(a):
         if tid in skip_terms and not reopen:
             continue
         obs = jl(op)
-        text = obs.get("raw_excerpt") or obs.get("text")
-        if not text:
+        full = obs.get("text") or obs.get("raw_excerpt")
+        if not full:
             continue
+        text, _kind = window_excerpt(full, canon)
         fam = str(jl(tp).get("hyperlex_lineage_family") or canon).lower()
         by_term[tid].append({"observation_id": oid, "term_id": tid, "term": canon, "term_family": fam,
                              "split": split_for(fam), "model_label": label, "model_prob": prob,
@@ -421,6 +470,12 @@ def cmd_apply(a):
                 upd["answer_mode"] = mode
                 if sense == "REJECT":
                     upd.update(target_absent_fields(upd["revised_at"]))
+                else:
+                    hist = {k: upd.pop(k) for k in ("row_status", "repair_route", "row_status_at",
+                                                     "repair_flag", "repair_flagged_at") if k in upd}
+                    if hist:
+                        hist["cleared_at"] = upd["revised_at"]
+                        upd.setdefault("status_history", []).append(hist)
                 landing[i] = upd
                 updated.append(upd)
             else:
@@ -485,6 +540,71 @@ def cmd_apply(a):
                           "operator_term_status_added": stat}, indent=2))
 
 
+def cmd_repair(a):
+    """Re-queue landed rows with a target-windowed excerpt (spec 009 T026). Keeps the original
+    excerpt as history and records the previous label; writes <stem>.jsonl and <stem>.present.txt."""
+    p = paths(a.root)
+    stem = a.date
+    qf = os.path.join(p["queue"], stem + ".jsonl")
+    if os.path.exists(qf) and not a.force:
+        sys.exit(f"queue exists: {qf} (use --force)")
+    want = [l.split()[0] for l in open(a.ids) if l.strip() and not l.startswith("#")]
+    oldq = {}
+    for f in glob.glob(os.path.join(p["queue"], "*.jsonl")):
+        for l in open(f):
+            if l.strip():
+                r = json.loads(l)
+                oldq[r["queue_id"]] = r
+    land = {r.get("queue_id"): r for r in load_landing(p) if r.get("queue_id")}
+    con = ro(a.db)
+    rows = []
+    for qid in dict.fromkeys(want):
+        if qid not in land or qid not in oldq:
+            print(f"skip {qid}: not in landing/queue")
+            continue
+        L, Q = land[qid], oldq[qid]
+        got = con.execute("SELECT payload FROM observations WHERE observation_id=?", (L["observation_id"],)).fetchone()
+        obs = jl(got[0]) if got else {}
+        full = obs.get("text") or obs.get("raw_excerpt") or Q["text"]
+        text, kind = window_excerpt(HANDLE.sub("@user", full), Q["term"])
+        rows.append({"queue_id": None, "rule_version": RULE_VERSION, "queue_date": stem,
+                     "observation_id": L["observation_id"], "term_id": L["term_id"], "term": Q["term"],
+                     "term_family": Q.get("term_family"), "split": L.get("split") or Q.get("split"),
+                     "model_label": Q.get("model_label"), "model_prob": Q.get("model_prob"),
+                     "text": text, "target_match": kind, "answer": None,
+                     "repair_of": qid, "previous_label": L.get("sense"),
+                     "previous_row_status": L.get("row_status"), "previous_repair_flag": L.get("repair_flag"),
+                     "original_text": Q["text"], "priority_reason": "excerpt repair (spec 009 T026)"})
+    order = {"test": 0, "val": 1, "train": 2}
+    rows.sort(key=lambda r: (order.get(r["split"], 3), r["repair_of"]))
+    for i, r in enumerate(rows, 1):
+        r["queue_id"] = f"{stem}:{i:03d}"
+    with open(qf, "w") as f:
+        for r in rows:
+            f.write(json.dumps(r, ensure_ascii=False) + "\n")
+    short = {"SLANG_SENSE": "S", "OTHER_SENSE": "O", "UNSURE": "U", "REJECT": "R"}
+    out = [f"Excerpt-repair queue {stem}: {len(rows)} rows re-cut around the target. "
+           "[model label] (was: previous ruling). Please re-rule every row (S/O/U/R).", ""]
+    names = {"test": "Test", "val": "Validation", "train": "Training"}
+    for sp in ("test", "val", "train"):
+        grp = [r for r in rows if r["split"] == sp]
+        if not grp:
+            continue
+        out.append(f"**{names[sp]} ({len(grp)})**")
+        for r in grp:
+            snip, ok = present_snippet(r["text"], r["term"])
+            prev = short.get(r["previous_label"], r["previous_label"])
+            line = f'{r["queue_id"][-3:]} {r["term"]}: "{snip}" [{short.get(r["model_label"], r["model_label"])}] (was {prev}; {r["repair_of"]})'
+            if not ok:
+                line += " (term not in text)"
+            out.append(line)
+        out.append("")
+    with open(os.path.join(p["queue"], stem + ".present.txt"), "w") as f:
+        f.write("\n".join(out))
+    print(json.dumps({"queue": qf, "rows": len(rows), "by_split": Counter(r["split"] for r in rows),
+                      "target_match": Counter(str(r["target_match"]) for r in rows)}, indent=2))
+
+
 def cmd_status(a):
     p = paths(a.root)
     L = load_landing(p)
@@ -528,9 +648,13 @@ def main():
                     help="disable 'corrections only' autodetection in answers files")
     ar.add_argument("--update-existing", action="store_true",
                     help="revise already-landed rulings whose sense differs")
+    rp = sub.add_parser("repair", help="re-queue landed rows with target-windowed excerpts")
+    rp.add_argument("--ids", required=True, help="file of queue_ids to repair, one per line")
+    rp.add_argument("--date", required=True, help="queue stem, e.g. 2026-10-16r")
+    rp.add_argument("--force", action="store_true")
     sub.add_parser("status")
     a = ap.parse_args()
-    {"pick": cmd_pick, "apply": cmd_apply, "status": cmd_status}[a.cmd](a)
+    {"pick": cmd_pick, "apply": cmd_apply, "repair": cmd_repair, "status": cmd_status}[a.cmd](a)
 
 
 if __name__ == "__main__":

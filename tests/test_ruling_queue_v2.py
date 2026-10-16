@@ -264,5 +264,45 @@ class ApplyTests(unittest.TestCase):
                 self.assertEqual(r["ratification_ref"]["text"], "Corrections only. All unlisted rows retain the proposed labels.")
 
 
+
+class WindowExcerptTests(unittest.TestCase):
+    def test_target_beyond_head_is_windowed(self):
+        full = "x" * 900 + " the zorblet fit " + "y" * 900
+        ex, kind = rq.window_excerpt(full, "zorblet", 500)
+        self.assertIn("zorblet", ex)
+        self.assertEqual(kind, "word")
+        self.assertLessEqual(len(ex), 502)
+        self.assertTrue(ex.startswith("\u2026") and ex.endswith("\u2026"))
+
+    def test_short_text_unchanged(self):
+        self.assertEqual(rq.window_excerpt("a zorblet b", "zorblet"), ("a zorblet b", "word"))
+
+    def test_absent_falls_back_to_head(self):
+        ex, kind = rq.window_excerpt("q" * 800, "zorblet", 500)
+        self.assertEqual((len(ex), kind), (500, None))
+
+    def test_spacing_variant(self):
+        ex, kind = rq.window_excerpt("z" * 700 + " so smol-bean " + "z" * 700, "smol bean", 500)
+        self.assertEqual(kind, "variant")
+        self.assertIn("smol-bean", ex)
+
+    def test_word_boundary_preferred(self):
+        full = "parallel " + "p" * 600 + " lel " + "p" * 600
+        ex, kind = rq.window_excerpt(full, "lel", 500)
+        self.assertEqual(kind, "word")
+        self.assertIn(" lel ", ex)
+
+    def test_reruling_non_r_clears_target_absent_with_history(self):
+        with tempfile.TemporaryDirectory() as root:
+            p = make_root(root)
+            run(ns(root, [write(root, "a.txt", "001 R\n")]))
+            run(ns(root, [write(root, "b.txt", "001 S\n")], update_existing=True))
+            r = [x for x in rq.load_landing(p) if x["queue_id"].endswith("001")][0]
+            self.assertEqual(r["sense"], "SLANG_SENSE")
+            self.assertNotIn("row_status", r)
+            self.assertEqual(r["status_history"][0]["row_status"], "TARGET_ABSENT")
+            self.assertEqual(r["revised_from"], "REJECT")
+
+
 if __name__ == "__main__":
     unittest.main()

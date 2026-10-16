@@ -31,6 +31,8 @@
 - [x] T024 Remove `--auto-reject-terms` if Danny agrees. Recommended remove (spec §8 Q1).
 - [ ] T025 Run the SC-005 private-registry check on the owner box before the PR leaves draft.
 
-- [ ] T026 Re-window excerpts for the 85 repair rows (50 TARGET_ABSENT + 3 review + 32 flagged), then re-queue (rulings/repair/2026-10-16-target-absent.txt on the operator box).
-- [ ] T027 Push Hyperlex-archive metrics-rule-v1.5 commit (needs approval; that remote is public).
+- [x] T026 Re-window excerpts for the 85 repair rows (50 TARGET_ABSENT + 3 review + 32 flagged), then re-queue (rulings/repair/2026-10-16-target-absent.txt on the operator box).
+- [ ] T027 (BLOCKED: remote scrimshawlife-ctrl/Hyperlex is archived/read-only, push 403; v1.5 lives in this spec) Push Hyperlex-archive metrics-rule-v1.5 commit (needs approval; that remote is public).
 - [ ] T028 Implement use_mention in the Jev sense labelling runtime.
+
+- T026 done 2026-10-16: queue excerpts are windowed around the target (`window_excerpt`, 500 chars); `ruling_queue.py repair` re-queues landed rows with original_text + previous_label kept. Repair queue 2026-10-16-repair: 85 rows (test 15, val 14, train 56) on the operator box. Re-ruling a TARGET_ABSENT row as non-R moves its status to status_history.
