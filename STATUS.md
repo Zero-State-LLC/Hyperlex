@@ -181,3 +181,6 @@ Operator front door expanded for stack parity with Athanor / Semion / Yggdrasil 
 
 ### 2026-10-16 3:10 PM PT
 - algo: off the noise list, Danny-ruled meaning (algorithm / platform feed; mechanism note: clipping), family tiktok-lifestyle, split unchanged. Meanings 150/300 (141 with >=3 contexts / 134 with >=3 slang contexts). Test families 10; test gold rows without a family 86.
+
+### 2026-10-16 3:40 PM PT
+- Word-formation field added (terms + export, backward-compatible; PR #34 draft). algo collection queue prepared (3 rows, not sent). No split changes.
