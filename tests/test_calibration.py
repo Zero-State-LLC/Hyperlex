@@ -64,11 +64,11 @@ def test_lineage_confidence_known_formula() -> None:
     assert "term_weights" in breakdown
 
 
-def test_match_lineage_sharp_family() -> None:
-    text = "sharp steam square wiseguy hammer revenge low block"
+def test_match_lineage_imageboard_family() -> None:
+    text = "kek anons mfw picrel lel jannies sneed"
     lineage = match_lineage(text, min_confidence=0.42)
     assert lineage is not None
-    assert lineage["family_id"] == "betting-sharp"
+    assert lineage["family_id"] == "imageboard-meta"
     assert lineage["confidence"] >= 0.42
     assert lineage["provenance"] == "INFERRED"
     assert "score_breakdown" in lineage

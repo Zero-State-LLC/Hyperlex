@@ -8,7 +8,7 @@
   "properties": {
     "family_id": {
       "type": "string",
-      "description": "Canonical identifier for the documented family (e.g. betting-sharp, crypto-degen, ai-native)",
+      "description": "Canonical identifier for the documented family (e.g. crypto-degen, ai-native, imageboard-meta)",
       "minLength": 2
     },
     "matched_terms": {

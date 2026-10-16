@@ -52,7 +52,7 @@ def test_analysis_attaches_prediction_not_brier() -> None:
 
 
 def test_community_drivers_multi_label() -> None:
-    v = trace_semantic_variation("sharp", "sharp steam betting line", lineage_family="betting-sharp")
+    v = trace_semantic_variation("kek", "kek mfw picrel jannies", lineage_family="imageboard-meta")
     assert "drivers" in v
     assert "communicative_need" in v["drivers"] or "semantic_distinction" in v["drivers"]
     assert v["provenance"] == "INFERRED"

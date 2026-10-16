@@ -114,41 +114,41 @@
       "brier": null
     },
     {
-      "input": "sharp steam revenge",
-      "domain": "markets",
+      "input": "kek mfw picrel",
+      "domain": "ai",
       "split_terms": [
-        "sharp",
-        "steam",
-        "revenge"
+        "kek",
+        "mfw",
+        "picrel"
       ],
       "multi_term": true,
-      "analyze_primary_term": "revenge",
+      "analyze_primary_term": "picrel",
       "analyze_per_term": [
         {
-          "term": "sharp",
-          "family_id": "betting-sharp",
-          "confidence": 0.509
+          "term": "kek",
+          "family_id": "imageboard-meta",
+          "confidence": 0.482
         },
         {
-          "term": "steam",
-          "family_id": "betting-sharp",
-          "confidence": 0.509
+          "term": "mfw",
+          "family_id": "imageboard-meta",
+          "confidence": 0.482
         },
         {
-          "term": "revenge",
-          "family_id": "betting-sharp",
-          "confidence": 0.528
+          "term": "picrel",
+          "family_id": "imageboard-meta",
+          "confidence": 0.511
         }
       ],
       "phase5_schema": "hyperlex.phase5_multi_term.v1",
       "phase5_terms": [
-        "sharp",
-        "steam",
-        "revenge"
+        "kek",
+        "mfw",
+        "picrel"
       ],
       "phase5_summaries": [
         {
-          "seed_term": "sharp",
+          "seed_term": "kek",
           "lineage_family": null,
           "risk_tier": "LOW",
           "risk_score": 0.331,
@@ -157,7 +157,7 @@
           "brier": null
         },
         {
-          "seed_term": "steam",
+          "seed_term": "mfw",
           "lineage_family": null,
           "risk_tier": "LOW",
           "risk_score": 0.331,
@@ -166,7 +166,7 @@
           "brier": null
         },
         {
-          "seed_term": "revenge",
+          "seed_term": "picrel",
           "lineage_family": null,
           "risk_tier": "LOW",
           "risk_score": 0.331,

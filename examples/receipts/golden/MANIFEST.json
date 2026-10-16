@@ -2,15 +2,15 @@
   "receipts": [
     {
       "brier": null,
-      "canonical_hash": "7236c978f1d97656",
-      "file": "betting-sharp.json",
+      "canonical_hash": "4f3b8e79865c92da",
+      "file": "imageboard-meta.json",
       "has_source_fingerprint": true,
-      "id": "betting-sharp",
-      "integrity": "13740d87af49d5ed6a7d8a8d1ec6a3aaa4a8e37e413b137a6907894b7af6e034",
-      "lineage_family": "betting-sharp",
+      "id": "imageboard-meta",
+      "integrity": "da90ee0cf2347564c9e1e3a74340dcdecb1749c3b4b15b149c9b518ab0b7692d",
+      "lineage_family": "imageboard-meta",
       "n_forecasts": 3,
-      "query": "sharp steam square revenge wiseguy hammer",
-      "typology": "tactical_edge"
+      "query": "kek anons mfw picrel jannies sneed",
+      "typology": "platform_agency"
     },
     {
       "brier": null,

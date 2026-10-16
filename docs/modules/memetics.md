@@ -7,7 +7,7 @@ All assignments are **INFERRED**.
 
 | ID | Cues (examples) | Typical lineage |
 |----|-----------------|-----------------|
-| `tactical_edge` | sharp, steam, wiseguy, hammer | betting-sharp |
+| `tactical_edge` | sharp, steam, wiseguy, hammer | (none since betting-sharp was retired 2026-10-15) |
 | `risk_identity` | degen, hodl, rekt, diamond hands | crypto-degen |
 | `platform_agency` | agentic, slop, hallucinate, clanker | ai-native |
 | `status_radiation` | aura, mid, cooked, based | brainrot-aura |

@@ -27,7 +27,7 @@ def test_lineage_distribution_from_golden() -> None:
     diagrams = diagram_from_receipt_files(paths)
     assert "lineage_distribution" in diagrams
     assert "pie" in diagrams["lineage_distribution"]
-    assert "betting-sharp" in diagrams["lineage_distribution"]
+    assert "imageboard-meta" in diagrams["lineage_distribution"]
     assert "receipt_timeline" in diagrams
     assert "flowchart" in diagrams["receipt_timeline"]
     assert "family_graph" in diagrams
@@ -37,7 +37,7 @@ def test_lineage_distribution_from_golden() -> None:
 
 
 def test_single_receipt_flow() -> None:
-    path = GOLDEN / "betting-sharp.json"
+    path = GOLDEN / "imageboard-meta.json"
     rec = json.loads(path.read_text(encoding="utf-8"))
     mmd = diagram_receipt_flow(rec)
     assert "flowchart" in mmd
@@ -47,7 +47,7 @@ def test_single_receipt_flow() -> None:
 
 
 def test_write_bundle(tmp_path: Path) -> None:
-    paths = list(GOLDEN.glob("betting-sharp.json"))
+    paths = list(GOLDEN.glob("imageboard-meta.json"))
     diagrams = diagram_from_receipt_files(paths)
     written = write_diagram_bundle(diagrams, tmp_path / "out", html=True, prefix="test")
     assert "lineage_distribution" in written

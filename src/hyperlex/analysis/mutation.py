@@ -32,8 +32,13 @@ _FAMILY_SUFFIXES: Dict[str, List[str]] = {
     "ai-native": ["slop", "core", "maxxing"],
     "crypto-degen": ["season", "core"],
     "workplace-corp": ["core"],
-    "betting-sharp": ["core"],
     "kinship-address": [],
+    "imageboard-meta": ["posting"],
+    "discourse-accusation": ["ing", "pilled"],
+    "status-labels": ["core", "maxxing"],
+    "tiktok-lifestyle": ["core", "check"],
+    "weeb-otaku": ["core"],
+    "neuro-insult": [],
 }
 
 _GENERAL_SUFFIXES = ["ed", "ing", "er", "y"]

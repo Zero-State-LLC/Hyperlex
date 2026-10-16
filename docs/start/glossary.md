@@ -22,7 +22,7 @@ canonical body so later edits are detectable. Primary durable output for serious
 use. Stored under `~/.hyperlex/receipts/` (and optionally exported to Pages).
 
 ### Lineage family
-A phylogenetic group of related slang (e.g. `brainrot-aura`, `betting-sharp`).
+A phylogenetic group of related slang (e.g. `brainrot-aura`, `crypto-degen`).
 Not a flat dictionary. Match attaches `family_id`, matched atoms, confidence,
 and operator. Overview: [slang lineage map](../map/index.md).
 
