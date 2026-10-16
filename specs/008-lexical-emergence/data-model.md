@@ -39,6 +39,8 @@ Status: DRAFT / SHADOW. Contracts are in `contracts/`. All records live in the p
   - `NOT_ATTESTED`: 0 occurrences.
   - `OBSERVED`: at least 1 occurrence.
   - `EXCLUDED_INVALID`: kept, not in cohorts, reversible by revision.
+- Occurrence row status (spec 009 Q5, 2026-10-16):
+  - `TARGET_ABSENT`: the target is not in the supplied excerpt (ruling R). Kept, routed to extraction repair, excluded from gold, cohorts and attestation. Reversible by repair (re-window the excerpt, then re-rule).
 - **`emergence.trajectory`:**
   - `INSUFFICIENT_HISTORY` is the default at first attestation.
   - It moves to one of `RECURRING`, `SPREADING`, `STABILIZING`, `MUTATING`, or `DORMANT`.

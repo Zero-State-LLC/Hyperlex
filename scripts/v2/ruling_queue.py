@@ -6,7 +6,9 @@ pick   -> rulings/queue/<date>.jsonl + .md (50 rows, stratified by term,
 apply  -> appends human rulings to rulings/landing/human_rulings.v1.jsonl
           (IDs + ruling only, no post text); optional --write-sqlite adds
           operator_definitions rows (never overwrites, backup first);
-          term-level auto-rejection only with --auto-reject-terms.
+          never writes term-level status (spec 009 Q1: R is an
+          excerpt-level extraction fact; auto-reject removed 2026-10-16).
+          R rulings get row_status TARGET_ABSENT -> extraction repair.
           --answers accepts several files (multi-part replies), inline
           comma-separated entries ("PART 1: 004 O, 013 S"), and a
           corrections-only mode (unlisted rows keep the model label).
@@ -289,6 +291,32 @@ def parse_answers(lines_or_files, valid=None, ignored=None):
     return out, corrections_only
 
 
+TARGET_ABSENT = "TARGET_ABSENT"
+NON_GOLD_ROW_STATUS = {TARGET_ABSENT}
+
+
+def target_absent_fields(at):
+    """Spec 009 Q5: R = target absent from the excerpt -> row-level status, extraction repair.
+    Kept out of gold, cohorts and attestation; the R label stays as history."""
+    return {"row_status": TARGET_ABSENT, "repair_route": "extraction_repair", "row_status_at": at}
+
+
+def ratification_ref(srcs):
+    """First 'corrections only' line of the answers files, as the human ratification (DEC-010)."""
+    for f in srcs:
+        try:
+            for line in open(f):
+                if line.strip().lower().startswith("corrections only"):
+                    return {"file": os.path.basename(f), "text": line.strip()}
+        except OSError:
+            pass
+    return None
+
+
+def is_gold(r):
+    return r.get("sense") in GOLD and r.get("row_status") not in NON_GOLD_ROW_STATUS
+
+
 def expand_corrections(queue_rows, corrections):
     """Corrections-only expansion: listed rows get the given code, all others keep model_label."""
     out = []
@@ -359,6 +387,7 @@ def cmd_apply(a):
     p = paths(a.root)
     recs, srcs = read_answers(a, p)
     revision_source = ", ".join(os.path.basename(s) for s in srcs)
+    ratification = ratification_ref(srcs)
     landing = load_landing(p)
     pos = {(r["observation_id"], r["term_id"]): i for i, r in enumerate(landing)}
     update_existing = getattr(a, "update_existing", False)
@@ -390,6 +419,8 @@ def cmd_apply(a):
                 if ans.get("definition"):
                     upd["definition"] = ans["definition"]
                 upd["answer_mode"] = mode
+                if sense == "REJECT":
+                    upd.update(target_absent_fields(upd["revised_at"]))
                 landing[i] = upd
                 updated.append(upd)
             else:
@@ -402,6 +433,10 @@ def cmd_apply(a):
                     "definition": ans.get("definition"), "notes": ans.get("notes"), "by": a.by, "at": at,
                     "source": "human", "queue_id": r["queue_id"], "model_label": r.get("model_label"),
                     "model_prob": r.get("model_prob"), "answer_mode": mode})
+        if mode == "corrections_only_retained" and ratification:
+            new[-1]["ratification_ref"] = ratification
+        if sense == "REJECT":
+            new[-1].update(target_absent_fields(at))
         pos[key] = None
     modes = Counter(r.get("answer_mode") for r in recs if (r.get("answer") or {}).get("sense"))
     print(json.dumps({"new_rulings": len(new), "updated": len(updated), "unchanged": unchanged,
@@ -444,25 +479,6 @@ def cmd_apply(a):
                           "VALUES (?,?,?,?,?)", (tid, dn["definition"], a.by, dn["at"],
                                                  f"{RULE_VERSION} ruling queue {dn['queue_id']}"))
                 defs += 1
-        if getattr(a, "auto_reject_terms", False):
-            # Off by default: R means the target is absent from the excerpt (an extraction
-            # fact), not a lexical judgement about the term. Only reject a term when every
-            # ruling for it across the whole landing file is REJECT (and there is at least one).
-            all_rows = defaultdict(list)
-            for r in landing + new:
-                all_rows[r["term_id"]].append(r)
-            touched = []
-            for r in new + updated:
-                if r["term_id"] not in touched:
-                    touched.append(r["term_id"])
-            for tid in touched:
-                lst = all_rows.get(tid, [])
-                if lst and all(r.get("sense") == "REJECT" for r in lst):
-                    ref = lst[-1]
-                    cur = s.execute("INSERT OR IGNORE INTO operator_term_status(term_id, status, recorded_by, recorded_at, source) "
-                                    "VALUES (?,?,?,?,?)", (tid, "rejected", a.by, ref.get("at") or now_iso(),
-                                                           f"{RULE_VERSION} ruling queue {ref.get('queue_id')}"))
-                    stat += cur.rowcount
         s.commit()
         s.close()
         print(json.dumps({"sqlite_backup": bk, "operator_definitions_added": defs,
@@ -472,7 +488,7 @@ def cmd_apply(a):
 def cmd_status(a):
     p = paths(a.root)
     L = load_landing(p)
-    gold = [r for r in L if r.get("sense") in GOLD]
+    gold = [r for r in L if is_gold(r)]
     pend = []
     for f in sorted(glob.glob(os.path.join(p["queue"], "*.jsonl"))):
         stem = os.path.splitext(os.path.basename(f))[0]
@@ -512,8 +528,6 @@ def main():
                     help="disable 'corrections only' autodetection in answers files")
     ar.add_argument("--update-existing", action="store_true",
                     help="revise already-landed rulings whose sense differs")
-    ar.add_argument("--auto-reject-terms", action="store_true",
-                    help="with --write-sqlite: mark terms rejected when ALL landing rulings are REJECT")
     sub.add_parser("status")
     a = ap.parse_args()
     {"pick": cmd_pick, "apply": cmd_apply, "status": cmd_status}[a.cmd](a)

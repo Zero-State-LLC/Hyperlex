@@ -95,7 +95,7 @@ def make_db(path):
 def ns(root, answers, **kw):
     d = dict(root=root, db=os.path.join(root, "none.sqlite3"), file=None, answers=answers, date=DATE,
              by="Tester", write_sqlite=False, dry_run=False, corrections_only=False,
-             no_auto_corrections=False, update_existing=False, auto_reject_terms=False)
+             no_auto_corrections=False, update_existing=False)
     d.update(kw)
     return argparse.Namespace(**d)
 
@@ -230,29 +230,38 @@ class ApplyTests(unittest.TestCase):
             self.assertEqual(len(rq.load_landing(p)), 1)
             self.assertIn('"unchanged": 1', out)
 
-    def test_auto_reject_off_by_default(self):
+    def test_never_writes_term_status(self):
         with tempfile.TemporaryDirectory() as root:
             make_root(root)
             db = make_db(os.path.join(root, "v.sqlite3"))
             run(ns(root, [write(root, "a.txt", "001 R\n002 R\n")], db=db, write_sqlite=True))
             self.assertEqual(status_rows(db), [])
 
-    def test_auto_reject_on_all_reject(self):
-        with tempfile.TemporaryDirectory() as root:
-            make_root(root)
-            db = make_db(os.path.join(root, "v.sqlite3"))
-            run(ns(root, [write(root, "a.txt", "001 R\n002 R\n")], db=db, write_sqlite=True,
-                   auto_reject_terms=True))
-            self.assertEqual(status_rows(db), [("term:a", "rejected")])
+    def test_auto_reject_flag_removed(self):
+        self.assertNotIn("auto_reject_terms", open(rq.__file__).read())
 
-    def test_auto_reject_respects_whole_landing(self):
+    def test_reject_gets_target_absent(self):
         with tempfile.TemporaryDirectory() as root:
-            make_root(root)
-            db = make_db(os.path.join(root, "v.sqlite3"))
-            run(ns(root, [write(root, "a.txt", "001 S\n")], db=db))
-            run(ns(root, [write(root, "b.txt", "002 R\n")], db=db, write_sqlite=True,
-                   auto_reject_terms=True))
-            self.assertEqual(status_rows(db), [])
+            p = make_root(root)
+            run(ns(root, [write(root, "a.txt", "001 R\n002 S\n")]))
+            L = {r["queue_id"][-3:]: r for r in rq.load_landing(p)}
+            self.assertEqual(L["001"]["row_status"], "TARGET_ABSENT")
+            self.assertEqual(L["001"]["sense"], "REJECT")
+            self.assertNotIn("row_status", L["002"])
+            self.assertFalse(rq.is_gold(L["001"]))
+            self.assertTrue(rq.is_gold(L["002"]))
+            self.assertFalse(rq.is_gold({"sense": "SLANG_SENSE", "row_status": "TARGET_ABSENT"}))
+
+    def test_retained_rows_carry_ratification(self):
+        with tempfile.TemporaryDirectory() as root:
+            p = make_root(root)
+            run(ns(root, [write(root, "a.txt", "Corrections only. All unlisted rows retain the proposed labels.\n001 O\n")]))
+            L = {r["queue_id"][-3:]: r for r in rq.load_landing(p)}
+            self.assertNotIn("ratification_ref", L["001"])
+            other = [r for k, r in L.items() if k != "001"]
+            self.assertTrue(other)
+            for r in other:
+                self.assertEqual(r["ratification_ref"]["text"], "Corrections only. All unlisted rows retain the proposed labels.")
 
 
 if __name__ == "__main__":

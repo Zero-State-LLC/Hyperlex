@@ -19,14 +19,18 @@
 ## Open
 
 - [ ] T014 Danny reviews spec 009 and promotes it (constitution VIII).
-- [ ] T015 Add the `use_mention` field (`USE` / `MENTION`) to `jev_sense_contract` (Hyperlex-archive). Researched: mentions count toward C_ATTESTED only (spec §8 Q3); needs Danny for rule bump.
-- [ ] T016 Bump VERDICT-RULES (§3 count base, `C_ATTESTED`, `LOW_SENSE_PURITY` treatment of mentions). Researched: mentions count toward C_ATTESTED only (spec §8 Q3); needs Danny for rule bump.
-- [ ] T017 Audit historical `operator_term_status='rejected'` rows written by auto-reject, starting with "normie". Audited: 8/69 auto-reject rows, all false (spec §8 Q1); supersede on Danny yes.
-- [ ] T018 Add `ratification_ref` to `corrections_only_retained` rows (DEC-010 provenance).
+- [x] T015 Add the `use_mention` field (`USE` / `MENTION`) to `jev_sense_contract` (Hyperlex-archive). Researched: mentions count toward C_ATTESTED only (spec §8 Q3); needs Danny for rule bump.
+- [x] T016 Bump VERDICT-RULES (§3 count base, `C_ATTESTED`, `LOW_SENSE_PURITY` treatment of mentions). Researched: mentions count toward C_ATTESTED only (spec §8 Q3); needs Danny for rule bump.
+- [x] T017 Audit historical `operator_term_status='rejected'` rows written by auto-reject, starting with "normie". Audited: 8/69 auto-reject rows, all false (spec §8 Q1); supersede on Danny yes.
+- [x] T018 Add `ratification_ref` to `corrections_only_retained` rows (DEC-010 provenance).
 - [ ] T019 Add a mirror drift check (tracker sha256 vs mirror header).
-- [ ] T020 Decide on the 2026-10-15 unlisted-row backfill. Researched: 95 rows, reply ratified (spec §8 Q2); apply on Danny go.
-- [ ] T021 Map forward R to `EXCLUDED_INVALID` or `TARGET_ABSENT`, and amend 008 CR-5 text. Recommend TARGET_ABSENT (spec §8 Q5); needs Danny.
-- [ ] T022 Confirm the headcanon-class boundary in FR-010. Resolved: S within community (spec §8 Q4); confirm.
+- [x] T020 Decide on the 2026-10-15 unlisted-row backfill. Researched: 95 rows, reply ratified (spec §8 Q2); apply on Danny go.
+- [x] T021 Map forward R to `EXCLUDED_INVALID` or `TARGET_ABSENT`, and amend 008 CR-5 text. Recommend TARGET_ABSENT (spec §8 Q5); needs Danny.
+- [x] T022 Confirm the headcanon-class boundary in FR-010. Resolved: S within community (spec §8 Q4); confirm.
 - [ ] T023 Make the 008 cohort builder exclude R rows from attestation (SC-007).
-- [ ] T024 Remove `--auto-reject-terms` if Danny agrees. Recommended remove (spec §8 Q1).
+- [x] T024 Remove `--auto-reject-terms` if Danny agrees. Recommended remove (spec §8 Q1).
 - [ ] T025 Run the SC-005 private-registry check on the owner box before the PR leaves draft.
+
+- [ ] T026 Re-window excerpts for the 85 repair rows (50 TARGET_ABSENT + 3 review + 32 flagged), then re-queue (rulings/repair/2026-10-16-target-absent.txt on the operator box).
+- [ ] T027 Push Hyperlex-archive metrics-rule-v1.5 commit (needs approval; that remote is public).
+- [ ] T028 Implement use_mention in the Jev sense labelling runtime.

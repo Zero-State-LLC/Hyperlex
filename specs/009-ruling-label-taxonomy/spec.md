@@ -344,3 +344,25 @@ Danny's definitions (2026-10-16 training notes) are quoted verbatim.
 ### Still open
 
 - Agreement for this scheme is unmeasured. There is no second annotator (SemEval practice reports κ; Wilson 2012 reports κ 0.74 for mention).
+
+## 9. Decisions applied (Danny, 2026-10-16 11:36 AM PT: "Do as recommended. All data is valuable in some way.")
+
+Nothing was deleted. Every superseded record is kept. SQLite and the landing files were backed up first (tracker `rulings/backups/20261016T1140/`).
+
+- **Q1 (applied):**
+  - The 8 batch-all-R auto-reject rows were moved, exactly as they were, to a new table `operator_term_status_audit` (with moved_at, reason and decision_ref). `operator_term_status` goes from 69 rows to 61.
+  - Export check (`slang_core/records.py`): the 440 sense records for the 8 terms were all exported with operator status `rejected` before. After the move, 0 are (371 `ruled`, 69 no operator block).
+  - `--auto-reject-terms` and its code were removed. `apply` never writes term-level status. A test asserts this.
+- **Q2 (applied):** 95 unruled 2026-10-15 rows were filled through corrections-only (S 80, O 15). Each carries `answer_mode=corrections_only_retained` and `ratification_ref` = Danny's reply line "Corrections only. All unlisted rows retain the proposed labels."
+- **Q3 (applied):** `metrics-rule-v1.5` (`verdict-rules-v1.5.md`) and sense contract `rebuilt-sense-v2` (`contracts/jev_sense_contract.v2.json`).
+  - A MENTION is O with a `use_mention` field. It counts only toward path C explainers.
+  - The Hyperlex-archive copy is committed locally. It needs its own push approval.
+- **Q4 (confirmed):** in-group register vocabulary is S inside its own community. Spread is not required. Subject jargon used literally is O.
+- **Q5 (applied):**
+  - Row status `TARGET_ABSENT` is in place, and spec 008 CR-5 is amended.
+  - 50 R rows were migrated, keeping their R label. In all 50, the target is in the full post beyond the 500-character excerpt window, so the excerpt windowing is the defect.
+  - 3 R rows show the target in the excerpt. They are flagged `R_BUT_TARGET_VISIBLE_REVIEW` and not migrated.
+  - 32 non-R rows have the target missing from the excerpt: the 28 found earlier plus 4 from the 10-15 backfill. They are flagged `TARGET_NOT_FOUND_IN_EXCERPT` and keep their labels (O 14, U 15, S 3).
+    - 31 of them have the word in the full post beyond the window.
+    - 1 is a spacing variant.
+  - New R rulings get `row_status=TARGET_ABSENT` automatically. `status` and gold use `is_gold()`, which excludes `TARGET_ABSENT`.
