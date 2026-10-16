@@ -49,6 +49,10 @@ def main(src=ROOT + "/curated_sense_observation.jsonl", out=OUT):
         if s is None or PRI[r["_split"]] < PRI[s]:
             home[r["content_sha256"]] = r["_split"]
     rows2 = [r for r in rows1 if home[r["content_sha256"]] == r["_split"]]
+    # Opus review PR #31: rows a human judged unusable (R) are not SFT rows either; counted, kept in the store
+    rows2_all = rows2
+    rows2 = [r for r in rows2 if (r.get("human_ruling") or {}).get("row_status") not in NON_GOLD_ROW_STATUS]
+    rep["dropped_non_gold_row_status"] = len(rows2_all) - len(rows2)
     rep["dropped_cross_split"] = len(rows1) - len(rows2)
     by = collections.defaultdict(list)
     for r in rows2:
@@ -74,7 +78,8 @@ def main(src=ROOT + "/curated_sense_observation.jsonl", out=OUT):
     man = "".join(x["record_id"] + "\n" for x in gt)
     open(f"{out}/test_manifest.txt", "w").write(man)
     rep["test_manifest_sha256"] = hashlib.sha256(man.encode()).hexdigest()
-    texts = {s: {hashlib.sha256(x["context"].encode()).hexdigest() for x in by[s]} for s in by}
+    sha = {r["record_id"]: r["content_sha256"] for r in rows2}
+    texts = {s: {sha[x["record_id"]] for x in by[s]} for s in by}  # whole-post hash, not the window
     terms = {s: {x["term"].lower() for x in by[s]} for s in by}
     rep.update({"rows": {s: len(by[s]) for s in by}, "gold_rows": {s: sum(x["label_source"] == "human" for x in by[s]) for s in by},
                 "gold_test": len(gt),

@@ -45,7 +45,8 @@ def test_non_gold_row_status_excluded():
     out, rep, d = _run(rows)
     gold = {json.loads(l)["record_id"] for l in open(os.path.join(d, "gold_test.jsonl"))}
     assert gold == {"ok"}
-    assert out["ta"]["label_source"].startswith("model:") and out["ta"]["row_status"] == "TARGET_ABSENT"
+    assert "ta" not in out and "ue" not in out
+    assert rep["dropped_non_gold_row_status"] == 2
     assert out["ok"]["use_mention"] == "USE"
     assert rep["non_gold_row_status_rows"] == 2
 

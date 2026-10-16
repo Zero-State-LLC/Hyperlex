@@ -54,3 +54,12 @@ def test_ensure_table_adds_column_additively():
     con.execute("INSERT INTO observation_sense_v1 VALUES ('o1','t','SLANG_SENSE',1.0,'rebuilt-sense-v1','x')")
     sl.ensure_table(con); sl.ensure_table(con)
     assert con.execute("SELECT label, use_mention FROM observation_sense_v1").fetchall() == [("SLANG_SENSE", None)]
+
+
+def test_slang_with_unresolved_use_mention_is_unknown():
+    for um in ({}, {"p0_um": _a("BOTH", 0.9)}, {"p0_um": _a("MENTION", 0.3)}):
+        assert sl.parse_answer({"p0": _a("SLANG_SENSE", 0.9), **um}, "p0", V2)[0] == "UNKNOWN"
+
+
+def test_mention_override_clears_prob():
+    assert sl.parse_answer({"p0": _a("SLANG_SENSE", 0.9), "p0_um": _a("MENTION", 0.9)}, "p0", V2) == ("OTHER_SENSE", None, "MENTION")

@@ -151,8 +151,8 @@ def parse_answer(answers: dict, pid: str, c: dict) -> tuple:
             except (TypeError, ValueError):
                 up = None
             um = b["choice"] if up is not None and up >= min_p else None
-        if um == "MENTION" and lab == "SLANG_SENSE":
-            lab = "OTHER_SENSE"
+        if lab == "SLANG_SENSE" and um != "USE":  # v2: MENTION -> OTHER_SENSE; unresolved -> UNKNOWN (fail closed)
+            lab, prob = ("OTHER_SENSE", None) if um == "MENTION" else ("UNKNOWN", prob)
     return lab, prob, um
 
 
@@ -244,5 +244,5 @@ if __name__ == "__main__":
             f.write(json.dumps({"run_id": f"sense-{run}", "kind": "sense_backfill" if a.backfill else "sense_run",
                                 "max_cost_usd": cap, **{k: s.get(k) for k in ("pending_posts", "batches", "live_calls", "labeled",
                                 "labels", "incomplete_terms", "usage_input_tokens", "cost_usd_estimated_pre_call", "cost_usd_actual_est",
-                                "sense_contract_sha256")}}) + "\n")
+                                "sense_contract_sha256", "use_mention")}}) + "\n")
         print(json.dumps(s, indent=1))
