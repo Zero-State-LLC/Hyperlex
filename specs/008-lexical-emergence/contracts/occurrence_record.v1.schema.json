@@ -1,0 +1,432 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hyperlex.dev/schemas/008/occurrence_record.v1.schema.json",
+  "title": "Hyperlex OccurrenceRecord v1",
+  "description": "Immutable record of one occurrence of a candidate surface. Never edited; corrections are new records naming the old one in supersedes. Holds no post text (context_ref points into the private store) and no raw author handle. DISCOVERY_HIT never counts as an attested occurrence. Rights are provenance only.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "occurrence_id",
+    "candidate_id",
+    "surface",
+    "surface_sha256",
+    "occurrence_kind",
+    "genuineness",
+    "observed_at",
+    "ingested_at",
+    "source",
+    "content_sha256",
+    "context_ref",
+    "span",
+    "language",
+    "community",
+    "author_id",
+    "author_id_status",
+    "author_id_basis",
+    "rights",
+    "extraction_quality",
+    "provenance_label",
+    "dedup",
+    "safety",
+    "legacy",
+    "supersedes",
+    "record_hash"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "occurrence_record.v1"
+    },
+    "occurrence_id": {
+      "type": "string",
+      "minLength": 8
+    },
+    "candidate_id": {
+      "type": "string",
+      "pattern": "^lex-[a-z0-9][a-z0-9-]*$"
+    },
+    "surface": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1,
+      "description": "Null for private-overlay members."
+    },
+    "surface_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "Keyed hash for overlay members."
+    },
+    "occurrence_kind": {
+      "type": "string",
+      "enum": [
+        "ATTESTED_USE",
+        "ATTESTED_MENTION",
+        "DISCOVERY_HIT"
+      ]
+    },
+    "genuineness": {
+      "type": "string",
+      "enum": [
+        "VERIFIED",
+        "UNVERIFIED",
+        "FAILED"
+      ]
+    },
+    "observed_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time",
+      "description": "Source event_time. Null means undated: kept, excluded from temporal cohorts."
+    },
+    "ingested_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Source collected_at."
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_system",
+        "source_row_key"
+      ],
+      "properties": {
+        "source_system": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_table": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_row_key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_db_sha256": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_locator": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "content_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "context_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Pointer into the private store. Never inline text."
+    },
+    "span": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "start",
+        "end"
+      ],
+      "properties": {
+        "start": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "language": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "author_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^hmac[0-9]+:[0-9a-f]{32}$",
+      "description": "Privacy-safe author id: 'hmac<keyver>:' + first 32 hex of HMAC-SHA256(key, platform + ':' + native author id). Key lives in a private file on the operator box, never in any repo. Platform-scoped; not linkable across platforms."
+    },
+    "rights": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Provenance only. Never an eligibility filter."
+    },
+    "extraction_quality": {
+      "type": "string",
+      "enum": [
+        "HIGH",
+        "MEDIUM",
+        "LOW",
+        "UNKNOWN"
+      ]
+    },
+    "provenance_label": {
+      "type": "string",
+      "enum": [
+        "OBSERVED",
+        "INFERRED",
+        "SPECULATIVE"
+      ]
+    },
+    "dedup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "exact_duplicate_of",
+        "near_dup_cluster_id"
+      ],
+      "properties": {
+        "exact_duplicate_of": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "near_dup_cluster_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sensitivity",
+        "private_overlay_ref",
+        "restricted_intent_suspected"
+      ],
+      "properties": {
+        "sensitivity": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "private_overlay_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "restricted_intent_suspected": {
+          "type": "boolean"
+        }
+      }
+    },
+    "legacy": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "schema_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rule_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "disposition": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "OBSERVED",
+            "INFERRED",
+            "REJECTED",
+            "UNRESOLVED",
+            null
+          ]
+        },
+        "human_ruling": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ruling_code": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "S",
+            "O",
+            "U",
+            "R",
+            null
+          ]
+        },
+        "review_status": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "epistemic_basis": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "supersedes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "record_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "community": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "platform",
+        "sub_community",
+        "thread_id"
+      ],
+      "description": "Two-level community (spec CR-7). Within-platform diffusion uses sub_community (or thread_id where the platform has none); cross-platform pollination uses platform. Query-lane labels are never communities.",
+      "properties": {
+        "platform": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$",
+          "description": "Platform slug, e.g. x, fourchan, reddit."
+        },
+        "sub_community": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Board (e.g. /v/) or subreddit (e.g. r/GenZ). Null when the platform or stored data has none."
+        },
+        "thread_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Thread or conversation cluster id within the platform, if known."
+        }
+      }
+    },
+    "author_id_basis": {
+      "enum": [
+        "x_user_id",
+        "x_handle",
+        "fourchan_poster_id",
+        "fourchan_tripcode",
+        "reddit_username",
+        null
+      ],
+      "description": "Which native identifier was hashed."
+    },
+    "author_id_status": {
+      "enum": [
+        "OK",
+        "ANONYMOUS_NO_ID",
+        "SOURCE_UNAVAILABLE",
+        "FIXTURE"
+      ],
+      "description": "Why author_id is or is not present."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "safety": {
+            "properties": {
+              "private_overlay_ref": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "private_overlay_ref"
+            ]
+          }
+        },
+        "required": [
+          "safety"
+        ]
+      },
+      "then": {
+        "properties": {
+          "surface": {
+            "type": "null"
+          },
+          "candidate_id": {
+            "pattern": "^lex-h-[a-f0-9]{16,64}$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "safety": {
+            "properties": {
+              "restricted_intent_suspected": {
+                "const": true
+              }
+            },
+            "required": [
+              "restricted_intent_suspected"
+            ]
+          }
+        },
+        "required": [
+          "safety"
+        ]
+      },
+      "then": {
+        "properties": {
+          "surface": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

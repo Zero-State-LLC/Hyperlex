@@ -73,6 +73,8 @@ Status: DRAFT / SHADOW.
 
 ## E3: Baseline forecasting
 
+Prerequisite: T038 (author and community backfill, listed under E4) runs ahead of E3 because the E3 target needs author pseudonyms. It is already done.
+
 - [ ] **T034** `[gate]` Freeze the prereg (plan §4) and the cohort manifest SHA-256 before any test load.
 - [ ] **T035** Three baselines plus S2 logistic and survival models, tuned on validation only.
 - [ ] **T036** Write ForecastReceipts. Test: all `brier` fields are null.

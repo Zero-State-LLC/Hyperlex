@@ -35,7 +35,7 @@ Each phase must pass its gate before the next starts. Any gate failure stops wor
 
 ## 4. First experiment: preregistration sketch
 
-**Question (brief):** Can Hyperlex predict independent recurrence within 30 days from first observed occurrence better than a morphology-and-frequency baseline?
+**Question (brief):** After a 24-hour observation period from the first observed occurrence, can Hyperlex predict a further independent recurrence by `t0 + 30 d` better than a morphology-and-frequency baseline? Recurrence inside the first 24 hours is a feature, not the target.
 
 Freeze this section, plus the cohort manifest SHA-256, before any test load. The same discipline as `docs/v2/G5_PREREG_EVAL.md` applies.
 
@@ -56,7 +56,8 @@ Freeze this section, plus the cohort manifest SHA-256, before any test load. The
   - it has an author pseudonym different from every author pseudonym seen up to `prediction_ts`
   - it is not an exact duplicate of earlier text
   - it is not in the same near-duplicate cluster as earlier text
-- Y = 0 otherwise, if the window is fully covered.
+- Y = 0 otherwise, if the window is fully covered and every otherwise-qualifying occurrence in the window has a known author pseudonym.
+- Unknown author: if no occurrence gives Y = 1, but at least one otherwise-qualifying occurrence in the window has a null author pseudonym, the unit is `NOT_COMPUTABLE`, never 0. These units are excluded from binary metrics and counted in the coverage report. Unknown independence is not a negative.
 - If author pseudonym coverage is below the preregistered minimum, the target is `NOT_COMPUTABLE`. The experiment does not run. There is no proxy (spec CR-7).
 
 ### Censoring

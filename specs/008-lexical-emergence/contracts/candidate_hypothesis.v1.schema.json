@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hyperlex.dev/schemas/008/candidate_hypothesis.v1.schema.json",
+  "title": "Hyperlex CandidateHypothesis v1",
+  "description": "Revisable candidate. Revisions are append-only. Registration needs no qualification. Morphological relations never imply identity; only an operator-gated merge sets merged_into. Qualification is the unchanged VERDICT-RULES verdict stored beside observation state. Promotion is always SHADOW_ONLY.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "candidate_id",
+    "revision",
+    "revised_at",
+    "surface",
+    "surface_sha256",
+    "lexical_status",
+    "occurrence_count",
+    "first_attested_at",
+    "sense_hypotheses",
+    "formation",
+    "emergence",
+    "related_candidates",
+    "merged_into",
+    "qualification",
+    "promotion",
+    "safety",
+    "provenance_label"
+  ],
+  "properties": {
+    "schema_version": { "const": "candidate_hypothesis.v1" },
+    "candidate_id": { "type": "string", "pattern": "^lex-[a-z0-9][a-z0-9-]*$" },
+    "revision": { "type": "integer", "minimum": 1 },
+    "revised_at": { "type": "string", "format": "date-time" },
+    "surface": { "type": ["string", "null"], "minLength": 1 },
+    "surface_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "lexical_status": {
+      "type": "string",
+      "enum": ["NOT_ATTESTED", "OBSERVED", "EXCLUDED_INVALID"]
+    },
+    "occurrence_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Derived from ATTESTED_* occurrences whose genuineness is not FAILED."
+    },
+    "first_attested_at": { "type": ["string", "null"], "format": "date-time" },
+    "sense_hypotheses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["sense_id", "gloss", "status", "confidence", "provenance_label"],
+        "properties": {
+          "sense_id": { "type": "string", "minLength": 1 },
+          "gloss": { "type": ["string", "null"] },
+          "status": {
+            "type": "string",
+            "enum": ["PROVISIONAL", "COMPETING", "CONTEXT_SUPPORTED", "OPERATOR_DEFINED", "UNRESOLVED", "WITHDRAWN"]
+          },
+          "confidence": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+          "provenance_label": {
+            "type": "string",
+            "enum": ["OBSERVED", "INFERRED", "SPECULATIVE"]
+          }
+        }
+      }
+    },
+    "formation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mechanism", "components", "provenance_label"],
+      "properties": {
+        "mechanism": {
+          "type": "string",
+          "enum": ["blend", "compound", "affixation", "clipping", "borrowing", "semantic_shift", "respelling", "acronym", "unknown"]
+        },
+        "components": { "type": "array", "items": { "type": "string" } },
+        "provenance_label": {
+          "type": "string",
+          "enum": ["INFERRED", "SPECULATIVE"]
+        }
+      }
+    },
+    "emergence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["trajectory", "prediction", "last_evidence_id"],
+      "properties": {
+        "trajectory": {
+          "type": "string",
+          "enum": ["INSUFFICIENT_HISTORY", "RECURRING", "SPREADING", "STABILIZING", "MUTATING", "DORMANT", "REVIVED"]
+        },
+        "prediction": {
+          "type": ["string", "null"],
+          "description": "forecast_receipt_id of the latest frozen forecast, or null."
+        },
+        "last_evidence_id": { "type": ["string", "null"] }
+      }
+    },
+    "related_candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["candidate_id", "relation", "provenance_label"],
+        "properties": {
+          "candidate_id": { "type": "string", "pattern": "^lex-[a-z0-9][a-z0-9-]*$" },
+          "relation": {
+            "type": "string",
+            "enum": ["SHARES_FORMATIVE", "SPELLING_VARIANT_HYPOTHESIS", "COMPOUND_PARENT", "COMPOUND_CHILD", "MUTATION_OF"]
+          },
+          "provenance_label": {
+            "type": "string",
+            "enum": ["INFERRED", "SPECULATIVE"]
+          }
+        }
+      }
+    },
+    "merged_into": {
+      "type": ["string", "null"],
+      "description": "Set only by an operator-gated merge record."
+    },
+    "qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rule_version", "verdict", "guard_flags", "evaluated_at"],
+      "properties": {
+        "rule_version": { "type": ["string", "null"] },
+        "verdict": {
+          "type": "string",
+          "enum": ["PASS", "OBSERVE", "QUARANTINE", "HOLD", "NOT_EVALUATED"]
+        },
+        "guard_flags": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": ["ONE_AUTHOR_DEPENDENCE", "BOTLIKE_REPETITION", "SINGLE_BURST", "FIXTURE_EVIDENCE", "DORMANT_OR_UNDATED", "LOW_SENSE_PURITY", "SENSE_UNVERIFIED", "NULL_MEANING_CAP"]
+          }
+        },
+        "evaluated_at": { "type": ["string", "null"], "format": "date-time" }
+      }
+    },
+    "promotion": { "const": "SHADOW_ONLY" },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["private_overlay_ref"],
+      "properties": {
+        "private_overlay_ref": { "type": ["string", "null"] }
+      }
+    },
+    "provenance_label": {
+      "type": "string",
+      "enum": ["OBSERVED", "INFERRED", "SPECULATIVE"]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "lexical_status": { "const": "NOT_ATTESTED" } },
+        "required": ["lexical_status"]
+      },
+      "then": {
+        "properties": {
+          "occurrence_count": { "const": 0 },
+          "first_attested_at": { "type": "null" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "lexical_status": { "const": "OBSERVED" } },
+        "required": ["lexical_status"]
+      },
+      "then": {
+        "properties": { "occurrence_count": { "minimum": 1 } }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "safety": {
+            "properties": { "private_overlay_ref": { "type": "string" } },
+            "required": ["private_overlay_ref"]
+          }
+        },
+        "required": ["safety"]
+      },
+      "then": {
+        "properties": {
+          "surface": { "type": "null" },
+          "candidate_id": { "pattern": "^lex-h-[a-f0-9]{16,64}$" }
+        }
+      }
+    }
+  ]
+}
