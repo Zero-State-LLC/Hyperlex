@@ -2,6 +2,7 @@
 
 Updated 2026-10-16 12:20 PM PT. Mirrors:
 - Notion board: https://app.notion.com/p/f57ad22c76d7436c9e024229be560a8e
+- GitHub Project: https://github.com/orgs/Zero-State-LLC/projects/28 (Column field)
 - Obsidian: `Projects/Hyperlex v2 board.md`
 
 The Obsidian board is the source of truth. This file carries no slur terms, post text or private rows.
