@@ -25,7 +25,7 @@ Ruling landing: 1,472 rulings, 1,425 gold (test 277, val 164, train 984). Export
 
 ## In progress
 - [ ] **Raise test gold to 250 (G1), then 470 (G5).** Owner: Danny (rulings), Grok Bot (queues). Rows: export 274/250 met (recount 274; landing 277); G5 274/470; 37 test terms (roadmap >=150 open). Test-gap fill: 228 posts for 18/21 empty test terms; queues 2026-10-16c (54), 16d (42), 16e (33) ruled and applied. tlpur needs context.
-- [ ] **PR #31: T026/T028 (windowed export context, R statuses non-gold, Jev use_mention).** Owner: Danny (merge yes). Opus review findings fixed; 42 tests pass. Not merged.
+- [x] **PR #31: T026/T028 (windowed export context, R statuses non-gold, Jev use_mention).** Danny merge yes 2026-10-16 4:28 PM PT.
 
 ## Blocked
 - [x] **Freeze the held-out test manifest.** Done 2026-10-16 4:00 PM PT (Danny go 3:55 PM PT): 273 ids, sha256 a03c8619…; recorded in docs/v2/G5_PREREG_EVAL.md (PR #33), tag v2-test-freeze-2026-10-16. The 15 quarantined gold rows stay out of test. Readiness: READY (G1 273, 37/37 test terms; T2 318/300). Nothing runs on the Sparks until Danny says go.
