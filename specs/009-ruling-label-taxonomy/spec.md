@@ -297,10 +297,50 @@ Danny's definitions (2026-10-16 training notes) are quoted verbatim.
   - The `LOW_SENSE_PURITY` guard still applies.
 - **Residual risk:** Two distinct slang senses of one form both receive S. Separating them is Jev's job (§1 HOLD on unrelated senses), not the ruling label's job.
 
-## 8. Open questions for Danny
+## 8. Open-question resolutions (researched 2026-10-16 PM; evidence in research.md §4)
 
-- **Q1.** Keep or delete the "normie" `operator_term_status=rejected` row? Should other historical auto-reject rows be audited? Should `--auto-reject-terms` be removed?
-- **Q2.** Should the unlisted rows of the 2026-10-15 corrections-only queue be backfilled at the model label (as `corrections_only_retained`, citing that reply), or left without a ruling?
-- **Q3.** Should VERDICT-RULES be bumped for the use/mention split? If so, do `O` + `MENTION` explainer rows count toward `C_ATTESTED`, and how are they treated in `LOW_SENSE_PURITY`?
-- **Q4.** Confirm the headcanon-class boundary. Is an in-group coinage S even when used inside its own community, and is spread outside the community required?
-- **Q5.** Should forward row-level R map to 008's `EXCLUDED_INVALID`, or to a distinct `TARGET_ABSENT` status?
+| Q | Recommendation | Settled by research? | Needs Danny |
+|---|---|---|---|
+| Q1 | Supersede (do not delete) the 8 auto-reject rows; remove `--auto-reject-terms` | Yes (data audit + label semantics) | Yes: the disk/delete rule needs his yes for any status change |
+| Q2 | Backfill the 95 unrated 2026-10-15 rows at the model label as `corrections_only_retained` | Yes: his reply already ratified it verbatim | Yes: go to apply (not applied) |
+| Q3 | Split use/mention; MENTION rows count toward the `C_ATTESTED` explainer part only, never toward slang-sense authors or purity | Yes (Wiktionary CFI, Wilson 2012, Gligorić 2024) | Yes: VERDICT-RULES rule-version bump (§8) |
+| Q4 | In-group vocabulary is S inside its own community; spread is not required | Yes (Dumas & Lighter 1978; Wiktionary register vs subject labels) | Confirm only |
+| Q5 | New row-level occurrence status `TARGET_ABSENT`; keep `EXCLUDED_INVALID` candidate-level | Mostly (data check + 008's own definitions) | Yes: amends his 2026-10-15 CR-5 wording |
+
+### Q1 Auto-reject audit and the flag
+
+- **Audit (vernacular.sqlite3, read-only, 2026-10-16):** 69 `operator_term_status` rows. 59 come from T2 review (57 `t2_meaning_rejected`, 1 `sensitivity:slur`, 1 `sensitivity:ethnic_stereotype`), 2 are `operator_unknown` from chat 2026-09-25, and **8 are `rejected` written by the batch-all-R auto-reject path**.
+- **All 8 auto-reject terms have non-R gold elsewhere:** normie (S 9, U 2, R 4), shills (S 5, O 1, U 1, R 4), lel (S 5, O 1, R 1), once (O 8, R 1), simps (S 2, R 1), heckin (S 7, O 1, R 1), shitpost (S 4, R 1), incel (S 5, O 1, R 2). 8 of 8 are false term-level rejections under §3.
+- **Downstream effect:** the slang bundle record builder (`slang_core/records.py`) joins `operator_term_status` onto every observation of a term and emits it as the operator status. So a single target-absent excerpt marks every gold row of that term as operator-`rejected` in exports.
+- **Recommendation:** do not delete. With Danny's yes, add a superseding row per term (status `superseded_auto_reject`, source `spec 009 Q1 audit`). Or move the 8 rows to an audit table. Either way, record the original row in the receipt. Then **remove `--auto-reject-terms`** entirely. R is an extraction fact (§3, CR-B). A term-level rejection should only come from an explicit operator or T2 decision, which already has its own path (59 rows).
+
+### Q2 2026-10-15 backfill
+
+- **Danny's reply** (`rulings/answers/2026-10-15.txt`, line 1): "Corrections only. All unlisted rows retain the proposed labels."
+- **Correction to the earlier estimate:** 95 rows of that queue have no ruling, not about 235. The rest were covered by explicit rulings or the b/c/d re-queues. The 95 are 82 train and 13 val, and none are test. Their model labels are S 80 and O 15.
+- **Recommendation:** backfill with `ruling_queue.py apply --answers rulings/answers/2026-10-15.txt --date 2026-10-15`. Corrections-only is auto-detected, so listed rows already landed are skipped. Record `answer_mode=corrections_only_retained` and `ratification_ref` = that reply (CR-H, DEC-010). Not applied; awaiting go.
+
+### Q3 Use/mention and path C
+
+- **Rule:** the row label is O for a MENTION. A `use_mention` field records USE or MENTION.
+  - MENTION rows count only toward path C's "≥ 2 independent explainers" (`C_ATTESTED`).
+  - They never count toward the ≥ 3 slang-sense authors, active weeks, or `LOW_SENSE_PURITY` numerators.
+  - A definition embedded inside a genuine use (Wiktionary's "jib" case) is a USE.
+- **Integration:** `metrics-rule-v1.5` would change §3 so `SLANG_SENSE` excludes mentions, and add `MENTION` to `jev_sense_contract`. This bump is a rule-version change (§8) and needs Danny.
+
+### Q4 In-group vocabulary
+
+- **Rule:** in-group or subcultural register vocabulary is S when used as that register, including inside its own community. Spread is a measured outcome (spec 008), not a precondition for S.
+- **Contrast:** field-subject jargon used for its literal referent is O (playerbase, buffed). What separates the two is a register label vs a subject label. Wiktionary labels headcanon "fandom slang" and buff "video games".
+- **Fallback:** when it can't be told which kind a row is, use U.
+
+### Q5 Row-level R status
+
+- **Rule:** forward R gives the occurrence status `TARGET_ABSENT`. The record is kept, routed to extraction repair, excluded from cohorts, gold and attestation, and reversible by repair or revision.
+- **Why not `EXCLUDED_INVALID`:** in spec 008 it is a candidate-level judgement ("not a valid lexical innovation", e.g. a proper name). Mapping row-level R onto it would recreate the normie bug at candidate level.
+- **Data:** 50 of 53 R rulings have the target string absent from the stored excerpt. The other 3 contain it, which suggests truncation or wordform issues; they go to repair review. Historical R rows keep CR-5's legacy meaning unchanged.
+- **Needs Danny:** this amends his 2026-10-15 9:52 PM decision that forward R maps to `EXCLUDED_INVALID`.
+
+### Still open
+
+- Agreement for this scheme is unmeasured. There is no second annotator (SemEval practice reports κ; Wilson 2012 reports κ 0.74 for mention).

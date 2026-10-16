@@ -129,3 +129,36 @@ Date: 2026-10-16. Only the sources listed in §3 are used. Where they do not set
 - Pei, Sun & Xu, CoNLL 2019, "Slang Detection and Identification": https://www.researchgate.net/publication/336997994_Slang_Detection_and_Identification
 - Dhuliawala, Kanojia, Bhattacharyya, LREC 2016, SlangNet: https://aclanthology.org/L16-1686.pdf
 - Wilson et al., LREC 2020, Urban Dictionary Embeddings: https://aclanthology.org/2020.lrec-1.586/
+
+
+## 4. Open-question research (2026-10-16 PM)
+
+### Q1: auto-reject
+- Data audit: 8 of 69 `operator_term_status` rows came from batch-all-R auto-reject. All 8 terms hold non-R gold (counts in spec §8). `slang_core/records.py` propagates the status to every observation of the term.
+- Basis: an R row records that the target is absent from the excerpt. Under per-instance sense annotation (SemEval-2013 Task 11; SemEval-2007 Task 07 excluded unusable instances, about 2%, without judging the lemma), an unusable instance says nothing about the lemma. Merriam-Webster: "No word ... is invariably slang". Term status cannot be inferred from one excerpt.
+
+### Q2: 2026-10-15 backfill
+- Primary source: Danny's reply, `rulings/answers/2026-10-15.txt` line 1, "Corrections only. All unlisted rows retain the proposed labels." That is an explicit human ratification, so it is compatible with DEC-010.
+- Data: 95 rows have no ruling (82 train, 13 val; model S 80, O 15).
+
+### Q3: use/mention
+- Wiktionary Criteria for Inclusion, "Conveying meaning" (https://en.wiktionary.org/wiki/Wiktionary:Criteria_for_inclusion). Attestation needs uses that convey meaning. It excludes "commentary on the form of a word" and "lone definitions". A definition embedded in a genuine use still counts.
+- Wilson, ACL 2012, "The Creation of a Corpus of English Metalanguage" (https://aclanthology.org/P12-1067/). Mentioned language is tokens produced to draw attention to a property or type of those tokens. It can be annotated reliably (κ 0.74 mention vs non-mention; 0.90 against majority).
+- Gligorić et al., NAACL 2024 (https://aclanthology.org/2024.naacl-long.331/). Conflating mention with use causes systematic false positives. Teaching the distinction cuts them by 82.61% for hate speech.
+- Synthesis: mentions are evidence that a community knows a term and its meaning. That is exactly the "explainers" part of path C, but they are not evidence of use. So mentions count toward `C_ATTESTED` only.
+
+### Q4: in-group vocabulary
+- Dumas & Lighter, "Is Slang a Word for Linguists?", American Speech 53(1), 1978, pp. 5-17 (https://doi.org/10.2307/455336). Slang meets at least 2 of 4 criteria. Criterion 2 is that use "implies the user's special familiarity either with the referent or with that less statusful or less responsible class of people who have such special familiarity". That is in-group familiarity, with no requirement of spread beyond the group. Eble (1996), as quoted in later work, summarizes the common thread as "the consciousness of shared knowledge between the speaker and hearer".
+- Wiktionary "headcanon" (https://en.wiktionary.org/wiki/headcanon): labelled `fandom slang`, a register label. Wiktionary "buff" (https://en.wiktionary.org/wiki/buff): labelled `video games`, a subject label. Wiktionary "playerbase": an alternative form of "player base", with no register label.
+- Merriam-Webster's slang label: "usually not limited to a particular region or area of interest". This excludes subject jargon, not in-group register vocabulary. OED likewise separates register labels from subject labels.
+
+### Q5: R status
+- Spec 008 defines `EXCLUDED_INVALID` at candidate level ("not a valid lexical innovation"). Row-level R is an extraction defect.
+- Data: 50 of 53 R rulings have the target absent from the stored excerpt (case-insensitive substring check). Across all labels, 28 non-R rows also have the target absent (O 10, U 15, S 3). These are likely wordform or truncation issues and should get the same repair check.
+- Practice: SemEval-2007 Task 07 removed instances with no applicable sense from the test set rather than labelling the lemma. Wilson 2012 filters candidate instances before annotation. Both keep instance validity separate from lexical judgement.
+
+### Sources added
+- Wiktionary, Criteria for inclusion: https://en.wiktionary.org/wiki/Wiktionary:Criteria_for_inclusion
+- Wiktionary, headcanon / buff / playerbase entries (2026-10-16 revisions)
+- Wilson, ACL 2012: https://aclanthology.org/P12-1067/
+- Dumas & Lighter, American Speech 1978: https://doi.org/10.2307/455336
