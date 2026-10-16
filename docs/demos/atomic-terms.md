@@ -120,9 +120,9 @@ $HLX simulate --term "sigma rizz locked in" --no-expand
 
 | File | Purpose |
 |------|---------|
-| [`examples/demos/atomic-terms-demo-bundle.json`](https://github.com/scrimshawlife-ctrl/Hyperlex/blob/main/examples/demos/atomic-terms-demo-bundle.json) | Full demo matrix (tests load this) |
-| [`examples/demos/terms-split-*.json`](https://github.com/scrimshawlife-ctrl/Hyperlex/tree/main/examples/demos) | Split outputs |
-| [`examples/demos/phase5-multi-sigma-rizz-locked-in.json`](https://github.com/scrimshawlife-ctrl/Hyperlex/blob/main/examples/demos/phase5-multi-sigma-rizz-locked-in.json) | Phase 5 multi summary |
+| [`examples/demos/atomic-terms-demo-bundle.json`](https://github.com/Zero-State-LLC/Hyperlex/blob/main/examples/demos/atomic-terms-demo-bundle.json) | Full demo matrix (tests load this) |
+| [`examples/demos/terms-split-*.json`](https://github.com/Zero-State-LLC/Hyperlex/tree/main/examples/demos) | Split outputs |
+| [`examples/demos/phase5-multi-sigma-rizz-locked-in.json`](https://github.com/Zero-State-LLC/Hyperlex/blob/main/examples/demos/phase5-multi-sigma-rizz-locked-in.json) | Phase 5 multi summary |
 
 ## Related
 

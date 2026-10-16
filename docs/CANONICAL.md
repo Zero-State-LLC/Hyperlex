@@ -8,7 +8,7 @@ This page records **OBSERVED** diligence facts. It does not change
 ## Dual-home remotes
 
 The canonical train and work remote is this repository:
-[`scrimshawlife-ctrl/Hyperlex`](https://github.com/scrimshawlife-ctrl/Hyperlex).
+[`Zero-State-LLC/Hyperlex`](https://github.com/Zero-State-LLC/Hyperlex).
 
 [`Zero-State-LLC/Hyperlex`](https://github.com/Zero-State-LLC/Hyperlex) is the
 company mirror. It may lag. Do not treat the org Hyperlex as the train source
@@ -17,7 +17,7 @@ of truth. After naming/docs land on personal `main`, sync org only via intention
 
 | Remote | Role |
 |--------|------|
-| `scrimshawlife-ctrl/Hyperlex` | Canonical train and work source of truth |
+| `Zero-State-LLC/Hyperlex` | Canonical train and work source of truth |
 | `Zero-State-LLC/Hyperlex` | Company mirror. May lag. Not the train SoT. |
 
 Clone, train, and review from the personal remote only. For push mechanics,
@@ -26,12 +26,12 @@ see [Remotes](remotes.md).
 ## Current BEST receipt
 
 The pinned BEST promote receipt on `main` is
-[20260924-morph78-soft-ceiling-promote-best.md](https://github.com/scrimshawlife-ctrl/Hyperlex/blob/main/specs/007-hyperlexical-model/receipts/20260924-morph78-soft-ceiling-promote-best.md)
+[20260924-morph78-soft-ceiling-promote-best.md](https://github.com/Zero-State-LLC/Hyperlex/blob/main/specs/007-hyperlexical-model/receipts/20260924-morph78-soft-ceiling-promote-best.md)
 (`seed-morph78`, 2026-09-24). Earlier pins such as
-[20260915-morph36-promote-best.md](https://github.com/scrimshawlife-ctrl/Hyperlex/blob/main/specs/007-hyperlexical-model/receipts/20260915-morph36-promote-best.md)
+[20260915-morph36-promote-best.md](https://github.com/Zero-State-LLC/Hyperlex/blob/main/specs/007-hyperlexical-model/receipts/20260915-morph36-promote-best.md)
 are history.
 
-That receipt records **`name_gate=false`** at promote time and **no Hub** publish. Danny flipped `name_gate` for this pin later the same day: [20260924-name-gate-yes-morph78.md](https://github.com/scrimshawlife-ctrl/Hyperlex/blob/main/specs/007-hyperlexical-model/receipts/20260924-name-gate-yes-morph78.md).
+That receipt records **`name_gate=false`** at promote time and **no Hub** publish. Danny flipped `name_gate` for this pin later the same day: [20260924-name-gate-yes-morph78.md](https://github.com/Zero-State-LLC/Hyperlex/blob/main/specs/007-hyperlexical-model/receipts/20260924-name-gate-yes-morph78.md).
 
 ## Public Claims & Boundaries
 

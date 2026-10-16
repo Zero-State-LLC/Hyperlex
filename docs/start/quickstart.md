@@ -59,7 +59,7 @@ Same offline first success. Hermes remains the default `install.sh` target;
 
 ## Committed sample output
 
-See [`examples/quickstart/`](https://github.com/scrimshawlife-ctrl/Hyperlex/tree/main/examples/quickstart)
+See [`examples/quickstart/`](https://github.com/Zero-State-LLC/Hyperlex/tree/main/examples/quickstart)
 for a checked-in receipt summary and notes from the offline demo path.
 
 ## Next

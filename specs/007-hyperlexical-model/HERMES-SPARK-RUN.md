@@ -179,7 +179,7 @@ if [ -d ~/Hyperlex/.git ]; then
   echo "checkout exists — updating in place"
   cd ~/Hyperlex && git fetch origin && git checkout main && git pull --ff-only origin main
 else
-  git clone https://github.com/scrimshawlife-ctrl/Hyperlex.git ~/Hyperlex
+  git clone https://github.com/Zero-State-LLC/Hyperlex.git ~/Hyperlex
   cd ~/Hyperlex && git checkout main
 fi
 git remote get-url origin
@@ -580,7 +580,7 @@ Do **not** commit the regenerated exports, and do **not** `git checkout --` them
 
 ## Slice C1 — open the PR
 
-Runs **on the Mac**, not over ssh. `gh` is not installed on the Spark, and `prabu-openclaw` has **pull-only** access to `scrimshawlife-ctrl/Hyperlex` — so this is a fork-PR, not a branch push.
+Runs **on the Mac**, not over ssh. `gh` is not installed on the Spark, and `prabu-openclaw` has **pull-only** access to `Zero-State-LLC/Hyperlex` — so this is a fork-PR, not a branch push.
 
 **Only two files ever go in.** The run's artifacts — weights, receipts, exports — are forbidden in git by `AARON-SPARK-TRAIN.md` §6 and stay on the Spark. Their numbers travel in the PR *body*, never as committed files.
 
@@ -660,12 +660,12 @@ Companion to AARON-SPARK-TRAIN.md; changes no lock (C41-C52 stand).
 
 Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>"
 
-gh repo fork scrimshawlife-ctrl/Hyperlex --remote=false --clone=false 2>/dev/null || true
+gh repo fork Zero-State-LLC/Hyperlex --remote=false --clone=false 2>/dev/null || true
 git remote get-url fork >/dev/null 2>&1 \
   || git remote add fork "https://github.com/prabu-openclaw/Hyperlex.git"
 git push -u fork 007-spark-runbooks
 
-gh pr create --repo scrimshawlife-ctrl/Hyperlex \
+gh pr create --repo Zero-State-LLC/Hyperlex \
   --base main --head "prabu-openclaw:007-spark-runbooks" --draft \
   --title "docs(007): Spark bring-up runbook + Hermes run order" \
   --body-file "$HOME/hlx-evidence/pr-body.md"

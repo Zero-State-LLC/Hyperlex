@@ -1,4 +1,4 @@
-**Org mirror note:** this STATUS is grafted from personal tip for Spec 007 continuity. License SoT on this repo remains Proprietary (`LICENSE`). Train SoT remains personal `scrimshawlife-ctrl/Hyperlex`.
+**Org mirror note:** this STATUS is grafted from personal tip for Spec 007 continuity. License SoT on this repo remains Proprietary (`LICENSE`). Train SoT remains personal `Zero-State-LLC/Hyperlex`.
 
 # Hyperlex status
 
@@ -65,10 +65,10 @@ Spark trains from the **local SoT** / `export --include-live`, not from the trac
 
 Spark procedure (bring-up, not a product card):
 
-- [SPARK-BRINGUP.md](https://github.com/scrimshawlife-ctrl/Hyperlex/blob/main/specs/007-hyperlexical-model/SPARK-BRINGUP.md) (#28)
-- [AARON-SPARK-TRAIN.md](https://github.com/scrimshawlife-ctrl/Hyperlex/blob/main/specs/007-hyperlexical-model/AARON-SPARK-TRAIN.md)
-- [HERMES-SPARK-RUN.md](https://github.com/scrimshawlife-ctrl/Hyperlex/blob/main/specs/007-hyperlexical-model/HERMES-SPARK-RUN.md)
-- A5 milestones / engineering (#33): [milestones.md](https://github.com/scrimshawlife-ctrl/Hyperlex/blob/main/specs/007-hyperlexical-model/milestones.md)
+- [SPARK-BRINGUP.md](https://github.com/Zero-State-LLC/Hyperlex/blob/main/specs/007-hyperlexical-model/SPARK-BRINGUP.md) (#28)
+- [AARON-SPARK-TRAIN.md](https://github.com/Zero-State-LLC/Hyperlex/blob/main/specs/007-hyperlexical-model/AARON-SPARK-TRAIN.md)
+- [HERMES-SPARK-RUN.md](https://github.com/Zero-State-LLC/Hyperlex/blob/main/specs/007-hyperlexical-model/HERMES-SPARK-RUN.md)
+- A5 milestones / engineering (#33): [milestones.md](https://github.com/Zero-State-LLC/Hyperlex/blob/main/specs/007-hyperlexical-model/milestones.md)
 - Live-split coerce (#38) is on `main` (`lexical_split` in the export path)
 
 Pages overview: [SHADOW encoder (007)](shadow-hyperlexical.md)

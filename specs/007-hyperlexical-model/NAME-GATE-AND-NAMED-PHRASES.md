@@ -86,6 +86,6 @@ Actions stay separate:
 ## Pointers
 
 - Product plan: `HYPERLEXICAL-PRODUCT-PLAN.md`
-- Current climb state: root `NEXT_MOVES_007.md`
+- Current climb state: `specs/007-hyperlexical-model/NEXT_MOVES_007.md`
 - Naming SoT: `docs/NAMING.md`
 - Historical (2026-09-23): `receipts/20260923-authorize-gate-soft-ceiling.md` · `receipts/20260923-morph78-fresh-acquire-hold-empty.md` · `receipts/morph77-val-acquire-label-hold-20260923/`
