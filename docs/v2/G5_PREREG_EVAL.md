@@ -37,3 +37,8 @@ Recommendation: all G5 compute on Spark/Morpheus; paid path only for BASE cross-
 - Preregistration text above (this file before this section): SHA-256 `1954a35a5bba8586489c07bf5300f28da26a20e9160e6ed693926c13613e2cbe`.
 - gold_test.jsonl SHA-256 prefix `06caba1397df`. 15 quarantined gold rows (suspect synthetic source id) are excluded from test and stay quarantined.
 - Tag: `v2-test-freeze-2026-10-16`. Read-only copy kept in the private tracker. Any change to the manifest after this point voids the freeze.
+
+### Freeze addendum (2026-10-16 4:20 PM PT, Danny 4:03 PM PT family ruling)
+- Manifest unchanged: a03c8619… (273 ids). Gold labels unchanged.
+- gold_test.jsonl family metadata updated on 17 rows (three family calls), new SHA-256 prefix `818ba1288dea`. Family-level (H3) analysis uses the updated families. One private family is excluded from H3 unseen-family claims, and the family gate is reported as 16.
+- Six test-split rulings made after the freeze are held outside gold_test, for a future test version only.
