@@ -250,7 +250,7 @@ LINEAGE_REGISTRY: List[Dict[str, Any]] = [
     {
         "family_id": "neuro-insult",
         "terms": [
-            "schizo", "schizos", "autist", "weaponized autism", "melty", "braindead", "tard",
+            "weaponized autism", "melty", "braindead", "tard",
         ],
         "branch_operator": "sense_extension",
         "diagram_ref": None,
