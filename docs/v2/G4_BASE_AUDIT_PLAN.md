@@ -14,7 +14,7 @@ Keep a row only if its curated target beats BASE (r8 audit-as-you-go rule; Athan
    already right are kept at a capped share (default 30%) so the set is not adversarial-only.
 3. T2: BASE writes a short meaning; a pairwise judge (blind A/B, order randomized, seed fixed) compares BASE vs curated target.
    Keep only `target_wins`. Ties/`base_wins` -> drop with reason code.
-4. Hygiene in the same pass: exact + near-dup (content_sha256, MinHash 0.8) across splits; rights must be `allowed_internal`;
+4. Hygiene in the same pass: exact + near-dup (content_sha256, MinHash 0.8) across splits; rights kept as provenance only (private model, not a filter);
    model-generated share <= 20% (Shumailov 2024); grouped split by `term_family` unchanged.
 5. Output: `audit_v1.jsonl` (record_id, base_label, base_correct, judge_verdict, keep, reason) — private; summary counts only to tracker.
 

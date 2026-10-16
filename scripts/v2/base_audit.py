@@ -63,8 +63,8 @@ def main():
     mode.add_argument("--run", action="store_true")
     a = ap.parse_args()
     rows = [json.loads(l) for l in open(a.inp) if l.strip()]
-    rows = [r for r in rows if r.get("contextual_use") and (r.get("rights") or {}).get("redistribution") == "allowed_internal"
-            and gold_label(r) is not None]
+    # private model: rights kept as provenance only, not a filter (owner decision 2026-10-15)
+    rows = [r for r in rows if r.get("contextual_use") and gold_label(r) is not None]
     est_in = sum(len(r["contextual_use"]) // 4 + 40 for r in rows)
     print(json.dumps({"rows": len(rows), "est_input_tokens": est_in, "est_output_tokens": 8 * len(rows), "prompt_sha": PROMPT_SHA}))
     if not a.run:
