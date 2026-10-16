@@ -16,7 +16,7 @@ Status: DRAFT / SHADOW.
 
 ## Docs PR (this PR)
 
-- [x] **T001** `spec.md`: doctrine change, FR-001–FR-029, CR-1–CR-12, Q2, Q3, Q5, Q6.
+- [x] **T001** `spec.md`: doctrine change, FR-001–FR-029, CR-1–CR-12; Danny decisions recorded in §14 (2026-10-15 9:52 PM PT).
 - [x] **T002** `plan.md`: phases E0–E5, stages S1–S4, first-experiment prereg sketch.
 - [x] **T003** `data-model.md`: entities, store column mapping, -slop rule.
 - [x] **T004** `contracts/occurrence_record.v1.schema.json`.
@@ -25,7 +25,8 @@ Status: DRAFT / SHADOW.
 - [x] **T007** `contracts/forecast_receipt.v1.schema.json`: brier null unless an eligible class has an operator TRUE/FALSE settlement.
 - [x] **T008** `research.md`: C1–C3 verified, with everything else marked UNVERIFIED.
 - [x] **T009** `intent/2026-10-15-lexical-emergence.md`, status draft (awaiting Danny).
-- [ ] **T010** `[gate]` Danny accepts the intent, answers Q2, Q3, Q5, Q6 or defers them, and approves the `specs/index.yaml` 008 entry.
+- [x] **T009a** Danny answered Q2–Q6 on PR #28 (2026-10-15 9:52 PM PT); spec, data model, contracts and intent updated.
+- [ ] **T010** `[gate]` Danny accepts the intent and approves the `specs/index.yaml` 008 entry.
 
 ## E0: Preserve every valid first occurrence
 
@@ -40,7 +41,7 @@ Status: DRAFT / SHADOW.
   - Tests cover: `contextual_use` is never copied, `surface` is null for overlay members, and `legacy.*` is preserved.
 - [ ] **T014** No-filter test: hapax, single-day, single-author, dormant, REJECTED, and rights-restricted rows are all written. The drop count is 0.
 - [ ] **T015** Dedup marking test: exact and near duplicates are marked and not deleted. The earliest `observed_at` is canonical.
-- [ ] **T016** DISCOVERY_HIT test: it never increments `occurrence_count` and yields `UNATTESTED` only.
+- [ ] **T016** DISCOVERY_HIT test: it never increments `occurrence_count` and yields `NOT_ATTESTED` only.
 - [ ] **T017** Replay test (SC-001): replaying from source reproduces 100% identical `record_hash`. A correction creates a superseding record, and the old hash stays unchanged.
 - [ ] **T018** Export vs store check (CR-6): find which copy `export_splits.py` keeps per `content_sha256`, and report any first-occurrence timestamp mismatch. Read-only. Export is not changed.
 - [ ] **T019** VERDICT-RULES v1.4 regression (SC-002): verdicts and guard flags for all existing terms are identical before and after.
@@ -54,12 +55,12 @@ Status: DRAFT / SHADOW.
 ## E1: Registry and provisional senses
 
 - [ ] **T023** Stable `candidate_id` assignment. Test: every OBSERVED occurrence maps to exactly 1 candidate, and ids are stable across replay.
-- [ ] **T024** Legacy ruling copy: S/O/U/R are copied verbatim, and R never deletes. An `EXCLUDED_INVALID` mapping only happens after the Q3 answer.
+- [ ] **T024** Legacy ruling copy: S/O/U/R are copied verbatim. Historical R (through 2026-10-15) = REJECTED and stays out of cohorts. Test: no historical ruling changes meaning. New rulings use R (invalid → `EXCLUDED_INVALID`) or H (not yet established → stays `OBSERVED`).
 - [ ] **T025** Sense hypotheses: null gloss is allowed, competing hypotheses are kept, and labels are INFERRED, OBSERVED, or SPECULATIVE per FR-010.
 - [ ] **T026** -slop non-identity test: related candidates never pool counts, and `merged_into` is only set by a MergeRecord fixture.
 - [ ] **T027** Oct-13 holds:
   - goreslop becomes `OBSERVED` only after T017 passes, and uses the overlay ref only.
-  - The other 8 become `UNATTESTED` unless Q5 gives a source.
+  - The other 8 stay `NOT_ATTESTED` (Danny Q5).
 - [ ] **T028** S1 characterization using the SHADOW trunk from spec 007. Outputs are INFERRED or SPECULATIVE only, and there is a no-authoritative-label test.
 
 ## E2: Temporal recurrence and cohorts
@@ -79,7 +80,8 @@ Status: DRAFT / SHADOW.
 
 ## E4: Diffusion and semantic stability
 
-- [ ] **T038** `[gate]` Owner-gated re-ingest for keyed author pseudonyms and a community field (Q2, Q6).
+- [x] **T038** `[gate]` Owner-approved backfill of `author_id` (HMAC, CR-7) and two-level `community` into the private store (approved 2026-10-15 9:52 PM PT; private-store operation, no repo data). Coverage recorded in the PR thread.
+- [ ] **T038a** Coverage test: report author and community coverage per platform; within-platform and cross-platform diffusion return `NOT_COMPUTABLE` below the coverage floor.
 - [ ] **T039** S3 and S4, run only where coverage meets the preregistered minimum. Must beat morphology+frequency.
 
 ## E5: Abraxas evidence integration

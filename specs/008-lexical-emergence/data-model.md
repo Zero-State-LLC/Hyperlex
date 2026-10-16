@@ -22,8 +22,8 @@ Status: DRAFT / SHADOW. Contracts are in `contracts/`. All records live in the p
   - Kind and quality: `occurrence_kind` (`ATTESTED_USE`, `ATTESTED_MENTION`, `DISCOVERY_HIT`), `genuineness`, `extraction_quality`.
   - Time: `observed_at` (null means undated), `ingested_at`.
   - Source and hashes: `source{...}`, `content_sha256`, `record_hash`.
-  - Location and context: `span`, `language`, `community_id`.
-  - Identity and rights: `author_pseudonym` (keyed hash), `rights` (provenance only).
+  - Location and context: `span`, `language`, `community` {`platform`, `sub_community`, `thread_id`}.
+  - Identity and rights: `author_id` (keyed hash), `rights` (provenance only).
   - Labels: `provenance_label`, `dedup{exact_duplicate_of, near_dup_cluster_id}`, `safety{sensitivity, private_overlay_ref, restricted_intent_suspected}`.
   - History: `legacy{...}`, `supersedes`.
 - **CandidateHypothesis:**
@@ -36,7 +36,7 @@ Status: DRAFT / SHADOW. Contracts are in `contracts/`. All records live in the p
 ## 3. Lifecycle states
 
 - **`lexical_status`:**
-  - `UNATTESTED`: 0 occurrences.
+  - `NOT_ATTESTED`: 0 occurrences.
   - `OBSERVED`: at least 1 occurrence.
   - `EXCLUDED_INVALID`: kept, not in cohorts, reversible by revision.
 - **`emergence.trajectory`:**
@@ -70,12 +70,12 @@ Source: private `slang_v1.sqlite3`, tables `validated_sense_observation`, `curat
 | mutation_lineage | `related_candidates[]` (COMPOUND_PARENT / MUTATION_OF) | INFERRED |
 | model_proposal | `sense_hypotheses[]` (SPECULATIVE) | |
 | independent_evidence | input to `genuineness` | |
-| human_ruling | `legacy.human_ruling`, `legacy.ruling_code` (S/O/U/R) | R is not deletion (spec CR-5) |
+| human_ruling | `legacy.human_ruling`, `legacy.ruling_code` (S/O/U/R; new H after acceptance) | historical R = REJECTED (Danny 2026-10-15); R/H split prospective only (spec CR-5) |
 | rule_version (slang.disposition.v1), disposition | `legacy.rule_version`, `legacy.disposition` | 285 REJECTED rows are kept |
 | epistemic_basis | `legacy.epistemic_basis` | |
 | candidate_status (all NULL) | superseded by `lexical_status` | |
-| *(none)* | `author_pseudonym` | **missing.** NOT_COMPUTABLE until re-ingest |
-| *(none)* | `community_id` | **missing.** NOT_COMPUTABLE |
+| `author_id`, `author_id_basis`, `author_id_status` (added by approved backfill 2026-10-15) | `author_id`, `author_id_basis`, `author_id_status` | HMAC pseudonym, spec CR-7 |
+| `community_platform`, `community_sub`, `community_thread` (added by backfill) | `community.platform`, `.sub_community`, `.thread_id` | from source URL / payload |
 
 ## 5. Example: ripofflican
 
@@ -101,7 +101,7 @@ The brief's single `sense_hypothesis` object becomes one element of `sense_hypot
 - 0 rows in the store.
 - Discovered from Wiktionary only via vernacular-discovery-v1. first_seen = last_seen = 2026-10-11 13:42 PT.
 - Resulting values:
-  - `lexical_status: UNATTESTED`
+  - `lexical_status: NOT_ATTESTED`
   - `occurrence_count: 0`
   - `first_attested_at: null`
   - one OccurrenceRecord of kind `DISCOVERY_HIT` with `genuineness: UNVERIFIED`
@@ -121,6 +121,12 @@ technoslop, protslop, and goreslop share the formative "-slop". The rule:
 
 ## 7. Privacy and safety
 
-- `author_pseudonym` is a keyed hash. The key is in the private store and owner-held.
+- `author_id` = `hmac1:` + 32 hex of HMAC-SHA256(key, platform:native_id). Key: 32 random bytes in a private 0600 file on the operator box (`~/.config/hyperlex/author_hmac.key`, override `HYPERLEX_AUTHOR_HMAC_KEY_FILE`), never committed or exported. Platform-scoped, so no cross-platform linking.
 - Overlay members have `surface: null`, an opaque `candidate_id` (`lex-h-…`), and a keyed `surface_sha256`.
 - `restricted_intent_suspected: true` means hash and tags only.
+
+## 8. Community levels
+
+- **Within-platform:** `community.platform` + `community.sub_community` (4chan board, subreddit) + optional `community.thread_id`. Diffusion within a platform = uses in 2+ distinct sub-communities (or threads where the platform has no sub-communities) by 2+ distinct authors.
+- **Cross-platform pollination:** uses on 2+ distinct `community.platform` values. No author linking across platforms.
+- X stored data has no sub-community; it is null, never a query-lane label.

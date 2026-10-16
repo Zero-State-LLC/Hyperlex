@@ -112,5 +112,5 @@ Freeze this section, plus the cohort manifest SHA-256, before any test load. The
 ## 5. Risks
 
 - **Small attested cohort:** 8 of 9 Oct-13 holds have no rows (F6). The current store may give few novel first occurrences. The power check comes at E2.
-- **No author or community columns (F3):** E3 independence and all of E4 wait on owner-gated re-ingest.
+- **Author and community coverage:** approved HMAC backfill (2026-10-15) adds them where the source has them; 4chan is mostly anonymous, so independence there is coverage-limited and reported as such.
 - **Early signal may be weak.** C2 found innovation-phase prediction weak (AUC about 0.61). Expect a modest effect at Δ = 24 h.

@@ -63,7 +63,7 @@ The guards still do a needed job: they stop bursts, bot copies, and single-autho
   - extraction quality
   - privacy-safe author pseudonym
 - **FR-003** Corrections MUST create a new record that names the old one in `supersedes`. Historical record hashes and `provenance.integrity` MUST NOT be rewritten (constitution VI).
-- **FR-004** A `DISCOVERY_HIT` (for example a dictionary hit) MUST NOT count as an attested occurrence. It can register an `UNATTESTED` candidate only.
+- **FR-004** A `DISCOVERY_HIT` (for example a dictionary hit) MUST NOT count as an attested occurrence. It can register an `NOT_ATTESTED` candidate only.
 - **FR-005** Exact and near duplicates MUST be kept and marked (`dedup.exact_duplicate_of`, `dedup.near_dup_cluster_id`). They are excluded from independence counts, not deleted.
 - **FR-006** Replay from source MUST reproduce identical `record_hash` values.
 
@@ -92,7 +92,8 @@ The guards still do a needed job: they stop bursts, bot copies, and single-autho
   |---|---|
   | Recurrence | 7 or 30 days |
   | Adoption (distinct author) | 7, 30, or 90 days |
-  | Diffusion (another community) | 7, 30, or 90 days |
+  | Diffusion within platform (another sub-community or thread, different author) | 7, 30, or 90 days |
+  | Diffusion cross-platform (another platform) | 7, 30, or 90 days |
   | Persistence | 30 or 90 days |
   | Semantic stability | 7, 30, or 90 days |
   | Mutation | 7, 30, or 90 days |
@@ -143,7 +144,7 @@ The guards still do a needed job: they stop bursts, bot copies, and single-autho
 ## 7. Lifecycle
 
 - **`lexical_status`:**
-  - `UNATTESTED`: discovery hit only, 0 occurrences.
+  - `NOT_ATTESTED`: discovery hit only, 0 occurrences.
   - `OBSERVED`: at least 1 attested occurrence.
   - `EXCLUDED_INVALID`: not a valid lexical innovation, for example a tokenization error or a proper name. The record is kept and excluded from cohorts. It is reversible by revision.
 - **`emergence.trajectory`:**
@@ -198,18 +199,18 @@ The brief says to move these to the emergence registry **if the occurrences are 
 | Term | Rows in store | Genuineness | Proposed registry state |
 |---|---|---|---|
 | goreslop | 10 (disposition OBSERVED) | Rows present. Pending the E0 replay check. Content and safety metadata go via the private overlay reference only. | `OBSERVED` after replay passes |
-| technoslop | 0 | UNVERIFIED | `UNATTESTED` |
-| protslop | 0 | UNVERIFIED | `UNATTESTED` |
-| canon-event | 0 | UNVERIFIED | `UNATTESTED` |
-| swamp-dog | 0 | UNVERIFIED | `UNATTESTED` |
-| ripofflican | 0 | UNVERIFIED. Found via vernacular-discovery-v1 from Wiktionary only. first_seen = last_seen = 2026-10-11 13:42 PT. "No observations". | `UNATTESTED` |
-| lowkenuinely | 0 | UNVERIFIED | `UNATTESTED` |
-| piddlefart | 0 | UNVERIFIED | `UNATTESTED` |
-| throat-sweats | 0 | UNVERIFIED | `UNATTESTED` |
+| technoslop | 0 | UNVERIFIED | `NOT_ATTESTED` |
+| protslop | 0 | UNVERIFIED | `NOT_ATTESTED` |
+| canon-event | 0 | UNVERIFIED | `NOT_ATTESTED` |
+| swamp-dog | 0 | UNVERIFIED | `NOT_ATTESTED` |
+| ripofflican | 0 | UNVERIFIED. Found via vernacular-discovery-v1 from Wiktionary only. first_seen = last_seen = 2026-10-11 13:42 PT. "No observations". | `NOT_ATTESTED` |
+| lowkenuinely | 0 | UNVERIFIED | `NOT_ATTESTED` |
+| piddlefart | 0 | UNVERIFIED | `NOT_ATTESTED` |
+| throat-sweats | 0 | UNVERIFIED | `NOT_ATTESTED` |
 
 - Genuineness is UNVERIFIED for 8 of 9.
 - Dictionary discovery hits are not attested occurrences (FR-004).
-- `UNATTESTED` candidates have no first-attestation timestamp. They enter no cohort until an attested occurrence is ingested.
+- `NOT_ATTESTED` candidates have no first-attestation timestamp. They enter no cohort until an attested occurrence is ingested.
 - technoslop, protslop, and goreslop are separate candidates (FR-009).
 
 ## 12. Success criteria
@@ -298,16 +299,14 @@ Each entry gives the existing rule and why it exists, the research basis, the in
   - VERDICT-RULES §2: HOLD and QUARANTINE are final and never upgraded.
   - G5 preregistration (`docs/v2/G5_PREREG_EVAL.md`) excludes UNSURE and REJECT rows.
   - Why these exist: to keep bad rows out of gold and training.
-- **Research basis:**
-  - C2's never-spread innovations are needed as negatives. Discarding them biases the cohort toward survivors.
-  - This is a design inference from C2, not a claim the paper makes.
+- **Decision (Danny, 2026-10-15 9:52 PM PT):** the 2026-10-13 R rulings meant REJECTED, not "not yet established". They stay rejected.
 - **Integration:**
-  - Rulings are copied unchanged into `legacy.ruling_code` and `legacy.human_ruling`. No code or historic row changes.
-  - R and HOLD are read as qualification judgments, "not yet established". The occurrence stays.
-  - If a ruling means the record is unusable (not a lexical innovation), the candidate becomes `EXCLUDED_INVALID`. It is kept and excluded from cohorts.
-  - HOLD stays final for the verdict, and observation continues.
+  - Historical R rulings (all ruling files up to and including 2026-10-15) keep their meaning: `legacy.ruling_code = R`, status `REJECTED`. They are copied unchanged, never reinterpreted, and the rows stay out of cohorts and gold as today.
+  - Going forward only (rulings recorded after this spec is accepted), the ruling vocabulary is split: `R` = record is invalid or not a lexical innovation (candidate `EXCLUDED_INVALID`, kept for audit, excluded from cohorts); a new `H` = hold, "not yet established" (occurrence stays `OBSERVED` and keeps being measured).
+  - HOLD stays final for the production verdict; observation continues.
   - G5 exclusions are unchanged.
-- **Residual risk:** Historical R rulings may mix "invalid" and "not established". See open question Q3.
+  - Rationale: never-spread innovations are needed as forecast negatives (C2 design inference), but rewriting past human rulings would break receipt integrity (constitution VI), so the split is prospective.
+- **Residual risk:** Some historical R rows may have been genuine-but-unestablished innovations. They are lost to emergence cohorts unless re-ruled under the new vocabulary by an operator.
 
 ### CR-6 Text-hash dedup
 
@@ -320,18 +319,25 @@ Each entry gives the existing rule and why it exists, the research basis, the in
   - Evaluation groups splits by near-duplicate cluster and by candidate, so the same text never spans splits.
 - **Residual risk:** If export dedup keeps a later copy rather than the earliest, first-occurrence timestamps differ between export and store. Task T018 checks this.
 
-### CR-7 Missing author and community columns
+### CR-7 Author and community fields
 
-- **Existing rule:** `slang_v1.sqlite3` has no author id and no community column (F3).
-  - Why: the store was built from vernacular-ingest for sense work, not diffusion.
-- **Research basis:** C1, C2, and C3 all depend on user and network or community structure. Without it, diffusion cannot be measured.
-- **Integration:**
-  - Schema fields `author_pseudonym` and `community_id` are nullable.
-  - Diffusion, adoption, and `ONE_AUTHOR_DEPENDENCE` features are `NOT_COMPUTABLE` with a coverage fraction.
-  - No silent proxy. `source_system` is not a community.
-  - Adding pseudonyms needs re-ingest from the source, which is owner-gated live ingest (Q2).
+- **Existing rule:** `slang_v1.sqlite3` had no author id and no community column (F3). Source payloads in vernacular-ingest do hold native author ids (X) and board or subreddit (4chan, Reddit).
+- **Research basis:** C1, C2, and C3 all depend on user and network or community structure.
+- **Decision (Danny, 2026-10-15 9:52 PM PT):** re-ingest approved to add a privacy-safe author id and a community field.
+- **Integration: author id**
+  - `author_id = "hmac1:" + hex(HMAC-SHA256(key, platform + ":" + native_author_id))[:32]`.
+  - The key is 32 random bytes stored outside every repo, in a private file on the operator box (default `~/.config/hyperlex/author_hmac.key`, mode 0600; override via env `HYPERLEX_AUTHOR_HMAC_KEY_FILE`). It is never committed, logged, or exported.
+  - Scoped by platform, so the same handle on two platforms is two authors (no cross-platform identity linking).
+  - `author_id_basis` records what was hashed: `x_user_id`, `x_handle`, `fourchan_poster_id`, `fourchan_tripcode`, or null. The same X account seen once by id and once by handle yields two pseudonyms; the basis lets analysis report that.
+  - Null author with `author_id_status` = `ANONYMOUS_NO_ID` (4chan boards without poster ids), `SOURCE_UNAVAILABLE` (thread pruned or source blocked), or `FIXTURE`.
+  - Key rotation: a new key version is a new prefix (`hmac2:`); old ids are never rewritten in place.
+- **Integration: community (two levels)**
+  - Within-platform: `community.platform` (`x`, `fourchan`, `reddit`, ...) plus `community.sub_community` (board such as `/v/`, subreddit such as `r/GenZ`) and optional `community.thread_id` (4chan thread, Reddit post). X has no sub-community in stored data, so it is null rather than a proxy; query-lane labels are not communities.
+  - Within-platform diffusion = uses in two or more distinct sub-communities (or, where the platform has none, distinct threads/conversation clusters) by two or more distinct authors.
+  - Cross-platform pollination = uses on two or more distinct platforms. Author identity is not required across platforms (and is not linkable by design).
+  - `EmergenceEvidence.diffusion` reports both levels separately, each with coverage.
 - **Residual risk:**
-  - The first experiment's "independent" recurrence depends on author pseudonyms. Without them, it reports `NOT_COMPUTABLE` (plan §4).
+  - 4chan is mostly anonymous; within-thread poster ids exist only on some boards and are thread-scoped, so distinct-author counts there are a lower bound per thread and not comparable across threads.
   - A keyed pseudonym is still linkable inside the private store.
 
 ### CR-8 `SHADOW_INSTRUMENT_ONLY`, the V6 classifier, and the instrument interface
@@ -393,7 +399,7 @@ Each entry gives the existing rule and why it exists, the research basis, the in
   - Nothing in the repo names a slur-list term.
 - **Residual risk:**
   - An unkeyed hash of a short word can be brute-forced, so keyed hashing is required.
-  - Key custody is owner-side (Q2).
+  - Key custody: owner box only, see CR-7.
 
 ### CR-12 Rights
 
@@ -404,14 +410,14 @@ Each entry gives the existing rule and why it exists, the research basis, the in
   - Publication of any content stays owner-gated. No post text is in the repo anyway.
 - **Residual risk:** Rights-restricted content sits in the private store. Legal review is owner-gated and is not decided here.
 
-## 14. Open questions for Danny
+## 14. Decisions (Danny, 2026-10-15 9:52 PM PT, on PR #28)
 
-Research cannot settle these.
+- **Q2 (author/community re-ingest): YES.** Salted HMAC design in CR-7. Backfill is a private-store operation, outside this repo.
+- **Q3 (Oct-13 R rulings): REJECTED.** R stays reject for all historical rulings; the R/H split applies to new rulings only (CR-5).
+- **Q4/Q6 (community):** two levels, within-platform (sub-communities, threads/clusters, by different authors) and cross-platform pollination (CR-7).
+- **Q5 (8 Oct-13 holds with no stored uses): stay `NOT_ATTESTED`.**
 
-- **Q2:** Do you approve re-ingest from vernacular-ingest to add keyed author pseudonyms and a community field? This is owner-gated live ingest. Who holds the key?
-- **Q3:** For the 2026-10-13 `R` rulings, did R mean "invalid or unusable record" (maps to `EXCLUDED_INVALID`) or "not yet established" (stays `OBSERVED`)? Or should those rows be re-ruled?
-- **Q5:** For the 8 Oct-13 holds with 0 rows, is there a source where you saw attested uses? If not, they stay `UNATTESTED`.
-- **Q6:** What should count as a "community" for diffusion in Hyperlex sources? This is a product choice once the column exists.
+No open questions remain for this draft.
 
 ## 15. References
 

@@ -67,7 +67,7 @@ Out of scope:
 - Receipts and record hashes are frozen. Corrections supersede.
 - No post text, no raw handles, and no slur-list terms in the repo. Overlay members are referenced only.
 - Owner-gated: live ingest or re-ingest, settlement, schema landing, hub publish, legal, and spend.
-- This work does not decide the meaning of historical R rulings or what counts as a "community".
+- Historical R rulings stay REJECTED (Danny, 2026-10-15); this work does not reinterpret them.
 
 ## Open questions
 
@@ -76,17 +76,17 @@ Danny decides all of these. They are spec §14.
 | # | Question |
 |---|---|
 | (resolved) | `SHADOW_INSTRUMENT_ONLY` and V6: resolved from argotide `docs/EVIDENCE.md` (see spec CR-8). |
-| Q2 | Is re-ingest for keyed author pseudonyms and a community field approved? Who holds the key? |
-| Q3 | Did the Oct-13 R rulings mean invalid, or not yet established? |
-| Q5 | Is there a source of attested uses for the 8 holds with 0 rows? |
-| Q6 | What counts as a community? |
+| Q2 | Answered YES: HMAC author id + community re-ingest (spec CR-7). |
+| Q3 | Answered: Oct-13 R = REJECTED; R/H split prospective only (CR-5). |
+| Q5 | Answered: 8 holds stay NOT_ATTESTED. |
+| Q6 | Answered: two levels, within-platform and cross-platform (CR-7). |
 
 ## Verified / assumed claims
 
 | Claim | Label | Basis |
 |---|---|---|
 | Single-use rejection effect lives in VERDICT-RULES v1.4, not on main | `OBSERVED` | F1 repo search; Hyperlex-archive d43a44a, PR #124 |
-| Store has no author or community columns | `OBSERVED` | F3 schema of `slang_v1.sqlite3` |
+| Store lacked author and community columns before the approved 2026-10-15 backfill | `OBSERVED` | F3 schema of `slang_v1.sqlite3` |
 | R writes status `rejected` | `OBSERVED` | F4 `ruling_queue.py` |
 | goreslop has 10 rows; the other 8 holds have 0 | `OBSERVED` | F6 private store query |
 | Genuineness of occurrences for the 8 holds | `NOT_COMPUTABLE` | no attested rows; discovery hits only |

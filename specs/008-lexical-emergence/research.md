@@ -72,7 +72,7 @@ Status: DRAFT.
 - Author lists for C1 and C2.
 - The content and URL of the C2 companion paper.
 - Interfaces to Noesis and Trutina.
-- Attested occurrences for 8 of the 9 Oct-13 holds (Q5).
+- Attested occurrences for 8 of the 9 Oct-13 holds: none found; Danny ruled they stay NOT_ATTESTED (2026-10-15).
 - The best near-duplicate method or threshold for short social text. It is chosen at prereg freeze, with no literature claim.
 - Expected effect size at Δ = 24 h. C2 suggests it is weak, but transfer to Hyperlex sources is unverified.
 - Sockpuppet prevalence in Hyperlex sources.
