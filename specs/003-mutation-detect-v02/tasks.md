@@ -1,3 +1,10 @@
+---
+id: 003/tasks
+status: companion
+depends_on: ["003"]
+dag: specs/DAG.md
+---
+
 # Tasks 003 — Mutation detect v0.2
 
 - [x] T1 Spec artifacts (`spec.md`, `plan.md`, `tasks.md`, `dual-use-gate.md`)

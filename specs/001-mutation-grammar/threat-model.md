@@ -1,3 +1,10 @@
+---
+id: 001/threat-model
+status: companion
+depends_on: ["001"]
+dag: specs/DAG.md
+---
+
 # Threat model — Spec 001
 
 ## Assets

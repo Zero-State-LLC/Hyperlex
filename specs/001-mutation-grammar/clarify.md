@@ -1,3 +1,10 @@
+---
+id: 001/clarify
+status: companion
+depends_on: ["001"]
+dag: specs/DAG.md
+---
+
 # Clarify lock — Spec 001
 
 **Date:** 2026-09-04  

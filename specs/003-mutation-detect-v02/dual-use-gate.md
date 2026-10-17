@@ -1,3 +1,10 @@
+---
+id: 003/dual-use-gate
+status: companion
+depends_on: ["003"]
+dag: specs/DAG.md
+---
+
 # Dual-use addendum — Spec 003 (detect-only L4 / L6)
 
 Answers 2026-09-05. Required before merge to main. Extends `specs/001-mutation-grammar/dual-use-gate.md`; does not reopen it.

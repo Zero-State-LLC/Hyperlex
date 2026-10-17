@@ -1,3 +1,10 @@
+---
+id: 001/tasks
+status: companion
+depends_on: ["001"]
+dag: specs/DAG.md
+---
+
 # Tasks 001 — Mutation grammar
 
 - [x] T1 Schema file

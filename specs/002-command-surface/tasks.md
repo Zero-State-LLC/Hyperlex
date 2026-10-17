@@ -1,3 +1,10 @@
+---
+id: 002/tasks
+status: companion
+depends_on: ["002"]
+dag: specs/DAG.md
+---
+
 # Tasks 002 — command surface
 
 - [x] T1 Specify noun+verb (`mutation trace|predict`)

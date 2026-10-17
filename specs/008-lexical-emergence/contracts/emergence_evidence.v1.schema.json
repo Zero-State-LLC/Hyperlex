@@ -1,0 +1,489 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hyperlex.dev/schemas/008/emergence_evidence.v1.schema.json",
+  "title": "Hyperlex EmergenceEvidence v1",
+  "description": "SHADOW_INSTRUMENT_ONLY measurement payload for one candidate as of a frozen timestamp. It is advisory, gates nothing, is never verified, and never promotes. Guard flags are measured as-of features at VERDICT-RULES metrics-rule-v1.4 thresholds. They are not filters and they do not replace qualification. All features use data at or before as_of only. Missing columns give NOT_COMPUTABLE with no silent proxy. The payload holds no post text, no raw handles, and no surface strings. It is immutable per as_of. It is exported via hyperlex.compat.abraxas only, and Hyperlex never imports Abraxas.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "evidence_id",
+    "candidate_id",
+    "candidate_revision",
+    "as_of",
+    "computed_at",
+    "feature_snapshot_sha256",
+    "instrument_mode",
+    "verified",
+    "promotion",
+    "provenance_label",
+    "lexical_status",
+    "trajectory",
+    "temporal",
+    "diffusion",
+    "guard_features",
+    "dormancy",
+    "coverage",
+    "forecast_refs",
+    "safety"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "emergence_evidence.v1"
+    },
+    "evidence_id": {
+      "type": "string",
+      "minLength": 8
+    },
+    "candidate_id": {
+      "type": "string",
+      "pattern": "^lex-[a-z0-9][a-z0-9-]*$"
+    },
+    "candidate_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "as_of": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Frozen feature cutoff. No input after this time."
+    },
+    "computed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "feature_snapshot_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "instrument_mode": {
+      "const": "SHADOW_INSTRUMENT_ONLY",
+      "description": "008 local definition (spec CR-8). No equivalence with argotide is claimed."
+    },
+    "verified": {
+      "const": false,
+      "description": "Hyperlex never declares a hypothesis verified. Independent verification happens on the Abraxas side."
+    },
+    "promotion": {
+      "const": "SHADOW_ONLY"
+    },
+    "provenance_label": {
+      "type": "string",
+      "enum": [
+        "OBSERVED",
+        "INFERRED",
+        "SPECULATIVE"
+      ],
+      "description": "Label of the payload as a whole. Per-feature status is given on each measure."
+    },
+    "lexical_status": {
+      "type": "string",
+      "enum": [
+        "NOT_ATTESTED",
+        "OBSERVED",
+        "EXCLUDED_INVALID"
+      ]
+    },
+    "trajectory": {
+      "type": "string",
+      "enum": [
+        "INSUFFICIENT_HISTORY",
+        "RECURRING",
+        "SPREADING",
+        "STABILIZING",
+        "MUTATING",
+        "DORMANT",
+        "REVIVED"
+      ]
+    },
+    "temporal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attested_count",
+        "independent_count",
+        "active_days",
+        "active_weeks",
+        "recurrence_count",
+        "acceleration",
+        "days_since_last_use",
+        "bot_fraction"
+      ],
+      "properties": {
+        "attested_count": {
+          "$ref": "#/$defs/measure"
+        },
+        "independent_count": {
+          "$ref": "#/$defs/measure",
+          "description": "Excludes exact duplicates and near-duplicate cluster members."
+        },
+        "active_days": {
+          "$ref": "#/$defs/measure"
+        },
+        "active_weeks": {
+          "$ref": "#/$defs/measure"
+        },
+        "recurrence_count": {
+          "$ref": "#/$defs/measure"
+        },
+        "acceleration": {
+          "$ref": "#/$defs/measure"
+        },
+        "days_since_last_use": {
+          "$ref": "#/$defs/measure"
+        },
+        "bot_fraction": {
+          "$ref": "#/$defs/measure"
+        }
+      }
+    },
+    "diffusion": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Two levels (spec CR-7). within_platform: distinct sub-communities (or threads where none) by distinct authors. cross_platform: distinct platforms; no cross-platform author linking.",
+      "required": [
+        "distinct_authors",
+        "top_author_share",
+        "within_platform",
+        "cross_platform"
+      ],
+      "properties": {
+        "distinct_authors": {
+          "$ref": "#/$defs/measure"
+        },
+        "top_author_share": {
+          "$ref": "#/$defs/measure"
+        },
+        "within_platform": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "distinct_sub_communities",
+            "distinct_threads",
+            "multi_author_sub_communities"
+          ],
+          "properties": {
+            "distinct_sub_communities": {
+              "$ref": "#/$defs/measure"
+            },
+            "distinct_threads": {
+              "$ref": "#/$defs/measure"
+            },
+            "multi_author_sub_communities": {
+              "$ref": "#/$defs/measure"
+            }
+          }
+        },
+        "cross_platform": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "distinct_platforms",
+            "platforms"
+          ],
+          "properties": {
+            "distinct_platforms": {
+              "$ref": "#/$defs/measure"
+            },
+            "platforms": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9_]+$"
+              },
+              "uniqueItems": true
+            }
+          }
+        }
+      }
+    },
+    "guard_features": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Measured as-of features (FR-013). They never filter storage. The qualification guards stay separate and unchanged.",
+      "required": [
+        "SINGLE_BURST",
+        "ONE_AUTHOR_DEPENDENCE",
+        "BOTLIKE_REPETITION",
+        "DORMANT_OR_UNDATED"
+      ],
+      "properties": {
+        "SINGLE_BURST": {
+          "$ref": "#/$defs/guard_feature"
+        },
+        "ONE_AUTHOR_DEPENDENCE": {
+          "$ref": "#/$defs/guard_feature"
+        },
+        "BOTLIKE_REPETITION": {
+          "$ref": "#/$defs/guard_feature"
+        },
+        "DORMANT_OR_UNDATED": {
+          "$ref": "#/$defs/guard_feature"
+        }
+      }
+    },
+    "dormancy": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Both definitions are stored and labelled. Neither substitutes for the other (spec CR-4).",
+      "required": [
+        "window_days",
+        "coverage_aware_dormant",
+        "guard_reference_dormant",
+        "undated_occurrences"
+      ],
+      "properties": {
+        "window_days": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 60
+        },
+        "coverage_aware_dormant": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "No attested use within the window over covered time. Null means NOT_COMPUTABLE."
+        },
+        "guard_reference_dormant": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "Measured against the newest post in the store, as in metrics-rule-v1.4."
+        },
+        "undated_occurrences": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Kept, but excluded from temporal cohorts."
+        }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "data_end",
+        "covered_fraction",
+        "author_coverage",
+        "community_coverage",
+        "gaps"
+      ],
+      "properties": {
+        "data_end": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "covered_fraction": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "author_coverage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "community_coverage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "gaps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "start",
+              "end",
+              "source_system"
+            ],
+            "properties": {
+              "start": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "end": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "source_system": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "forecast_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 8
+      },
+      "description": "forecast_receipt_id values. Forecasts are SPECULATIVE."
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "private_overlay_ref",
+        "restricted_intent_suspected"
+      ],
+      "properties": {
+        "private_overlay_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "restricted_intent_suspected": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "measure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "status",
+        "coverage_fraction"
+      ],
+      "properties": {
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "OBSERVED",
+            "NOT_COMPUTABLE"
+          ]
+        },
+        "coverage_fraction": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "if": {
+        "properties": {
+          "status": {
+            "const": "NOT_COMPUTABLE"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "value": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "value": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "guard_feature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raised",
+        "status",
+        "rule_version",
+        "computed_as_of"
+      ],
+      "properties": {
+        "raised": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "COMPUTED",
+            "NOT_COMPUTABLE"
+          ]
+        },
+        "rule_version": {
+          "const": "metrics-rule-v1.4"
+        },
+        "computed_as_of": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "if": {
+        "properties": {
+          "status": {
+            "const": "NOT_COMPUTABLE"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "raised": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "raised": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "safety": {
+            "properties": {
+              "private_overlay_ref": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "private_overlay_ref"
+            ]
+          }
+        },
+        "required": [
+          "safety"
+        ]
+      },
+      "then": {
+        "properties": {
+          "candidate_id": {
+            "pattern": "^lex-h-[a-f0-9]{16,64}$"
+          }
+        }
+      }
+    }
+  ]
+}

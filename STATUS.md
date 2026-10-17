@@ -13,6 +13,22 @@
 
 This file is the operator snapshot. The docs site copies it to [status](https://scrimshawlife-ctrl.github.io/Hyperlex/status/). Do not treat it as a Hub card or a Brier score.
 
+## Hyperlex v2 dataset and specs 008/009 (2026-10-16 1:15 PM PT)
+
+- **Spec 008, lexical emergence** (PR #28, merged as d87e3af): SHADOW. CR-5 is amended by 009: R is row-level and never a term rejection.
+- **Spec 009, ruling label taxonomy** (PR #29, merged as 4f17542):
+  - Labels: S, O, U, and R. R means "unusable evidence" and is recorded as a row status, `TARGET_ABSENT` or `UNUSABLE_EVIDENCE`.
+  - Replies: corrections-only and multi-part replies are supported. M in a reply means O with `use_mention=MENTION`.
+  - Term auto-reject is removed.
+  - Excerpts are windowed around the target.
+  - VERDICT-RULES is now `metrics-rule-v1.5` (use/mention split).
+- **Ruling landing:** 1,472 rulings and 1,425 gold (test 277, val 164, train 984).
+- **Export:** gold test 274, val 158, train 933; overlaps 0; manifest 274 ids (not frozen).
+- **Readiness:** NOT READY. G1 test gold rows 274/250 met (independent recount 274; 37 terms vs roadmap >=150, open). T2 ruled meanings 149/300 (independent recount 149). Rule (Danny 2026-10-16): the two checks are independent and each needs its own recount. No Spark run without READY and Danny's go.
+- **Test-gap fill (Danny 2026-10-16):** posts collected for 18/21 empty test terms; queues 2026-10-16c, 16d and 16e ruled and applied.
+- **Board:** https://app.notion.com/p/f57ad22c76d7436c9e024229be560a8e (mirror of the Obsidian board). Kanban: `docs/KANBAN.md`.
+- Tooling runs from `hyperlex-v2-tracker/ruling_queue.py` on the operator box. The mirror is `scripts/v2/ruling_queue.py`.
+
 ## Trajectory
 
 | Layer | Role | State |
@@ -151,3 +167,20 @@ data/backfill/2026/
 ## README
 
 Operator front door expanded for stack parity with Athanor / Semion / Yggdrasil (2026-09-11). Changelog-style dumps stay in CHANGELOG / receipts — not the main page.
+
+### 2026-10-16 2:20 PM PT
+- G1 test floor redefined per Danny 2026-10-16 approval of recommendation: >=250 human-ruled test rows covering all test-lineage terms with posts (37). Now MET (274 export rows, 37/37 terms). 150 terms = train pool / overall gold (G2/G3). G5 uses term-level bootstrap (PR #33).
+- T2 ruled meanings 149/300 (140 with >=3 contexts, 133 with >=3 slang contexts). 128 model drafts staged for review, not counted.
+- Verdict: NOT READY (T2).
+
+### 2026-10-16 3:05 PM PT pre-Spark check
+- PASS: test gold 273/250, 37/37 test terms, 186 train terms, formats, overlap 0, duplicates fixed (manifest sha now a03c8619, not frozen). FAIL: T2 149/300. Danny: 15 quarantined gold rows, whether the slur family counts toward the family gate. Verdict NOT READY.
+
+### 2026-10-16 3:15 PM PT family assignments
+- 18 unfamilied terms assigned to parent families, 3 sent to noise, 5 held for Danny (refs F1-F5, private). 0 split moves. Test gold now spans 10 lineage families (H3 needs >=8). Gate 17 families (16 without slur).
+
+### 2026-10-16 3:10 PM PT
+- algo: off the noise list, Danny-ruled meaning (algorithm / platform feed; mechanism note: clipping), family tiktok-lifestyle, split unchanged. Meanings 150/300 (141 with >=3 contexts / 134 with >=3 slang contexts). Test families 10; test gold rows without a family 86.
+
+### 2026-10-16 3:40 PM PT
+- Word-formation field added (terms + export, backward-compatible; PR #34 draft). algo collection queue prepared (3 rows, not sent). No split changes.

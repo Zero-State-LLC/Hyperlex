@@ -1,3 +1,10 @@
+---
+id: 001/checklist
+status: companion
+depends_on: ["001"]
+dag: specs/DAG.md
+---
+
 # Checklist — Spec 001
 
 ## Spec quality

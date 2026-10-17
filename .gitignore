@@ -29,6 +29,7 @@ build/
 !schemas/**/*.json
 !src/hyperlex/schemas/**/*.json
 !**/schema.json
+!specs/**/contracts/*.schema.json
 !hyperlex.manifest.yaml
 !skills.sh.json
 !docs/archive/**/*.json

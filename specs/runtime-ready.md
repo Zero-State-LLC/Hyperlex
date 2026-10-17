@@ -1,3 +1,10 @@
+---
+id: runtime-ready
+status: live (gate)
+depends_on: ["000", "001", "002"]
+dag: specs/DAG.md
+---
+
 # Runtime-ready gate — mutation grammar v0.1
 
 **Date:** 2026-09-04  

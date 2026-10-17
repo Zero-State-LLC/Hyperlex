@@ -1,3 +1,10 @@
+---
+id: 007/NEXT_MOVES_007
+status: see specs/index.yaml
+depends_on: ["007"]
+dag: specs/DAG.md
+---
+
 # Spec 007 — next: morph78 is BEST and named Hyperlexical
 
 `name_gate` **true** for `seed-morph78` (Danny `flip name_gate`, 2026-09-24, amendment A6). BEST=**morph78**. Upsample freeze = **11+**. Do not run SECOND_SLOT=4.

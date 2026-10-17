@@ -1,3 +1,10 @@
+---
+id: 001/ux-commands
+status: companion
+depends_on: ["001"]
+dag: specs/DAG.md
+---
+
 # 001 addendum — command + agent UX
 
 See spec **002** for the normative command surface.

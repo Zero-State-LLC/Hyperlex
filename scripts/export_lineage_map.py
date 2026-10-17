@@ -17,11 +17,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from hyperlex.analysis import LINEAGE_REGISTRY  # noqa: E402
+from hyperlex.analysis import PUBLIC_LINEAGE_REGISTRY as LINEAGE_REGISTRY  # noqa: E402  (never export private overlay terms)
 from hyperlex.vectordb.embed import cosine, embed_hash  # noqa: E402
 
 META = {
-    "betting-sharp": {"label": "Betting / Sharp", "domain": "betting", "hue": 350},
     "crypto-degen": {"label": "Crypto / Degen", "domain": "crypto", "hue": 45},
     "ai-native": {"label": "AI-native", "domain": "ai", "hue": 200},
     "brainrot-aura": {"label": "Brainrot / Aura", "domain": "internet", "hue": 300},
@@ -29,6 +28,12 @@ META = {
     "political-status": {"label": "Political status", "domain": "politics", "hue": 15},
     "gaming-meta": {"label": "Gaming / Meta", "domain": "gaming", "hue": 170},
     "workplace-corp": {"label": "Workplace / Corp", "domain": "labor", "hue": 80},
+    "imageboard-meta": {"label": "Imageboard / Meta", "domain": "internet", "hue": 110},
+    "discourse-accusation": {"label": "Discourse accusation", "domain": "politics", "hue": 0},
+    "status-labels": {"label": "Status labels", "domain": "social", "hue": 260},
+    "tiktok-lifestyle": {"label": "TikTok lifestyle", "domain": "internet", "hue": 330},
+    "weeb-otaku": {"label": "Weeb / Otaku", "domain": "fandom", "hue": 230},
+    "neuro-insult": {"label": "Neuro insult", "domain": "social", "hue": 30},
 }
 
 NEIGHBOR_TOP_K = 3

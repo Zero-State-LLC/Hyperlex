@@ -1,3 +1,10 @@
+---
+id: 007/HERMES-SPARK-RUN
+status: see specs/index.yaml
+depends_on: ["007"]
+dag: specs/DAG.md
+---
+
 # Hermes run order — 007 Spark seed smoke (bring-up + train)
 
 *Operator note: hand this entire file to Hermes. It is self-contained — no other document is needed to execute it. Human-facing procedure detail is in `SPARK-BRINGUP.md`; the spec locks are in `AARON-SPARK-TRAIN.md`. This file changes neither.*

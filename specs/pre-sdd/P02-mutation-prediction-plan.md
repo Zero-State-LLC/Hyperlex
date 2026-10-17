@@ -1,3 +1,10 @@
+---
+id: P02-plan
+status: stale (executed)
+depends_on: ["P02"]
+dag: specs/DAG.md
+---
+
 # Mutation Prediction Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
@@ -8,7 +15,7 @@
 
 **Tech Stack:** Python 3.10+, existing Hyperlex analysis/LLM packages, pytest, no new runtime deps for the deterministic path.
 
-**Spec:** `docs/superpowers/specs/2026-08-06-mutation-prediction-design.md`
+**Spec:** `specs/pre-sdd/P02-mutation-prediction-design.md`
 
 ## Global Constraints
 
@@ -903,7 +910,7 @@ git push origin main
 
 ## Execution handoff
 
-Plan complete and saved to `docs/superpowers/plans/2026-08-06-mutation-prediction.md`.
+Plan complete and saved to `specs/pre-sdd/P02-mutation-prediction-plan.md`.
 
 **Two execution options:**
 

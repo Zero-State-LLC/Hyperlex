@@ -1,3 +1,10 @@
+---
+id: P03
+status: "superseded-by:000/002 (wizard shipped)"
+depends_on: []
+dag: specs/DAG.md
+---
+
 # Design: Hermes workflow wizard (user guidance)
 
 **Date:** 2026-08-08  

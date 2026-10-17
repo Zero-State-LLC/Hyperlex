@@ -89,5 +89,4 @@ python3 scripts/hyperlex.py lineage-backprop --from-archive --include-home
 | kinship-address | fictive kinship acceleration |
 | political-status | tribal judgment shorthand |
 | crypto-degen | residual risk-identity slang |
-| betting-sharp | line-physics cluster (stable) |
 | workplace-corp | labor identity under corporate speech |
