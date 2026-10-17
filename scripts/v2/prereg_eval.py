@@ -1,8 +1,18 @@
 #!/usr/bin/env python3
 """G5 preregistered eval (draft): term-level paired bootstrap (primary, per G5_PREREG_EVAL.md 2026-10-16) +
-exact McNemar (descriptive) + bootstrap macro-F1. Inputs are private prediction
-JSONL files keyed by record_id ({"record_id","pred"}) plus a gold JSONL ({"record_id","gold","family"})."""
-import argparse, json, random
+exact McNemar (descriptive) + bootstrap macro-F1.
+--final verifies the frozen test manifest sha and the locked threshold-config sha, scores only manifest ids,
+and takes an exclusive run-once lock so a second --final run refuses. Inputs are private prediction
+JSONL files keyed by record_id ({"record_id","pred"} and/or {"record_id","margin"}; margin = logp(SLANG)-logp(OTHER), labelled with the
+locked threshold) plus a gold JSONL ({"record_id","gold","family"})."""
+import argparse, json, random, hashlib, os
+
+MANIFEST_SHA = "a03c8619ba91a0f3d3edb43a358adbb5a6fcc83fe462442b6cb66e94be8296b6"
+THRESHOLD_CFG_SHA = "d0ecacbb0a1dd820f97dc88d9177b4ffde65a8da7b411dffed573eb6a5883e61"
+
+
+def sha(p):
+    return hashlib.sha256(open(p, "rb").read()).hexdigest()
 from math import comb
 
 
@@ -62,12 +72,36 @@ def main():
     ap.add_argument("--tuned", required=True)
     ap.add_argument("--baseline", action="append", default=[], help="name=path")
     ap.add_argument("--final", action="store_true", help="the single preregistered run")
+    ap.add_argument("--manifest", help="frozen test_manifest.txt (sha must be MANIFEST_SHA)")
+    ap.add_argument("--threshold-config", help="locked decision-threshold config (sha must be THRESHOLD_CFG_SHA)")
+    ap.add_argument("--lock", help="run-once lock file; created exclusively, a second --final run refuses")
     a = ap.parse_args()
     if not a.final:
         raise SystemExit("refusing to read test gold without --final (preregistered single run)")
-    gold = load(a.gold); tuned = load(a.tuned)
+    if not (a.manifest and a.threshold_config and a.lock):
+        raise SystemExit("--final requires --manifest, --threshold-config and --lock")
+    if sha(a.manifest) != MANIFEST_SHA:
+        raise SystemExit("frozen manifest sha mismatch")
+    if sha(a.threshold_config) != THRESHOLD_CFG_SHA:
+        raise SystemExit("threshold config sha mismatch")
+    try:
+        fd = os.open(a.lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o444)
+    except FileExistsError:
+        raise SystemExit(f"refusing second --final run: lock {a.lock} exists")
+    os.write(fd, json.dumps({"tuned": a.tuned, "tuned_sha": sha(a.tuned)}).encode()); os.close(fd)
+    manifest = [l.strip() for l in open(a.manifest) if l.strip()]
+    gold = {i: r for i, r in load(a.gold).items() if i in set(manifest)}; tuned = load(a.tuned)
+    thr = json.load(open(a.threshold_config))["threshold"]
+    for r in tuned.values():  # apply the locked threshold when margins are supplied
+        if "margin" in r:
+            p = "SLANG_SENSE" if r["margin"] > thr else "OTHER_SENSE"
+            if "pred" in r and r["pred"] != p:
+                raise SystemExit(f"pred disagrees with locked threshold for {r['record_id']}")
+            r["pred"] = p
+    if len(gold) != len(manifest) or any(i not in tuned for i in manifest):
+        raise SystemExit("gold/predictions do not cover the frozen manifest exactly")
     ids = sorted(gold)
-    rep = {"n": len(ids), "final": a.final, "tuned_acc": sum(tuned[i]["pred"] == gold[i]["gold"] for i in ids) / len(ids)}
+    rep = {"n": len(ids), "final": a.final, "manifest_sha": MANIFEST_SHA, "threshold_cfg_sha": THRESHOLD_CFG_SHA, "threshold": thr, "tuned_acc": sum(tuned[i]["pred"] == gold[i]["gold"] for i in ids) / len(ids)}
     for spec in a.baseline:
         name, path = spec.split("=", 1); base = load(path)
         b = sum(1 for i in ids if tuned[i]["pred"] == gold[i]["gold"] and base[i]["pred"] != gold[i]["gold"])
