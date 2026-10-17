@@ -380,8 +380,13 @@ def main(argv=None) -> int:
         help="load local ModernBERT + trained heads and score real unbind_exact (Spark)",
     )
     args = p.parse_args(argv)
+    from .run_report import RunReport
+
+    rr = RunReport("hyperlexical/eval_unbind", {"model_dir": args.model_dir, "trunk_forward": args.trunk_forward})
     try:
-        report = run_eval(model_dir=args.model_dir or None, trunk_forward=args.trunk_forward)
+        with rr:
+            report = run_eval(model_dir=args.model_dir or None, trunk_forward=args.trunk_forward)
+            rr.set_scores(**{k: report[k] for k in ("e2_pass", "brier") if k in report})
     except TrunkForwardError as exc:
         print(
             json.dumps(
