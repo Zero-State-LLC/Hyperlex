@@ -404,8 +404,12 @@ def run_eval_classify(
     train_path: str | Path,
     slices: Sequence[str] = (),
     bow_nonnone: str | None = None,
-) -> dict[str, Any]:
-    """Score model predictions. Train rows fit the bag-of-terms baseline only."""
+) -> tuple[dict[str, Any], list[str]]:
+    """Score model predictions. Train rows fit the bag-of-terms baseline only.
+
+    The second value is the parsed label for each eval row, in eval order.
+    Those are the predictions that entered the score.
+    """
     pred_rows = _read_jsonl(Path(preds_path))
     eval_rows = _read_jsonl(Path(eval_path))
     train_rows = _read_jsonl(Path(train_path))
@@ -479,7 +483,7 @@ def run_eval_classify(
             block = _score_block([g for g, _p in kept], [p for _g, p in kept])
             block["reporting_only"] = True
             report["slices"][name] = block
-    return report
+    return report, model
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -517,7 +521,7 @@ def main(argv: list[str] | None = None) -> int:
 
     # Report-only (HLX_RUN_REPORT): never changes the eval numbers, stdout, or exit code.
     with RunReport("hyperlexical/eval_classify", {"preds": str(preds_path), "eval": args.eval, "train": args.train}) as rr:
-        report = run_eval_classify(
+        report, scored = run_eval_classify(
             preds_path=preds_path,
             eval_path=args.eval,
             train_path=args.train,
@@ -525,11 +529,12 @@ def main(argv: list[str] | None = None) -> int:
             bow_nonnone=args.bow_nonnone,
         )
         if rr.path:
-            labels = []
-            for row in _read_jsonl(Path(preds_path)):
-                labels.append(next((str(row[f]) for f in _PRED_FIELDS if row.get(f) not in (None, "")), None))
-            bad = [x for x in labels if x not in FAMILIES]
-            rr.set_validity(len(labels) - len(bad), len(bad), {"label_not_in_families": len(bad)} if bad else None)
+            bad = [label for label in scored if label not in FAMILIES]
+            rr.set_validity(
+                len(scored) - len(bad),
+                len(bad),
+                {"label_not_in_families": len(bad)} if bad else None,
+            )
             rr.set_scores(**{k: report[k] for k in ("macro_f1", "macro_f1_nonnone", "accuracy") if k in report})
     text = json.dumps(report, indent=2, sort_keys=True)
     if args.out:

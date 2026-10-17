@@ -40,6 +40,21 @@ def test_no_env_no_report_same_stdout(tmp_path, monkeypatch, capsys):
     assert rep["validity"]["valid_rate"] == 1.0
 
 
+def test_validity_uses_labels_that_were_scored(tmp_path, monkeypatch, capsys):
+    argv = _fixture(tmp_path)
+    preds = tmp_path / "preds.jsonl"
+    rows = [json.loads(line) for line in preds.read_text(encoding="utf-8").splitlines() if line.strip()]
+    rows[0]["pred"] = " ai-native "
+    rows.append({"id": "extra-not-scored", "pred": "not-a-family"})
+    _w(preds, rows)
+    monkeypatch.setenv("HLX_RUN_REPORT", str(tmp_path / "rr.json"))
+    assert eval_classify.main(argv) == 0
+    capsys.readouterr()
+    rep = json.loads((tmp_path / "rr.json").read_text(encoding="utf-8"))
+    assert rep["validity"]["valid"] == 9
+    assert rep["validity"]["invalid"] == 0
+
+
 def test_invalid_label_counted_separately(tmp_path, monkeypatch, capsys):
     argv = _fixture(tmp_path, bad_pred=True)
     monkeypatch.setenv("HLX_RUN_REPORT", str(tmp_path / "rr.json"))
