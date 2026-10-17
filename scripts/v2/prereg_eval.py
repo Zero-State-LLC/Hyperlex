@@ -1,14 +1,18 @@
 #!/usr/bin/env python3
 """G5 preregistered eval (draft): term-level paired bootstrap (primary, per G5_PREREG_EVAL.md 2026-10-16) +
 exact McNemar (descriptive) + bootstrap macro-F1.
---final verifies the frozen test manifest sha and the locked threshold-config sha, scores only manifest ids,
+--final verifies the frozen test manifest sha (spent manifests refuse), the final prereg sha and the locked threshold-config sha, scores only manifest ids,
 and takes an exclusive run-once lock so a second --final run refuses. Inputs are private prediction
 JSONL files keyed by record_id ({"record_id","pred"} and/or {"record_id","margin"}; margin = logp(SLANG)-logp(OTHER), labelled with the
 locked threshold) plus a gold JSONL ({"record_id","gold","family"})."""
 import argparse, json, random, hashlib, os
 
-MANIFEST_SHA = "a03c8619ba91a0f3d3edb43a358adbb5a6fcc83fe462442b6cb66e94be8296b6"
+# Active preregistered read: G5b (t3 test, frozen 2026-10-16, prereg FINAL hashed before t3 training).
+MANIFEST_SHA = "1d28320442632ad9debe1843d81241a09357ccdf1a839c2b7c72bc2d6d1d2258"
+PREREG_SHA = "bd3ea6b7441628315f0b55d60cf200638ccc8645ea7d46288c91ec84d243d90c"
 THRESHOLD_CFG_SHA = "d0ecacbb0a1dd820f97dc88d9177b4ffde65a8da7b411dffed573eb6a5883e61"
+# Spent manifests: already read once; any further --final read refuses.
+SPENT_MANIFESTS = {"a03c8619ba91a0f3d3edb43a358adbb5a6fcc83fe462442b6cb66e94be8296b6": "G5 test, read once 2026-10-16 (t2 ckpt-552)"}
 
 
 def sha(p):
@@ -33,6 +37,15 @@ def macro_f1(pairs):
         fn = sum(1 for g, p in pairs if g == l and p != l)
         f.append(0 if tp == 0 else 2 * tp / (2 * tp + fp + fn))
     return sum(f) / len(f) if f else 0.0
+
+
+def per_label(pairs):
+    out = {}
+    for l in ("SLANG_SENSE", "OTHER_SENSE"):
+        tp = sum(1 for g, p in pairs if g == l and p == l); fp = sum(1 for g, p in pairs if g != l and p == l); fn = sum(1 for g, p in pairs if g == l and p != l)
+        pr = tp / (tp + fp) if tp + fp else 0.0; rc = tp / (tp + fn) if tp + fn else 0.0
+        out[l] = {"precision": pr, "recall": rc, "f1": 2 * pr * rc / (pr + rc) if pr + rc else 0.0, "support": tp + fn}
+    return out
 
 
 def holm(pvals):
@@ -75,20 +88,23 @@ def main():
     ap.add_argument("--manifest", help="frozen test_manifest.txt (sha must be MANIFEST_SHA)")
     ap.add_argument("--threshold-config", help="locked decision-threshold config (sha must be THRESHOLD_CFG_SHA)")
     ap.add_argument("--lock", help="run-once lock file; created exclusively, a second --final run refuses")
+    ap.add_argument("--prereg", help="final prereg document (sha must be PREREG_SHA)")
     a = ap.parse_args()
     if not a.final:
         raise SystemExit("refusing to read test gold without --final (preregistered single run)")
-    if not (a.manifest and a.threshold_config and a.lock):
-        raise SystemExit("--final requires --manifest, --threshold-config and --lock")
-    if sha(a.manifest) != MANIFEST_SHA:
+    if not (a.manifest and a.threshold_config and a.lock and a.prereg):
+        raise SystemExit("--final requires --manifest, --threshold-config, --prereg and --lock")
+    msha = sha(a.manifest)
+    if msha in SPENT_MANIFESTS:
+        raise SystemExit(f"refusing: manifest is spent ({SPENT_MANIFESTS[msha]})")
+    if msha != MANIFEST_SHA:
         raise SystemExit("frozen manifest sha mismatch")
+    if sha(a.prereg) != PREREG_SHA:
+        raise SystemExit("prereg sha mismatch")
     if sha(a.threshold_config) != THRESHOLD_CFG_SHA:
         raise SystemExit("threshold config sha mismatch")
-    try:
-        fd = os.open(a.lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o444)
-    except FileExistsError:
+    if os.path.exists(a.lock):
         raise SystemExit(f"refusing second --final run: lock {a.lock} exists")
-    os.write(fd, json.dumps({"tuned": a.tuned, "tuned_sha": sha(a.tuned)}).encode()); os.close(fd)
     manifest = [l.strip() for l in open(a.manifest) if l.strip()]
     gold = {i: r for i, r in load(a.gold).items() if i in set(manifest)}; tuned = load(a.tuned)
     thr = json.load(open(a.threshold_config))["threshold"]
@@ -100,8 +116,13 @@ def main():
             r["pred"] = p
     if len(gold) != len(manifest) or any(i not in tuned for i in manifest):
         raise SystemExit("gold/predictions do not cover the frozen manifest exactly")
+    try:  # lock only after every check passed, so a malformed call cannot burn the single read
+        fd = os.open(a.lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o444)
+    except FileExistsError:
+        raise SystemExit(f"refusing second --final run: lock {a.lock} exists")
+    os.write(fd, json.dumps({"tuned": a.tuned, "tuned_sha": sha(a.tuned), "manifest_sha": msha}).encode()); os.close(fd)
     ids = sorted(gold)
-    rep = {"n": len(ids), "final": a.final, "manifest_sha": MANIFEST_SHA, "threshold_cfg_sha": THRESHOLD_CFG_SHA, "threshold": thr, "tuned_acc": sum(tuned[i]["pred"] == gold[i]["gold"] for i in ids) / len(ids)}
+    rep = {"n": len(ids), "final": a.final, "manifest_sha": MANIFEST_SHA, "prereg_sha": PREREG_SHA, "threshold_cfg_sha": THRESHOLD_CFG_SHA, "threshold": thr, "tuned_acc": sum(tuned[i]["pred"] == gold[i]["gold"] for i in ids) / len(ids)}
     for spec in a.baseline:
         name, path = spec.split("=", 1); base = load(path)
         b = sum(1 for i in ids if tuned[i]["pred"] == gold[i]["gold"] and base[i]["pred"] != gold[i]["gold"])
@@ -114,6 +135,11 @@ def main():
     pairs = [(gold[i]["gold"], tuned[i]["pred"]) for i in ids]
     rng = random.Random(7)
     boots = sorted(macro_f1([rng.choice(pairs) for _ in pairs]) for _ in range(10000))
+    rep["per_label"] = per_label(pairs)
+    rep["confusion_gold_x_pred"] = {g: {p: sum(1 for x, y in pairs if x == g and y == p) for p in ("SLANG_SENSE", "OTHER_SENSE")} for g in ("SLANG_SENSE", "OTHER_SENSE")}
+    strata = sorted({gold[i].get("stratum") for i in ids if gold[i].get("stratum")})
+    rep["by_stratum"] = {st: {"n": len(sub), "acc": sum(g == p for g, p in sub) / len(sub), "macro_f1": macro_f1(sub), "per_label": per_label(sub)}
+                         for st in strata for sub in [[(gold[i]["gold"], tuned[i]["pred"]) for i in ids if gold[i].get("stratum") == st]]}
     rep["macro_f1"] = macro_f1(pairs); rep["macro_f1_ci95"] = [boots[249], boots[9749]]
     print(json.dumps(rep, indent=2))
 
