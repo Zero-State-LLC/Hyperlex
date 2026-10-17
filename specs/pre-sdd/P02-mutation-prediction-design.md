@@ -1,3 +1,10 @@
+---
+id: P02
+status: "superseded-by:000 (folded into spine)"
+depends_on: []
+dag: specs/DAG.md
+---
+
 # Design: Mutation prediction (next surface forms)
 
 **Date:** 2026-08-06  

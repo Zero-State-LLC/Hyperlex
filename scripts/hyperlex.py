@@ -299,7 +299,7 @@ def cmd_doctor(_args: argparse.Namespace) -> int:
     if pkg is not None:
         try:
             result = pkg.detect_memetic_patterns(
-                query="sharp steam revenge",
+                query="hodl diamond hands rekt",
                 ingest_source="mock",
                 validate=False,
             )
@@ -326,7 +326,7 @@ def cmd_doctor(_args: argparse.Namespace) -> int:
 
     checks.append(_check(analyze_ok, "analyze_mock", "mock analyze ok", "mock analyze failed"))
     checks.append(_check(brier_null, "brier_null", "open brier is null", "open brier is not null"))
-    checks.append(_check(lineage_ok, "lineage_match", "lineage attached on sharp query", "lineage missing on sharp query"))
+    checks.append(_check(lineage_ok, "lineage_match", "lineage attached on degen query", "lineage missing on degen query"))
     checks.append(_check(pred_ok, "virality_prediction", "virality.prediction present", "virality.prediction missing"))
 
     if pkg is not None:

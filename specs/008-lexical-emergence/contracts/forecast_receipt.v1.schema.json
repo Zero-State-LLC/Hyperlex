@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hyperlex.dev/schemas/008/forecast_receipt.v1.schema.json",
+  "title": "Hyperlex ForecastReceipt v1",
+  "description": "Frozen experimental forecast for one candidate. This is a separate 008 contract and does not edit or extend forecast.v1. Prediction fields are write-once. The outcome block is filled once, later. Any change is a new receipt that names the old one in supersedes. Right-censored windows never carry an outcome_value. brier is null unless the class is operator-approved as eligible and an operator settlement decided TRUE or FALSE. Backtest metrics are never written to brier. Invariant checked in tests, not expressible in the schema: prediction_ts must be at or before window.start, and features must not be later than prediction_ts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "forecast_receipt_id",
+    "candidate_id",
+    "prediction_ts",
+    "target",
+    "horizon_days",
+    "window",
+    "feature_snapshot_sha256",
+    "evidence_ref",
+    "model",
+    "probability",
+    "provenance_label",
+    "prereg_sha256",
+    "censoring",
+    "outcome",
+    "forecast_class_eligible",
+    "settlement",
+    "brier",
+    "verified",
+    "promotion",
+    "supersedes"
+  ],
+  "properties": {
+    "schema_version": { "const": "forecast_receipt.v1" },
+    "forecast_receipt_id": { "type": "string", "minLength": 8 },
+    "candidate_id": { "type": "string", "pattern": "^lex-[a-z0-9][a-z0-9-]*$" },
+    "prediction_ts": { "type": "string", "format": "date-time" },
+    "target": {
+      "type": "string",
+      "enum": ["RECURRENCE", "ADOPTION_DISTINCT_AUTHOR", "DIFFUSION_WITHIN_PLATFORM", "DIFFUSION_CROSS_PLATFORM", "PERSISTENCE", "SEMANTIC_STABILITY", "MUTATION"]
+    },
+    "horizon_days": { "type": "integer", "enum": [7, 30, 90] },
+    "window": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start", "end"],
+      "properties": {
+        "start": { "type": "string", "format": "date-time" },
+        "end": { "type": "string", "format": "date-time" }
+      }
+    },
+    "feature_snapshot_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "evidence_ref": {
+      "type": ["string", "null"],
+      "description": "evidence_id of the EmergenceEvidence used."
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage", "model_id", "version"],
+      "properties": {
+        "stage": {
+          "type": "string",
+          "enum": ["BASELINE_FREQUENCY", "BASELINE_MORPHOLOGY", "BASELINE_MORPH_FREQ", "S2", "S3", "S4"]
+        },
+        "model_id": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "minLength": 1 }
+      }
+    },
+    "probability": { "type": "number", "minimum": 0, "maximum": 1 },
+    "provenance_label": { "const": "SPECULATIVE" },
+    "prereg_sha256": {
+      "type": ["string", "null"],
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "Hash of the frozen preregistration, required for evaluation cohorts."
+    },
+    "censoring": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "determined_at"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["PENDING", "UNCENSORED", "RIGHT_CENSORED_DATA_END", "RIGHT_CENSORED_COVERAGE_GAP"]
+        },
+        "determined_at": { "type": ["string", "null"], "format": "date-time" }
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "outcome_value", "resolved_at", "occurrence_refs"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["PENDING", "RESOLVED", "CENSORED", "NOT_COMPUTABLE"]
+        },
+        "outcome_value": { "type": ["integer", "null"], "enum": [0, 1, null] },
+        "resolved_at": { "type": ["string", "null"], "format": "date-time" },
+        "occurrence_refs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "occurrence_id values supporting the outcome. No text."
+        }
+      }
+    },
+    "forecast_class_eligible": {
+      "type": "boolean",
+      "default": false,
+      "description": "Operator decision only."
+    },
+    "settlement": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["settlement_id", "status", "settlement_decision", "settled_at", "authority"],
+      "properties": {
+        "settlement_id": { "type": "string", "minLength": 8 },
+        "status": { "type": "string", "enum": ["SETTLED", "VOID", "CONFLICT"] },
+        "settlement_decision": { "type": "string", "enum": ["TRUE", "FALSE", "VOID", "CONFLICT"] },
+        "settled_at": { "type": "string", "format": "date-time" },
+        "authority": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind"],
+          "properties": {
+            "kind": { "type": "string", "enum": ["operator", "automated_rule", "external_oracle"] },
+            "ref": { "type": "string" }
+          }
+        }
+      }
+    },
+    "brier": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 1
+    },
+    "verified": { "const": false },
+    "promotion": { "const": "SHADOW_ONLY" },
+    "supersedes": { "type": ["string", "null"] }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "target": { "const": "RECURRENCE" } },
+        "required": ["target"]
+      },
+      "then": { "properties": { "horizon_days": { "enum": [7, 30] } } }
+    },
+    {
+      "if": {
+        "properties": { "target": { "const": "PERSISTENCE" } },
+        "required": ["target"]
+      },
+      "then": { "properties": { "horizon_days": { "enum": [30, 90] } } }
+    },
+    {
+      "if": {
+        "properties": {
+          "censoring": {
+            "properties": {
+              "status": { "enum": ["RIGHT_CENSORED_DATA_END", "RIGHT_CENSORED_COVERAGE_GAP"] }
+            },
+            "required": ["status"]
+          }
+        },
+        "required": ["censoring"]
+      },
+      "then": {
+        "properties": {
+          "outcome": {
+            "properties": {
+              "status": { "const": "CENSORED" },
+              "outcome_value": { "type": "null" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "properties": { "status": { "const": "RESOLVED" } },
+            "required": ["status"]
+          }
+        },
+        "required": ["outcome"]
+      },
+      "then": {
+        "properties": {
+          "outcome": { "properties": { "outcome_value": { "type": "integer" } } },
+          "censoring": { "properties": { "status": { "const": "UNCENSORED" } } }
+        }
+      },
+      "else": {
+        "properties": {
+          "outcome": { "properties": { "outcome_value": { "type": "null" } } }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "forecast_class_eligible": { "const": true },
+          "settlement": {
+            "type": "object",
+            "properties": {
+              "status": { "const": "SETTLED" },
+              "settlement_decision": { "enum": ["TRUE", "FALSE"] },
+              "authority": {
+                "properties": { "kind": { "const": "operator" } },
+                "required": ["kind"]
+              }
+            },
+            "required": ["status", "settlement_decision", "authority"]
+          }
+        },
+        "required": ["forecast_class_eligible", "settlement"]
+      },
+      "then": { "properties": { "brier": { "type": ["number", "null"] } } },
+      "else": { "properties": { "brier": { "type": "null" } } }
+    }
+  ]
+}

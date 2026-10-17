@@ -86,12 +86,12 @@ These are the primary ways new branches form. Document them explicitly when reco
   "neologisms": [...],
   "semantic_variation": {...},
   "lineage": {
-    "family_id": "betting-sharp",
-    "matched_terms": ["steam", "sharp"],
+    "family_id": "crypto-degen",
+    "matched_terms": ["hodl", "rekt"],
     "branch_operator": "sense_extension",
     "confidence": 0.72,
-    "diagram_ref": "examples/slang-families/betting-sharp-family.mmd",
-    "payload_note": "professional edge vs public money; line-physics signaling",
+    "diagram_ref": "examples/slang-families/crypto-degen-family.mmd",
+    "payload_note": "...",
     "provenance": "INFERRED",
     "score_breakdown": {
       "n_hits": 2,
@@ -172,7 +172,6 @@ Visual timeline: `examples/slang-families/ytd-2026-timeline.mmd`.
 
 See `examples/slang-families/`:
 
-- `betting-sharp-family.mmd` + `sharp-family-timeline.mmd` — sharp/steam/square cluster and chronological drift.
 - `kinship-address.mmd` — bro/sis/twin/unc lineage and platform acceleration.
 - `crypto-degen-family.mmd` — HODL → diamond hands → ape/rekt/degen cluster.
 - `brainrot-aura-family.mmd` — content-degradation + status-signaling (mid/cooked/aura/brainrot).
@@ -180,7 +179,7 @@ See `examples/slang-families/`:
 - `political-status-family.mmd` — based / redpilled / cope tribal-judgment lineage.
 - `emergence-process.mmd` — abstract Hyperlex process that generates new branches.
 
-HTML renderers: `render-betting-sharp.html`, `render-ai-native.html`, `render-emergence.html`.
+HTML renderers: `render-ai-native.html`, `render-emergence.html`.
 
 ## Live Feed Process
 
@@ -209,4 +208,20 @@ HTML renderers: `render-betting-sharp.html`, `render-ai-native.html`, `render-em
 
 ## Registry families (matcher seed)
 
-betting-sharp · crypto-degen · ai-native · brainrot-aura · kinship-address · political-status · **gaming-meta** · **workplace-corp**
+crypto-degen · ai-native · brainrot-aura · kinship-address · political-status · gaming-meta · workplace-corp · **imageboard-meta** · **discourse-accusation** · **status-labels** · **tiktok-lifestyle** · **weeb-otaku** · **neuro-insult**
+
+`betting-sharp` was retired on 2026-10-15; its terms no longer map to a family.
+
+### Private registry overlay
+
+Some family members are sensitive and are not kept in this public repo. Families flagged
+`"terms_private": true` (`discourse-accusation`, `status-labels`, `neuro-insult`) get the rest
+of their members at import time from a local JSON file named by `HYPERLEX_PRIVATE_REGISTRY`:
+
+```json
+{"families": [{"family_id": "neuro-insult", "terms": ["..."]}]}
+```
+
+Terms extend an existing family (deduplicated); an unknown `family_id` is appended as a new
+family. When the variable is unset or the file is missing, only the public terms are used. Never
+commit the overlay file.

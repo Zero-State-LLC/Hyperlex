@@ -1,3 +1,10 @@
+---
+id: 003/plan
+status: companion
+depends_on: ["003"]
+dag: specs/DAG.md
+---
+
 # Plan 003 — Mutation detect v0.2
 
 **Spec**: `spec.md`  

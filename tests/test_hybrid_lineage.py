@@ -16,9 +16,9 @@ def test_hybrid_adds_breakdown_when_vector_db_present(tmp_path: Path, monkeypatc
     monkeypatch.setenv("HYPERLEX_VECTOR", "1")
     monkeypatch.setenv("HYPERLEX_OFFLINE", "1")
 
-    hit = match_lineage("sharp steam revenge")
+    hit = match_lineage("kek picrel jannies")
     assert hit is not None
-    assert hit["family_id"] == "betting-sharp"
+    assert hit["family_id"] == "imageboard-meta"
     assert hit["provenance"] == "INFERRED"
     sb = hit.get("score_breakdown") or {}
     assert "lexical_confidence" in sb
@@ -35,9 +35,9 @@ def test_hybrid_can_be_disabled(tmp_path: Path, monkeypatch):
     monkeypatch.setenv("HYPERLEX_VECTOR_DB", str(db))
     monkeypatch.setenv("HYPERLEX_VECTOR", "0")
 
-    hit = match_lineage("sharp steam revenge", use_vector=False)
+    hit = match_lineage("kek picrel jannies", use_vector=False)
     assert hit is not None
-    assert hit["family_id"] == "betting-sharp"
+    assert hit["family_id"] == "imageboard-meta"
     assert "hybrid" not in hit
 
 
@@ -51,4 +51,5 @@ def test_domain_phylogeny_packs():
     tree = build_domain_phylogeny("finance")
     assert tree["ok"] is True
     assert tree["brier"] is None
-    assert "betting-sharp" in tree["families"]
+    assert "betting-sharp" not in tree["families"]
+    assert "crypto-degen" in tree["families"]

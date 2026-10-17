@@ -1,3 +1,10 @@
+---
+id: 007/NAME-GATE-AND-NAMED-PHRASES
+status: see specs/index.yaml
+depends_on: ["007"]
+dag: specs/DAG.md
+---
+
 # Name gate + named phrases — operator plan
 
 **Status:** `name_gate` **FLIPPED** for `seed-morph78` (Danny, 2026-09-24, A6) · **Date:** 2026-09-24  

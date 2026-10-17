@@ -1,3 +1,10 @@
+---
+id: 003
+status: live (SPECIFY locked, SHADOW)
+depends_on: ["constitution", "000", "001", "002"]
+dag: specs/DAG.md
+---
+
 # Spec 003 — Mutation detect v0.2 (SHADOW)
 
 **Feature**: Detect-only parsers + watch jsonl + civilian `--human` cards  

@@ -1,3 +1,10 @@
+---
+id: 007/milestones
+status: see specs/index.yaml
+depends_on: ["007"]
+dag: specs/DAG.md
+---
+
 # Milestones 007 (A5)
 
 **Status**: SHADOW / advisory  

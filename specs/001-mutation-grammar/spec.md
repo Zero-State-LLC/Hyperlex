@@ -1,3 +1,10 @@
+---
+id: 001
+status: live (CLARIFY locked, SHADOW)
+depends_on: ["constitution", "000"]
+dag: specs/DAG.md
+---
+
 # Spec 001 — Adversarial Slang Mutation Grammar (first-class Hyperlex)
 
 **Feature**: Detector-side mutation grammar  

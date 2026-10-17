@@ -118,7 +118,6 @@ def build_propagation_vector(
     src = str(ingest_source or "").lower()
 
     family_map = {
-        "betting-sharp": ["x_twitter", "niche"],
         "crypto-degen": ["x_twitter", "discord", "niche"],
         "ai-native": ["x_twitter", "ai_tech", "reddit"],
         "brainrot-aura": ["tiktok", "x_twitter", "niche"],
@@ -126,6 +125,12 @@ def build_propagation_vector(
         "political-status": ["x_twitter", "reddit"],
         "gaming-meta": ["discord", "twitch", "x_twitter"],
         "workplace-corp": ["linkedin", "x_twitter"],
+        "imageboard-meta": ["imageboard", "niche"],
+        "discourse-accusation": ["x_twitter", "reddit", "imageboard"],
+        "status-labels": ["imageboard", "x_twitter", "reddit"],
+        "tiktok-lifestyle": ["tiktok", "x_twitter"],
+        "weeb-otaku": ["reddit", "discord", "x_twitter"],
+        "neuro-insult": ["imageboard", "x_twitter"],
     }
     for t in family_map.get(fam, ["x_twitter"]):
         if t not in tags:

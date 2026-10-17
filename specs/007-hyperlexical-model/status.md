@@ -1,3 +1,10 @@
+---
+id: 007/status
+status: see specs/index.yaml
+depends_on: ["007"]
+dag: specs/DAG.md
+---
+
 # Status 007 — 2026-09-24
 
 **Naming:** this file is the **Hyperlexical** model path. Harvest / live ingest is **ne0l0gist**. Repo **Hyperlex** is the transitional shell. `name_gate` **true** for `seed-morph78` (Danny `flip name_gate`, 2026-09-24, amendment A6).
