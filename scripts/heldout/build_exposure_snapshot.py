@@ -14,6 +14,7 @@ import json
 import os
 import re
 import stat
+import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -266,6 +267,23 @@ def publish_pair(out_dir: Path, snapshot_id: str, box_text: str, vern_text: str)
     return vern_path, box_path
 
 
+def resolve_bundled_hyperlexical() -> None:
+    """Import the publish dependency before any snapshot file is written.
+
+    ``python scripts/heldout/build_exposure_snapshot.py`` does not put
+    ``scripts/shadow`` on ``sys.path``. A missing ``hyperlexical`` module
+    must fail here, before ``publish_pair`` installs successor files.
+    """
+    shadow = Path(__file__).resolve().parents[1] / "shadow"
+    entry = str(shadow)
+    if entry not in sys.path:
+        sys.path.insert(0, entry)
+    from hyperlexical.select_005_harvest import exposure_fence
+
+    if not callable(exposure_fence):
+        raise SystemExit("REFUSE: bundled exposure_fence is missing")
+
+
 def freshness_record(
     *,
     vern_path: Path,
@@ -412,6 +430,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         snapshot_id = snapshot_id or utc_snapshot_id()
         if snapshot_id == args.baseline_id:
             raise SystemExit("REFUSE: successor snapshot id collides with the baseline")
+        resolve_bundled_hyperlexical()
         vern_path, box_path = publish_pair(args.out_dir, snapshot_id, plan["box_text"], plan["vern_text"])
         published = True
         fence = freshness_record(

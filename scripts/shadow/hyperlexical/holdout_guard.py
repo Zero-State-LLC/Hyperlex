@@ -174,10 +174,13 @@ def _take_strings(value: list[Any], found: set[str], key: str) -> None:
 def _collect(obj: Any, ids: set[str], hashes: set[str]) -> None:
     if isinstance(obj, dict):
         for key, value in obj.items():
-            if key in _ID_KEYS and isinstance(value, list):
-                _take_strings(value, ids, key)
-            elif key in _HASH_KEYS and isinstance(value, list):
-                _take_strings(value, hashes, key)
+            if key in _ID_KEYS or key in _HASH_KEYS:
+                if not isinstance(value, list) or not all(isinstance(item, str) for item in value):
+                    raise SystemExit(
+                        f"REFUSE: holdout manifest {key} must be a list of strings"
+                    )
+                target = ids if key in _ID_KEYS else hashes
+                _take_strings(value, target, key)
             elif isinstance(value, (dict, list)):
                 _collect(value, ids, hashes)
     elif isinstance(obj, list):
