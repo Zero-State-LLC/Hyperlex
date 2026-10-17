@@ -226,6 +226,30 @@ def test_prepare_asserts_when_filter_is_bypassed(monkeypatch, tmp_path):
         prepare_unbind_splits([row])
 
 
+@pytest.mark.parametrize(
+    "body",
+    [
+        {"row_ids": "abc123", "normalized_text_sha256": ["ab" * 32]},
+        {"row_ids": ["abc123"], "normalized_text_sha256": "ab" * 32},
+        {"row_ids": [1, 2], "normalized_text_sha256": ["ab" * 32]},
+        {"meta": {"ids": "abc123"}, "normalized_text_sha256": ["ab" * 32]},
+    ],
+)
+def test_malformed_holdout_identity_fields_are_refused(tmp_path, body):
+    path = tmp_path / "malformed.json"
+    path.write_text(json.dumps(body), encoding="utf-8")
+    with pytest.raises(SystemExit, match="must be a list of strings"):
+        load_holdout_spec(str(path))
+
+
+def test_holdout_identity_lists_of_strings_are_kept(tmp_path):
+    digest = "ab" * 32
+    path = _write_manifest(tmp_path / "ok.json", row_ids=["abc123"], text_hashes=[digest])
+    spec = load_holdout_spec(str(path))
+    assert spec.row_ids == frozenset({"abc123"})
+    assert spec.text_hashes == frozenset({digest})
+
+
 def test_manifest_refuses_embedded_rows_bad_hash_and_missing(tmp_path):
     embedded = tmp_path / "embedded.json"
     embedded.write_text(
