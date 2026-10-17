@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import subprocess
 import sys
 from pathlib import Path
 
@@ -183,3 +184,65 @@ def test_cli_publish_is_fresh_and_leaves_the_baseline(tmp_path: Path) -> None:
     assert receipt["freshness"]["state"] == "EXPOSURE_SNAPSHOT_FRESH"
     assert receipt["previous_pair_overwritten"] is False
     assert os.stat(receipt_path).st_mode & 0o777 == 0o600
+
+
+def _publish_argv(tmp_path: Path, out: Path, receipt_path: Path) -> list[str]:
+    baseline_box = tmp_path / "box-jev-hashes-20260925T211351Z.txt"
+    baseline_vern = tmp_path / "vern-texts-20260925T211351Z.jsonl"
+    extra = tmp_path / "extra.txt"
+    baseline_box.write_text(_box("a" * 64), encoding="utf-8")
+    baseline_vern.write_text(_vern("kept"), encoding="utf-8")
+    extra.write_text(_box("f" * 64), encoding="utf-8")
+    return [
+        "--baseline-box",
+        str(baseline_box),
+        "--baseline-vern",
+        str(baseline_vern),
+        "--box-increment",
+        f"agent_context_exposed_hashes:{extra}",
+        "--out-dir",
+        str(out),
+        "--snapshot-id",
+        "20260929T030405Z",
+        "--receipt",
+        str(receipt_path),
+        "--publish",
+    ]
+
+
+def test_missing_bundled_module_refuses_before_publish(tmp_path: Path, monkeypatch) -> None:
+    import build_exposure_snapshot as mod
+
+    def boom() -> None:
+        raise SystemExit("REFUSE: bundled hyperlexical is not importable")
+
+    monkeypatch.setattr(mod, "resolve_bundled_hyperlexical", boom)
+    out = tmp_path / "out"
+    out.mkdir()
+    with pytest.raises(SystemExit, match="not importable"):
+        mod.main(_publish_argv(tmp_path, out, tmp_path / "receipt.json"))
+    assert list(out.iterdir()) == []
+    assert not (tmp_path / "receipt.json").exists()
+
+
+def test_direct_script_publish_resolves_bundled_module(tmp_path: Path) -> None:
+    script = ROOT / "scripts" / "heldout" / "build_exposure_snapshot.py"
+    out = tmp_path / "out"
+    out.mkdir()
+    receipt_path = tmp_path / "receipt.json"
+    env = os.environ.copy()
+    env.pop("PYTHONPATH", None)
+    proc = subprocess.run(
+        [sys.executable, str(script), *_publish_argv(tmp_path, out, receipt_path)],
+        cwd=tmp_path,
+        env=env,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert proc.returncode == 0, proc.stderr
+    assert (out / "vern-texts-20260929T030405Z.jsonl").is_file()
+    assert (out / "box-jev-hashes-20260929T030405Z.txt").is_file()
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    assert receipt["published"] is True
+    assert receipt["freshness"]["state"] == "EXPOSURE_SNAPSHOT_FRESH"
