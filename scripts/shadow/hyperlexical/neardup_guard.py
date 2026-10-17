@@ -1,6 +1,11 @@
 """Fail-closed near-duplicate guard between train rows and val/holdout texts.
 
-No-op unless HLX_NEARDUP_GUARD=1.
+No-op unless HLX_NEARDUP_GUARD=1. Character 3-5-gram Jaccard; the candidate
+index includes every n in that range, so a pair that shares only a 3-gram or
+a 4-gram is still scored.
+
+This module is not a Hermes skill command. ``SKILL.md`` does not name it.
+The shadow checker is documented in ``scripts/shadow/hyperlexical/README.md``.
 """
 from __future__ import annotations
 
@@ -50,58 +55,39 @@ def find_near_duplicates(
     other_texts: Sequence[str],
     threshold: float,
 ) -> list[dict]:
-    """All (i, j) pairs with jaccard(train[i], other[j]) >= threshold."""
+    """All (i, j) pairs with jaccard(train[i], other[j]) >= threshold.
+
+    The inverted index stores char 3-grams, 4-grams, and 5-grams. Any pair
+    with a non-zero 3-5-gram Jaccard shares at least one of those grams, so
+    candidate generation is complete for every accepted threshold. A text
+    shorter than 5 characters is compared with longer texts when they share
+    a 3-gram or a 4-gram. Empty gram sets have Jaccard 0 and are not candidates.
+    """
     train_norms = [normalize_group_text(t or "") for t in train_texts]
     other_norms = [normalize_group_text(t or "") for t in other_texts]
-
-    train_5 = [_grams_from_norm(s, 5, 5) for s in train_norms]
-    other_5 = [_grams_from_norm(s, 5, 5) for s in other_norms]
-
-    full_cache: dict[tuple[str, int], frozenset[str]] = {}
-
-    def full(side: str, idx: int) -> frozenset[str]:
-        key = (side, idx)
-        got = full_cache.get(key)
-        if got is None:
-            norm = train_norms[idx] if side == "t" else other_norms[idx]
-            got = _grams_from_norm(norm)
-            full_cache[key] = got
-        return got
+    train_grams = [_grams_from_norm(s) for s in train_norms]
+    other_grams = [_grams_from_norm(s) for s in other_norms]
 
     inv: dict[str, list[int]] = {}
-    short_others: list[int] = []
-    for j, g5 in enumerate(other_5):
-        if g5:
-            for g in g5:
-                inv.setdefault(g, []).append(j)
-        else:
-            short_others.append(j)
+    for j, grams in enumerate(other_grams):
+        for gram in grams:
+            inv.setdefault(gram, []).append(j)
 
     results: list[dict] = []
-    for i, tg5 in enumerate(train_5):
-        if tg5:
-            cands: set[int] = set()
-            for g in tg5:
-                cl = inv.get(g)
-                if cl:
-                    cands.update(cl)
-            if not cands:
-                continue
-            ti = full("t", i)
-            for j in sorted(cands):
-                x = jaccard(ti, full("o", j))
-                if x >= threshold:
-                    results.append(
-                        {"train_index": i, "other_index": j, "jaccard": round(x, 4)}
-                    )
-        elif short_others:
-            ti = full("t", i)
-            for j in short_others:
-                x = jaccard(ti, full("o", j))
-                if x >= threshold:
-                    results.append(
-                        {"train_index": i, "other_index": j, "jaccard": round(x, 4)}
-                    )
+    for i, grams in enumerate(train_grams):
+        if not grams:
+            continue
+        cands: set[int] = set()
+        for gram in grams:
+            bucket = inv.get(gram)
+            if bucket:
+                cands.update(bucket)
+        for j in sorted(cands):
+            score = jaccard(grams, other_grams[j])
+            if score >= threshold:
+                results.append(
+                    {"train_index": i, "other_index": j, "jaccard": round(score, 4)}
+                )
 
     results.sort(key=lambda r: (r["train_index"], r["other_index"]))
     return results
@@ -285,6 +271,15 @@ def _read_rows(path: str) -> list[dict]:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Shadow checker. Not a ``scripts/hyperlex.py`` command.
+
+    From the repo root::
+
+        python -m scripts.shadow.hyperlexical.neardup_guard --train T --val V
+
+    See ``scripts/shadow/hyperlexical/README.md``. Exits 2 when any pair is at
+    or above the threshold.
+    """
     ap = argparse.ArgumentParser(prog="hyperlexical.neardup_guard")
     ap.add_argument("--train", required=True)
     ap.add_argument("--val", required=True)

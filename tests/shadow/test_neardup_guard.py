@@ -1,4 +1,8 @@
 import json
+import subprocess
+import sys
+from pathlib import Path
+
 import pytest
 from scripts.shadow.hyperlexical import neardup_guard as g
 
@@ -70,6 +74,61 @@ def test_drop_mode_removes_rows(monkeypatch, tmp_path):
     monkeypatch.setenv("HLX_NEARDUP_HOLDOUT_TEXTS", _holdout(tmp_path, ["nothing alike here at all"]))
     out, receipt = g.enforce_from_env({"a": TRAIN}, {"a": VAL})
     assert out["a"] == TRAIN[1:] and receipt["per_set"]["a"]["train_rows_dropped"] == 1
+
+
+def test_documented_module_cli_exits_on_pairs(tmp_path):
+    train = tmp_path / "train.jsonl"
+    val = tmp_path / "val.jsonl"
+    train.write_text(json.dumps({"text": TRAIN[0]["text"]}) + "\n", encoding="utf-8")
+    val.write_text(json.dumps({"text": VAL[0]["text"]}) + "\n", encoding="utf-8")
+    root = Path(__file__).resolve().parents[2]
+    proc = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "scripts.shadow.hyperlexical.neardup_guard",
+            "--train",
+            str(train),
+            "--val",
+            str(val),
+            "--threshold",
+            "0.7",
+        ],
+        cwd=root,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert proc.returncode == 2, proc.stderr
+    assert "train_vs_val_pairs" in proc.stdout
+
+
+def test_lower_order_ngrams_generate_candidates():
+    # abcxx and abcyy share only the 3-gram "abc" (Jaccard 1/11).
+    # Distinct 5-grams must not hide the pair.
+    pairs = g.find_near_duplicates(["abcxx"], ["abcyy"], 0.05)
+    assert pairs == [{"train_index": 0, "other_index": 0, "jaccard": round(1 / 11, 4)}]
+    assert g.find_near_duplicates(["abcxx"], ["abcyy"], 0.7) == []
+
+
+def test_four_character_text_matches_a_longer_text():
+    pairs = g.find_near_duplicates(["abcd"], ["abcde"], 0.4)
+    assert pairs == [{"train_index": 0, "other_index": 0, "jaccard": 0.5}]
+
+
+def test_fail_and_drop_see_lower_order_overlap(monkeypatch, tmp_path):
+    monkeypatch.setenv("HLX_NEARDUP_GUARD", "1")
+    monkeypatch.setenv("HLX_NEARDUP_THRESHOLD", "0.05")
+    monkeypatch.setenv("HLX_NEARDUP_HOLDOUT_TEXTS", _holdout(tmp_path, ["zzzz unique holdout text"]))
+    train = [{"text": "abcxx"}]
+    val = [{"text": "abcyy"}]
+    with pytest.raises(SystemExit, match="ADMISSION FAIL"):
+        g.enforce_from_env({"a": train}, {"a": val})
+    monkeypatch.setenv("HLX_NEARDUP_MODE", "drop")
+    out, receipt = g.enforce_from_env({"a": train}, {"a": val})
+    assert out["a"] == []
+    assert receipt["per_set"]["a"]["train_rows_dropped"] == 1
+    assert receipt["per_set"]["a"]["train_vs_val_pairs"] == 1
 
 
 def test_scales(monkeypatch):
