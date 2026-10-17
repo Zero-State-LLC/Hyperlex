@@ -1,6 +1,6 @@
 # Eval-set hygiene: feedback / dev / held-out (2026-10-12)
 
-Docs only. No training, prereg, or guard behavior changes. Prompted by arXiv 2609.35738 ("Harness Learning Enables Generalizable Test-Time Adaptation", §4.1), which keeps three disjoint question sets: Q_fb (feedback the learner sees), Q_score (selects candidates), Q_eval (held out, reported only).
+Docs only. No training, prereg, or guard behavior changes. Prompted by arXiv 2609.35738 ("Harness Learning Enables Generalizable Test-Time Adaptation", §4.1 Question sets). That section uses three question sets: Q_fb (feedback the learner sees), Q_score (selects candidates), and Q_eval (held-out performance). Evaluation questions are disjoint from questions used for feedback or candidate selection. Feedback and scoring sets may coincide. Hyperlex still keeps train, val, and sealed holdout separate; that split is this repo's protocol, not a requirement that all three paper sets be disjoint.
 
 ## How Hyperlex maps to the three sets
 
@@ -13,7 +13,7 @@ Docs only. No training, prereg, or guard behavior changes. Prompted by arXiv 260
 ## Verified 2026-10-12 PT (archived scrimshawlife-ctrl/Hyperlex, origin/main ad4075b)
 
 - `tests/shadow/test_hyperlexical_holdout_disjoint.py`, `tests/shadow/test_hyperlexical_holdout_guard.py`, `tests/heldout/`: 41 passed.
-- Held-out sets are frozen and read-only; comparisons are made only on held-out sets, never on val (rc4 prereg).
+- Held-out sets are frozen and read-only. Final reported comparisons use held-out sets. Validation still compares candidates: `HLX_SELECT_METRIC` picks a checkpoint on val (strict `>`), and a checkpoint is "never picked by held-out score" (rc4 prereg).
 
 ## Known gaps (not fixed here)
 
