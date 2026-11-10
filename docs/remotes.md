@@ -1,5 +1,9 @@
 # Remotes — personal vs org
 
+> **Update 2026-11-10 (OBSERVED):** `scrimshawlife-ctrl/Hyperlex` is archived and read-only, so the
+> "personal `main` first, then push to org" flow below can no longer be followed. This page describes
+> the earlier arrangement. Which repo is the source of truth now is an open owner decision.
+
 **OBSERVED:** the canonical train and work remote is
 `scrimshawlife-ctrl/Hyperlex` (`main`). Diligence pointer:
 [CANONICAL.md](CANONICAL.md). Product naming SoT: [NAMING.md](NAMING.md).
