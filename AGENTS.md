@@ -102,6 +102,6 @@ This section is my standing authorization. Do not ask me to approve anything lis
 - Turn off a check or protection to get a merge through.
 
 ### Where things are
-- Keys: 1Password. Never ask for a pasted key; if you cannot find one, ask where it is stored and record the vault name here.
+- Keys: never in the tree, chat or logs. CI secrets are GitHub Actions secrets; local values live in gitignored `.dev.vars` or `.env`. If a value is missing, ask where it is stored; never ask for a paste.
 - Board: `docs/KANBAN.md`. Live plan: `STATUS.md` (also `ROADMAP.md`). Facts: `FACTS.md`. Hand-offs: `docs/handoff/NEXT.md`.
 - Hosting: GitHub Pages via `.github/workflows/docs.yml` (MkDocs). (hosted, not local)
