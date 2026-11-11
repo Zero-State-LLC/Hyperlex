@@ -1,4 +1,4 @@
-**Org mirror note:** this STATUS is grafted from personal tip for Spec 007 continuity. License SoT on this repo remains Proprietary (`LICENSE`). Train SoT remains personal `scrimshawlife-ctrl/Hyperlex`.
+**Org mirror note:** this STATUS is grafted from personal tip for Spec 007 continuity. License SoT on this repo remains Proprietary (`LICENSE`). Train SoT remains personal `scrimshawlife-ctrl/Hyperlex`. **Update 2026-11-10 (OBSERVED):** that personal repo is now archived and read-only; its `main` (`ad4075b`, 2026-10-07) holds Spec 007 work that is not in this repo. Which repo is the source of truth from here is an open owner decision.
 
 # Hyperlex status
 
@@ -61,7 +61,7 @@ Operator scoreboard **2026-09-10 PT evening** (Danny-locked; matches [Notion Ope
 |---------|--:|-------|
 | Local SoT `~/.hyperlex/hyperlexical/ingest_candidates.jsonl` | **4333** | 402 OBSERVED / 3931 INFERRED. **Not in git.** |
 | Export `--include-live` (operator machine) | **6506** | classify family **2437** · unbind **1345** · negatives **208** |
-| Tracked `specs/007-hyperlexical-model/exports/civilian.v0.1.jsonl` | 883 | **Seed/snapshot only.** Do not treat as the train SoT. |
+| `specs/007-hyperlexical-model/exports/civilian.v0.1.jsonl` | 883 | **Not tracked in this repo** (corrected 2026-11-10; it exists only on the archived personal repo). Seed/snapshot only. Do not treat as the train SoT. |
 
 Danny ~2500 candidate bar: **met**. Hermes **913** / “gap to 2500” is **superseded** — not current SoT status. Afternoon store family-labeled **1789** (stretch 2000 not reached) is the [blanket-yes receipt](docs/receipts/blanket-yes-unlock-2026-09-10.md) figure; export classify **2437** is the harvest gate. Moltbook row counts (for example ~360 ai-native) are a **Moltbook subset**, not the global SoT.
 
